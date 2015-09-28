@@ -11,7 +11,6 @@
 	}
 	date_default_timezone_set('Asia/Manila');
 ?>
-
 <div align = "center">
 	<div class="alert alert-success"><br>
 		Welcome <strong><?php echo $_SESSION['name'];?> !</strong> <br>
@@ -387,8 +386,6 @@
 			</form>';		
 	}
 ?>
-
-
 <?php
 	include('conf.php');
 	if(isset($_GET['dundertime'])){
@@ -417,7 +414,6 @@
 			</form>';	
 }
 ?>
-
 
 <?php
 	include('conf.php');
