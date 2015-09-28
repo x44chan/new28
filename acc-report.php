@@ -28,7 +28,6 @@
 		$("#hideuser").on("click", function(){
 			$("#userlist").hide();
 	});
-
 </script>
 <style type="text/css">
 	@media print {
@@ -37,43 +36,41 @@
 			margin-right: .3px;
 			margin-top: 1px;
 		}
-
-	  body * {
-	    visibility: hidden;
+		body * {
+	    	visibility: hidden;
 	    
-	  }
-	  #datepr{
-	  	margin-top: 25px;
-	  }
-	  #report, #report * {
-	    visibility: visible;
-	    
-	  }
-	  #report h2{
-	  	margin-bottom: 10px;
-	  	margin-top: 10px;
-	  }
-	  #report h4{
-	  	font-size: 15px;
-	  }
-	  #report h3{
-	  	margin-bottom: 10px;
-	  }
-	  #report th{
-	  	font-size: 12px;
-	  } 
-	  #report td{
-	  	font-size: 11px;
-	  }
-	  #report {
-	    position: absolute;
-	    left: 0;
-	    top: 0;
-	    right: 0;
-	  }
-	  #backs{
-	  	visibility: hidden;
-	  }
+	  	}
+	  	#datepr{
+	  		margin-top: 25px;
+	  	}
+	  	#report, #report * {
+	    	visibility: visible;
+	 	}
+	 	#report h2{
+	  		margin-bottom: 10px;
+	  		margin-top: 10px;
+	    }
+	 	#report h4{
+		font-size: 15px;
+		}
+		#report h3{
+	  		margin-bottom: 10px;
+		}
+		#report th{
+	  		font-size: 12px;
+		} 
+		#report td{
+	  		font-size: 11px;
+		}
+		#report {
+	   		position: absolute;
+	    	left: 0;
+	    	top: 0;
+	    	right: 0;
+	  	}
+	  	#backs{
+	  		visibility: hidden;
+	  	}
 	}
 </style>
 <div align = "center" style = "margin-bottom: 30px;">
@@ -105,7 +102,6 @@
 		</div>
 	</div>
 </div>
-
 <div id = "userlist" <?php if(isset($_GET['acc_id'])){ echo 'style = "display: none;"';}?>>
 	<?php 
 	if(isset($_GET['norec'])){
@@ -138,8 +134,7 @@
 				<th width = "30%">Action</th>
 			</thead>
 			<tbody>	
-			<?php
-				
+			<?php				
 				include("conf.php");
 				$sql = "SELECT * FROM login where level != 'Admin'";
 				$result = $conn->query($sql);
@@ -363,7 +358,7 @@
 		echo '<button id = "backs" style = "margin-right: 10px;"class = "btn btn-primary" onclick = "window.print();">Print Report</button>';
 		echo '<a id = "backs" class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'">Back</a></div>';
 
-	}
+		}
 	}else{
 		if($date17 > 16){
 			$cutoff = date('F 16 - 30/31, Y');
@@ -380,9 +375,7 @@
 		echo '<a class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'">Back</a></div>';
 	}
 }
-	
 ?>
-
 <?php
 	include("conf.php");
 	$date17 = date("d");
@@ -526,17 +519,14 @@
 	<h4 style="margin-left: 10px;">Period: <i><strong><?php echo $cutoffdate11;?></strong></i></h4>
 	<h4 style = "margin-left: 10px;">Name: <b><i><?php echo $name123;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Position: <b><i><?php echo $position;?></i></b></h4>
-	<h4 style = "margin-left: 10px;">Department: <b><i><?php echo $department;?></i></b></h4>
-	
-	<br>
+	<h4 style = "margin-left: 10px;">Department: <b><i><?php echo $department;?></i></b></h4>	
+	<br><br>
 	<form role = "form" action = "approval.php"    method = "get" style = "margin-top: -30px;">
 		<table class = "table table-hover" align = "center">
-			<thead>
-					
+			<thead>					
 					<tr>
 						<th >Date File</th>
-						<th >Date Hired</th>
-						
+						<th >Date Hired</th>						
 						<th >Date of Leave <br>(Fr - To)</th>
 						<th># of Day/s</th>
 						<th >Type</th>
@@ -558,8 +548,7 @@
 				}		
 				echo 
 					'<td>'.$newDate.'</td>
-					<td>'.date("M j, Y", strtotime($row["datehired"])).'</td>
-										
+					<td>'.date("M j, Y", strtotime($row["datehired"])).'</td>										
 					<td>Fr: '.date("M j, Y", strtotime($row["dateofleavfr"])) .'<br>To: '.date("M j, Y", strtotime($row["dateofleavto"])).'</td>
 					<td>'.$row["numdays"].'</td>					
 					<td >'.$row["typeoflea"]. ' : ' . $row['othersl']. '</td>	
@@ -663,8 +652,7 @@ $conn->close();
 			echo 
 				'<tr>
 					<td width = 180>'.$newDate.'</td>
-					<td width = 180>'.date("M j, Y", strtotime($row["dateofundrtime"])).'</td>
-					
+					<td width = 180>'.date("M j, Y", strtotime($row["dateofundrtime"])).'</td>					
 					<td width = 250 height = 70>'.$row["reason"].'</td>
 					<td>Fr: '.$row["undertimefr"] . ' <br>To: ' . $row['undertimeto'].'</td>
 					<td>'.$row["numofhrs"].'</td>
