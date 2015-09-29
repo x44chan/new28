@@ -52,7 +52,7 @@
 	  		margin-top: 10px;
 	    }
 	 	#report h4{
-		font-size: 15px;
+			font-size: 15px;
 		}
 		#report h3{
 	  		margin-bottom: 10px;
@@ -342,8 +342,8 @@
 		$totalmin = $hours12 + $minutes12;
 		$totalothrs = date('H : i', mktime(0,$totalmin));
 		echo '<div align = "center" style = "font-size: 16px;">Total OT: <strong>'. substr($totalothrs,0,2) . ' Hour/s' . substr($totalothrs,4,5). ' Min/s</strong><br><br>';
-		echo '<button id = "backs" style = "margin-right: 10px;"class = "btn btn-primary" onclick = "window.print();">Print Report</button>';
-		echo '<a id = "backs" class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'">Back</a></div>';
+		echo '<button id = "backs" style = "margin-right: 10px;"class = "btn btn-primary" onclick = "window.print();"><span id = "backs"class="glyphicon glyphicon-print"></span> Print Report</button>';
+		echo '<a id = "backs" class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'"><span id = "backs"class="glyphicon glyphicon-chevron-left"></span> Back</a></div>';
 
 		}
 	}else{
@@ -442,8 +442,8 @@
 	</table>
 </form>
 <?php	
-		echo '<div align = "center"><button id = "backs" style = "margin-right: 10px;"class = "btn btn-primary" onclick = "window.print();">Print Report</button>';
-		echo '<a id = "backs" class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'">Back</a></div>';
+		echo '<div align = "center"><button id = "backs" style = "margin-right: 10px;"class = "btn btn-primary" onclick = "window.print();"><span id = "backs"class="glyphicon glyphicon-print"></span> Print Report</button>';
+		echo '<a id = "backs" class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'"><span id = "backs"class="glyphicon glyphicon-chevron-left"></span> Back</a></div>';
 		}else{
 			if($date17 >= 16){
 			$cutoff = date('F 16 - 30/31, Y');
@@ -539,8 +539,8 @@
 	</table>
 </form>
 <?php	
-		echo '<div align = "center"><button id = "backs" style = "margin-right: 10px;"class = "btn btn-primary" onclick = "window.print();">Print Report</button>';
-		echo '<a id = "backs" class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'">Back</a></div>';
+		echo '<div align = "center"><button id = "backs" style = "margin-right: 10px;"class = "btn btn-primary" onclick = "window.print();"><span id = "backs"class="glyphicon glyphicon-print"></span> Print Report</button>';
+		echo '<a id = "backs" class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'"><span id = "backs"class="glyphicon glyphicon-chevron-left"></span> Back</a></div>';
 		}else{
 			if($date17 >= 16){
 				$cutoff = date('F 16 - 30/31, Y');
@@ -630,8 +630,8 @@ $conn->close();
 	</table>
 </form>
 <?php	
-	echo '<div align = "center"><button id = "backs" style = "margin-right: 10px;"class = "btn btn-primary" onclick = "window.print();">Print Report</button>';
-	echo '<a id = "backs" class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'">Back</a></div>';
+		echo '<div align = "center"><button id = "backs" style = "margin-right: 10px;"class = "btn btn-primary" onclick = "window.print();"><span id = "backs"class="glyphicon glyphicon-print"></span> Print Report</button>';
+		echo '<a id = "backs" class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'"><span id = "backs"class="glyphicon glyphicon-chevron-left"></span> Back</a></div>';
 	}else{
 		if($date17 >= 16){
 			$cutoff = date('F 16 - 30/31, Y');
