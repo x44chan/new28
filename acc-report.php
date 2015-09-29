@@ -23,12 +23,7 @@
 	}
 	include("header.php");	
 ?>
-<script type = "text/javascript">
-	$(function(){
-		$("#hideuser").on("click", function(){
-			$("#userlist").hide();
-	});
-</script>
+
 <style type="text/css">
 	@media print {
 		@page{
@@ -214,7 +209,7 @@
 	<h4 style = "margin-left: 10px;">Name: <b><i><?php echo $name123;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Position: <b><i><?php echo $position;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Department: <b><i><?php echo $department;?></i></b></h4>
-	<br>
+	<br><br>
 	<form role = "form" action = "approval.php"    method = "get" style = "margin-top: -30px">
 		<table width = "100%"class = "table table-hover" align = "center">
 			<thead>				
