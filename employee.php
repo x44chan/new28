@@ -56,7 +56,7 @@
 	
 	if(isset($_GET['ac']) && $_GET['ac'] == 'penot'){
 
-		$sql = "SELECT * FROM overtime,login where overtime.account_id = $accid and login.account_id = $accid and DAY(datefile) >= $forque and DAY(datefile) <= $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
+		$sql = "SELECT * FROM overtime,login where overtime.account_id = $accid and login.account_id = $accid and DAY(datefile) >= $forque and DAY(datefile) <= $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY state ASC,datefile ASC";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>
@@ -126,7 +126,7 @@
 	if(isset($_GET['ac']) && $_GET['ac'] == 'penundr'){
 		
 		include("conf.php");
-		$sql = "SELECT * FROM undertime,login where undertime.account_id = $accid and login.account_id = $accid and DAY(datefile) >= $forque and DAY(datefile) <= $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
+		$sql = "SELECT * FROM undertime,login where undertime.account_id = $accid and login.account_id = $accid and DAY(datefile) >= $forque and DAY(datefile) <= $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY state ASC,datefile ASC";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>
@@ -190,7 +190,7 @@
 <?php 
 	if(isset($_GET['ac']) && $_GET['ac'] == 'penob'){
 		include("conf.php");
-		$sql = "SELECT * FROM officialbusiness,login where login.account_id = $accid and officialbusiness.account_id = $accid and DAY(obdate) >= $forque and DAY(obdate) <= $endque and MONTH(obdate) = $dated and YEAR(obdate) = $datey ORDER BY obdate ASC";
+		$sql = "SELECT * FROM officialbusiness,login where login.account_id = $accid and officialbusiness.account_id = $accid and DAY(obdate) >= $forque and DAY(obdate) <= $endque and MONTH(obdate) = $dated and YEAR(obdate) = $datey ORDER BY state ASC,obdate ASC";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>	
@@ -259,7 +259,7 @@
 <?php 
 	if(isset($_GET['ac']) && $_GET['ac'] == 'penlea'){
 		include("conf.php");
-		$sql = "SELECT * FROM nleave,login where login.account_id = $accid and nleave.account_id = $accid and DAY(datefile) >= $forque and DAY(datefile) <= $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
+		$sql = "SELECT * FROM nleave,login where login.account_id = $accid and nleave.account_id = $accid and DAY(datefile) >= $forque and DAY(datefile) <= $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY state ASC,datefile ASC";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>	
@@ -275,8 +275,8 @@
 						<th width = "170">Date Hired</th>
 						<th>Department</th>
 						<th>Position</th>
-						<th width = "250">Date of Leave (From - To)</th>
-						<th width = "100">No. of Day/s</th>
+						<th width = "250">Date of Leave (Fr - To)</th>
+						<th width = "100"># of Day/s</th>
 						<th width = "170">Type of Leave</th>
 						<th width = "160">Reason</th>
 						<th>State</th>
@@ -287,8 +287,8 @@
 			while($row = $result->fetch_assoc()){
 				
 				$originalDate = date($row['datefile']);
-				$newDate = date("F j, Y", strtotime($originalDate));
-				$newDate2 = date("F j, Y", strtotime($row["datehired"]));
+				$newDate = date("M j, Y", strtotime($originalDate));
+				$newDate2 = date("M j, Y", strtotime($row["datehired"]));
 				$datetoday = date("Y-m-d");
 				if($datetoday >= $row['twodaysred'] && $row['state'] == 'UA' ){
 					echo '<tr style = "color: red">';
@@ -301,7 +301,7 @@
 					<td>'.$newDate2.'</td>
 					<td >'.$row["deprt"].'</td>
 					<td>'.$row['posttile'].'</td>					
-					<td width = "300">Fr: '.date("F j, Y", strtotime($row["dateofleavfr"])) .' <br>To: '.date("F j, Y", strtotime($row["dateofleavto"])).'</td>
+					<td width = "300">Fr: '.date("M j, Y", strtotime($row["dateofleavfr"])) .' <br>To: '.date("M j, Y", strtotime($row["dateofleavto"])).'</td>
 					<td>'.$row["numdays"].'</td>					
 					<td >'.$row["typeoflea"]. ' : ' . $row['othersl']. '</td>	
 					<td >'.$row["reason"].'</td>	
