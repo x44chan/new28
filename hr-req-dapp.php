@@ -77,7 +77,7 @@
 				<ul class="dropdown-menu" role="menu">
 				  <li><a href="#" id = "newovertime">Overtime Request</a></li>
 				  <li><a href="#" id = "newoffb">Official Business Request</a></li>
-				  <li><a href="#" id = "newleave">Leave Of Absense Request</a></li>				  
+				  <li><a href="#" id = "newleave">Leave Of Absence Request</a></li>				  
 				  <li><a href="#" id = "newundertime">Undertime Request Form</a></li>
 				</ul>
 			</div>

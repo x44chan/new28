@@ -85,7 +85,7 @@
 				<ul class="dropdown-menu" role="menu">
 				  <li><a href="#" id = "newovertime">Overtime Request</a></li>
 				  <li><a href="#" id = "newoffb">Official Business Request</a></li>
-				  <li><a href="#" id = "newleave">Leave Of Absense Request</a></li>				  
+				  <li><a href="#" id = "newleave">Leave Of Absence Request</a></li>				  
 				  <li><a href="#" id = "newundertime">Undertime Request Form</a></li>
 				</ul>
 			</div>			
@@ -143,7 +143,7 @@
 					while($row = $result->fetch_assoc()){
 						echo '<tr style = "font-size: 15px"><td>'.$row['account_id'].'<input type = "hidden" name = "acc_id" value ="' .$row['account_id'].'"/></td>
 							<td style = "font-size: 15px">'.$row['fname'].' '.$row['lname'] .'</td>
-							<td style = "font-size: 15px"><a type = "button" class = "btn btn-primary" href = "?rep='.$_GET['rep'].'&acc_id='.$row['account_id'] .'"name = "submit"> '.$title.' Report </a></td></tr>
+							<td style = "font-size: 15px"><a type = "button" class = "btn btn-primary" href = "?rep='.$_GET['rep'].'&acc_id='.$row['account_id'] .'"name = "submit">	 '.$title.' Report </a></td></tr>
 							';
 					}
 				}
