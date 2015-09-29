@@ -29,4 +29,8 @@ h2{
  td{
 	padding: 2px;
 }
-
+.dropdown-menu > li > a:hover {
+	background-color: #337ab7;
+	color: white;
+	background-image: none;
+}
