@@ -26,10 +26,7 @@
 		<script type="text/javascript" src="js/jquery.ptTimeSelect.js"></script>
 		<script type="text/javascript" src="js/hrsmask.js"></script>
 		
-		<script type="text/javascript" src="js/js/jquery.metadata.js"></script>
-		<script type="text/javascript" src="js/js/jquery.tablesorter.js"></script>
-		<script type="text/javascript" src="js/js/jquery.tablesorter.min.js"></script>
-		<link rel="stylesheet" href="js/js/themes/blue/style.css" type="text/css" id="" media="print, projection, screen" />
+		
 	</head>
 	<body>
 		<div class = "container-fluid" >

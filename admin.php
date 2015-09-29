@@ -13,11 +13,13 @@
 ?>
 
 <script type="text/javascript">
-	$(document).ready(function(){ 
-        $("#myTable").tablesorter( {sortList: [[0,0], [0,0]]} ); 
-    }); 	
-    </script>
-
+		
+    $(document).ready( function () {
+    	$('#myTable').DataTable();
+	} );
+</script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/dt/dt-1.10.9/datatables.min.css"/> 
+<script type="text/javascript" src="https://cdn.datatables.net/r/dt/dt-1.10.9/datatables.min.js"></script>
 <div align = "center">
 	<div class="alert alert-success"><br>
 		Welcome <strong><?php echo $_SESSION['name'];?> !</strong> <br>
@@ -48,20 +50,18 @@
 	}
 ?>
 
-<div id = "needaproval" style = "margin-top: -30px;">	
+<div id = "needaproval">	
+	<h2 align = "center"><i> Admin Dashboard </i></h2>
 	<form role = "form">
-		<table id="myTable" class="tablesorter" style = "width: 100%;"class = "table table-hover" align = "center">
+		<table id="myTable" style = "width: 100%;"class = "table table-hover " align = "center">
 			<thead>
 				<tr>
-					<td colspan = 7 align = center><h2> Admin Dashboard </h2></td>
-				</tr>
-				<tr>
-					<th width = "12%" >Date File</th>					
-					<th width = "15%" >Name of Employee</th>
-					<th width = "10%" >Type</th>
-					<th width = "23%" >Reason</th>
-					<th width = "20%" >Approved By.</th>
-					<th width = "20%" >Action</th>
+					<th width = "12%" ><i>Date File</i></th>					
+					<th width = "15%" ><i>Name of Employee</i></th>
+					<th width = "10%" ><i>Type</i></th>
+					<th width = "23%" ><i>Reason</i></th>
+					<th width = "20%" ><i>Approved By.</i></th>
+					<th width = "20%" ><i>Action</i></th>
 				</tr>
 			</thead>
 			<tbody id="people">
