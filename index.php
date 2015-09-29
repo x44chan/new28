@@ -15,20 +15,20 @@
 	$title="Login Page";
 	include('header.php');
 ?>
-<div align = "center" style = "margin-top: 10px;">
+		<div align = "center" style = "margin-top: 10px;">
 			<img class="img-rounded" src = "img/netlink.jpg" height = "200">
 		</div>
 		<form role = "form" action = "index.php" method = "post">	
 			<table align = "center" class = "table form-horizontal" style = "margin-top: 0px; width: 800px;" >
 				<thead>
 					<tr style = "border: none;">
-						<td colspan = 2 align = center><h2> Login Form</h2></td> 
+						<td colspan = 2 align = center><h2><i><span class="glyphicon glyphicon-lock"></span> Login Form</i></h2></td> 
 					</tr>
 				</thead>
 				<tr >
-					<td><label for = "uname"><span class="glyphicon glyphicon-user"></span>  Username: </label><input id = "uname" title = "Input your username." type = "text" class = "form-control" required name = "uname"/></td>
+					<td><label for = "uname"><span class="glyphicon glyphicon-user"></span>  Username: </label><input placeholder = "Enter Username"id = "uname" title = "Input your username." type = "text" class = "form-control" required name = "uname"/></td>
 				
-					<td><label for = "pword"><span class="glyphicon glyphicon-eye-open"></span>  Password: </label><input id = "pword" title = "Input your password." type = "password" class = "form-control" required name = "password"/></td>
+					<td><label for = "pword"><span class="glyphicon glyphicon-eye-open"></span>  Password: </label><input placeholder = "Enter Password"id = "pword" title = "Input your password." type = "password" class = "form-control" required name = "password"/></td>
 				</tr>
 				<tr >
 					<td colspan = 4 align = "center" ><button style = "width: 150px; margin: auto;" type="submit" name = "submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Login</button></td>
