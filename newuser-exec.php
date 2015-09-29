@@ -6,6 +6,8 @@ if(isset($_POST['regsubmit'])){
 		$cpw = $_POST['regcppword'];
 		$regfname = $_POST['regfname'];
 		$reglname = $_POST['reglname'];
+		$regpos = $_POST['regpos'];
+		$regdep = $_POST['regdep'];
 		$level = $_POST['level'];
 		$sql = "SELECT * FROM `login` where `uname` = '$uname'";
 		$result = $conn->query($sql);
@@ -24,8 +26,8 @@ if(isset($_POST['regsubmit'])){
 						<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 							<strong>Success!</strong> New user added.
 						</div>';
-			$stmt = $conn->prepare("INSERT into `login` (uname, pword, fname, lname, level) VALUES (?, ?, ?, ?, ?)");
-			$stmt->bind_param("sssss", $uname, $pw, $regfname, $reglname, $level);
+			$stmt = $conn->prepare("INSERT into `login` (uname, pword, fname, lname, level, position, department) VALUES (?, ?, ?, ?, ?, ?, ?)");
+			$stmt->bind_param("sssssss", $uname, $pw, $regfname, $reglname, $level, $regpos, $regdep);
 			$stmt->execute();			
 			header("location: admin.php?suc=1");
 			unset($_POST['regsubmit']);

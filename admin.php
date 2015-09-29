@@ -78,7 +78,7 @@
 				$forque = 1;
 				$endque = 16;
 			}
-			$sql = "SELECT * from overtime,login where login.account_id = overtime.account_id and state like 'AACC%' and DAY(dateofot) >= $forque and DAY(dateofot) < $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey ORDER BY datefile ASC";
+			$sql = "SELECT * from overtime,login where login.account_id = overtime.account_id and state like 'AAC%' and DAY(dateofot) >= $forque and DAY(dateofot) < $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey ORDER BY datefile ASC";
 			$result = $conn->query($sql);
 			if($result->num_rows > 0){
 				
@@ -229,6 +229,14 @@
 			<tr>
 				<td>Last Name:</td>
 				<td> <input required pattern="[a-zA-Z0-9\s]+" class ="form-control"type = "text" name = "reglname"/></td>
+			</tr>
+			<tr>
+				<td>Postion:</td>
+				<td> <input required pattern="[a-zA-Z\s]+" class ="form-control"type = "text" name = "regpos"/></td>
+			</tr>
+			<tr>
+				<td>Department:</td>
+				<td> <input required pattern="[a-zA-Z\s]+" class ="form-control"type = "text" name = "regdep"/></td>
 			</tr>
 			<tr>
 				<td>Account Level:</td>

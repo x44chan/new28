@@ -192,16 +192,16 @@
 		$_GET['acc_id'] = 0;
 	}
 	if($_GET['rep'] == 'ot' && $_GET['acc_id'] > 0){
-		$accid = $_GET['acc_id'];
+		$accid = mysql_escape_string($_GET['acc_id']);
 		include("conf.php");
 		$cutoffdate = date("Y-m-d");
 
-		$sql1 = "SELECT * FROM officialbusiness where officialbusiness.account_id = $accid and state = 'AAdmin' limit 1";
+		$sql1 = "SELECT * FROM login where login.account_id = $accid limit 1";
 		$result1 = $conn->query($sql1);
 		$res123 = $result1->fetch_assoc();
-		$name123 = $res123['obename'];	
-		$position = $res123['obpost'];	
-		$department = $res123['obdept'];
+		$name123 = $res123['fname'] . ' ' . $res123['lname'];	
+		$position = $res123['position'];	
+		$department = $res123['department'];
 
 		$sql = "SELECT * FROM overtime where overtime.account_id = $accid and state = 'AAdmin' and DAY(dateofot) >= $forque and DAY(dateofot) < $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey ORDER BY datefile ASC";
 		$result = $conn->query($sql);
@@ -383,7 +383,7 @@
 	}
 	if($_GET['rep'] == 'ob' && $_GET['acc_id'] > 0){
 		include("conf.php");
-		$accid = $_GET['acc_id'];
+		$accid = mysql_escape_string($_GET['acc_id']);
 		$sql1 = "SELECT * FROM officialbusiness where officialbusiness.account_id = $accid and state = 'AAdmin' and DAY(obdatereq) >= $forque and DAY(obdatereq) <= $endque and MONTH(obdatereq) = $dated and YEAR(obdatereq) = $datey ORDER BY obdate ASC";
 		$result1 = $conn->query($sql1);
 		$res123 = $result1->fetch_assoc();
@@ -476,7 +476,7 @@
 		$_GET['acc_id'] = 0;
 	}
 	if($_GET['rep'] == 'lea' && $_GET['acc_id'] > 0){
-		$accid = $_GET['acc_id'];
+		$accid = mysql_escape_string($_GET['acc_id']);
 		include("conf.php");
 		$sql1 = "SELECT * FROM nleave where nleave.account_id = $accid and state = 'AAdmin' and DAY(datefile) >= $forque and DAY(datefile) <= $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
 		$result1 = $conn->query($sql1);
@@ -573,7 +573,7 @@ $conn->close();
 		$_GET['acc_id'] = 0;
 	}
 	if($_GET['rep'] == 'undr' && $_GET['acc_id'] > 0){
-		$accid = $_GET['acc_id'];
+		$accid = mysql_escape_string($_GET['acc_id']);
 		include("conf.php");
 		$sql1 = "SELECT * FROM undertime where undertime.account_id = $accid and state = 'AAdmin' and DAY(dateofundrtime) >= $forque and DAY(dateofundrtime) <= $endque and MONTH(dateofundrtime) = $dated and YEAR(dateofundrtime) = $datey ORDER BY datefile ASC";
 		$result1 = $conn->query($sql1);

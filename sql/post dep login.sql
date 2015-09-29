@@ -1,0 +1,1 @@
+ALTER TABLE `login` ADD `position` VARCHAR(255) NULL AFTER `level`, ADD `department` VARCHAR(255) NULL AFTER `position`;
