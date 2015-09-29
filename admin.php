@@ -1,15 +1,17 @@
-<?php 
-	$title="Admin Page";
-	include('header.php');
-	session_start();	
-	if(isset($_SESSION['acc_id'])){
-		if($_SESSION['level'] != 'Admin'){
-			header("location: index.php");
-		}
-	}else{
-		header("location: index.php");	
-	}
+<?php session_start(); ?>
+<?php  $title="Admin Page";
+	include('header.php');	
 	date_default_timezone_set('Asia/Manila');
+?>
+<?php if($_SESSION['level'] != 'Admin'){
+	?>		
+	<script type="text/javascript"> 
+		window.location.replace("index.php");
+		alert("Restricted");
+	</script>	
+	
+	<?php
+	}
 ?>
 
 <script type="text/javascript">

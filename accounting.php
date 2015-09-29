@@ -1,16 +1,11 @@
-<?php 
-	$title="Accounting Page";
-	include('header.php');
-	session_start();
-	if(isset($_SESSION['acc_id'])){
-		if($_SESSION['level'] != 'ACC'){
-			header("location: index.php");
-		}
-	}else{
-		header("location: index.php");	
-	}
+<?php session_start(); ?>
+<?php  $title="H.R. Page";
+	include('header.php');	
 	date_default_timezone_set('Asia/Manila');
 ?>
+<?php if($_SESSION['level'] != 'ACC'){	?>		
+	<script type="text/javascript">	window.location.replace("index.php");</script>	
+<?php	} ?>
 <div align = "center">
 	<div class="alert alert-success"><br>
 		Welcome <strong><?php echo $_SESSION['name'];?> !</strong> <br>

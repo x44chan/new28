@@ -1,20 +1,18 @@
+<?php session_start(); ?>
 <?php
-	session_start();
-	if(isset($_SESSION['acc_id'])){
-		if($_SESSION['level'] == 'Admin'){
-			header("location: admin.php");
-		}else if($_SESSION['level'] == 'EMP'){
-			header("location: employee.php?ac=penot");
-		}
-		else if($_SESSION['level'] == 'HR'){
-			header("location: hr.php?ac=penot");
-		}else{
-			header("location: accounting.php?ac=penot");
-		}
-	}
 	$title="Login Page";
 	include('header.php');
 ?>
+<?php if(isset($_SESSION['acc_id'])){?>
+<?php if($_SESSION['level'] == 'Admin'){?>
+	<script type="text/javascript">window.location.replace("admin.php"); </script>
+<?php }else if($_SESSION['level'] == 'EMP'){?>
+	<script type="text/javascript">	window.location.replace("employee.php?ac=penot"); </script>
+<?php }else if($_SESSION['level'] == 'HR'){?>
+	<script type="text/javascript"> window.location.replace("hr.php?ac=penot"); </script>
+<?php }else{ ?>
+	<script type="text/javascript"> window.location.replace("accounting.php?ac=penot"); </script>
+<?php	}	} ?>
 		<div align = "center" style = "margin-top: 10px;">
 			<img class="img-rounded" src = "img/netlink.jpg" height = "200">
 		</div>
