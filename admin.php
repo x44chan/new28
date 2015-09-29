@@ -78,7 +78,7 @@
 				$forque = 1;
 				$endque = 16;
 			}
-			$sql = "SELECT * from overtime,login where login.account_id = overtime.account_id and state like 'AAC%' and DAY(dateofot) >= $forque and DAY(dateofot) < $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey ORDER BY datefile ASC";
+			$sql = "SELECT * from overtime,login where login.account_id = overtime.account_id and state like 'AACC%' and DAY(dateofot) >= $forque and DAY(dateofot) < $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey ORDER BY datefile ASC";
 			$result = $conn->query($sql);
 			if($result->num_rows > 0){
 				
