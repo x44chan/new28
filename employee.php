@@ -32,7 +32,7 @@
 			<a  type = "button"class = "btn btn-primary" href = "req-dapp.php" id = "mydisapproveh">My Dispproved Request</button>		
 			<a href = "logout.php" class="btn btn-danger" onclick="return confirm('Do you really want to log out?');"  role="button">Logout</a>
 		</div> <br><br>
-		<div class = "btn-group btn-group-justified">
+		<div class="btn-group btn-group-justified" role="group">
 			<a  role = "button"class = "btn btn-success"  href = "?ac=penot"> Overtime Request Status </a>
 			<a  role = "button"class = "btn btn-success" href = "?ac=penob"> Official Business Request Status</a>			
 			<a  role = "button"class = "btn btn-success"  href = "?ac=penlea"> Leave Request Status</a>		

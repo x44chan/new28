@@ -270,7 +270,6 @@
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 ?>
-
 	<form role = "form" action = "approval.php"    method = "get">
 		<table class = "table table-hover" align = "center">
 			<thead>
@@ -291,8 +290,7 @@
 			</thead>
 			<tbody>
 <?php
-		while($row = $result->fetch_assoc()){
-			
+		while($row = $result->fetch_assoc()){			
 			$originalDate = date($row['obdate']);
 			$newDate = date("F j, Y", strtotime($originalDate));
 			$datetoday = date("Y-m-d");
@@ -328,7 +326,6 @@
 }
 ?>
 <?php
-	
 	include('conf.php');
 	if(isset($_GET['dovertime'])){	
 		$id = mysqli_real_escape_string($conn, $_GET['dovertime']);

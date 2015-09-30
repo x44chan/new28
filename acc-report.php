@@ -35,6 +35,7 @@
 			margin-left: 10px;
 			margin-right: .3px;
 			margin-top: 1px;
+
 		}
 		body * {
 	    	visibility: hidden;
@@ -117,7 +118,7 @@
 		echo '<div align = "center"><h3> Overtime Reports </h3></div>';
 	}else if($_GET['rep'] == 'ob'){
 		$title = "Official Business";
-		echo '<div align = "center"><h3> Official Reports </h3></div>';
+		echo '<div align = "center"><h3> Official Business Reports </h3></div>';
 	}else if($_GET['rep'] == 'undr'){
 		$title = "Undertime";
 		echo '<div align = "center"><h3> Undertime Reports </h3></div>';
@@ -216,8 +217,7 @@
 	<br>
 	<form role = "form" action = "approval.php"    method = "get" style = "margin-top: -30px">
 		<table width = "100%"class = "table table-hover" align = "center">
-			<thead>
-				
+			<thead>				
 				<tr>
 					<th>Date File</th>			
 					<th>Date of O.T.</th>
@@ -238,8 +238,7 @@
 			$datey = date("Y");		
 	
 			$originalDate = date($row['datefile']);
-			$newDate = date("M j, Y", strtotime($originalDate));
-			
+			$newDate = date("M j, Y", strtotime($originalDate));			
 			echo
 				'<tr>
 					<td>'.$newDate.'</td>
@@ -249,20 +248,8 @@
 					<td >'.$row["reason"].'</td>
 					<td >'.$row["officialworksched"].'</td>					
 					<td><b>';
-						if($row['state'] == 'UA'){
-							echo 'Pending';
-						}else if($row['state'] == 'AHR'){
-							echo '<p><font color = "green">Appr. by HR</font></p>';
-						}else if($row['state'] == 'AACC'){
-							echo '<p><font color = "green">Appr. by Accounting</font></p>';
-						}else if($row['state'] == 'AAdmin'){
+						if($row['state'] == 'AAdmin'){
 							echo '<p><font color = "green">Appr. by Dep. Head</font></p>';
-						}else if($row['state'] == 'DAHR'){
-							echo '<p><font color = "red">Dispproved by HR</font></p>';
-						}else if($row['state'] == 'DAACC'){
-							echo '<p><font color = "red">Dispproved by Accounting</font></p>';
-						}else if($row['state'] == 'DAAdmin'){
-							echo '<p><font color = "red">Dispproved by Dep. Head</font></p>';
 						}
 					echo '</b></td></tr>';
 		}
@@ -408,7 +395,7 @@
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>
-	<h5 style="margin-left: 10px;">Date: <?php echo date("M j, Y");?></h5>
+	<h5 style="margin-left: 10px;" id = "datepr">Date: <?php echo date("M j, Y");?></h5>
 	<h2 align = "center"> Official Business Report </h2>
 	<h4 style="margin-left: 10px;">Period: <i><strong><?php echo $cutoffdate11;?></strong></i></h4>
 	<h4 style = "margin-left: 10px;">Name: <b><i><?php echo $name123;?></i></b></h4>
@@ -445,20 +432,8 @@
 					<td>'.$row["officialworksched"].'</td>				
 					<td >'.$row["obreason"].'</td>					
 					<td><b>';
-						if($row['state'] == 'UA'){
-							echo 'Pending';
-						}else if($row['state'] == 'AHR'){
-							echo '<p><font color = "green">App. by HR</p>';
-						}else if($row['state'] == 'AACC'){
-							echo '<p><font color = "green">App. by Accounting</p>';
-						}else if($row['state'] == 'AAdmin'){
-							echo '<p><font color = "green">App by Dep. Head</p>';
-						}else if($row['state'] == 'DAHR'){
-							echo '<p><font color = "red">Dispproved by HR</p>';
-						}else if($row['state'] == 'DAACC'){
-							echo '<p><font color = "red">Dispproved by Accounting</p>';
-						}else if($row['state'] == 'DAAdmin'){
-							echo '<p><font color = "red">Dispproved by Dep. Head</p>';
+						if($row['state'] == 'AAdmin'){
+							echo '<p><font color = "green">Appr. by Dep. Head</font></p>';
 						}
 					echo '<td></tr>';
 		}
@@ -514,7 +489,7 @@
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>
-	<h5 style="margin-left: 10px;">Date: <?php echo date("M j, Y");?></h5>
+	<h5 style="margin-left: 10px;" id = "datepr">Date: <?php echo date("M j, Y");?></h5>
 	<h2 align = "center"> Leave Report </h2>	
 	<h4 style="margin-left: 10px;">Period: <i><strong><?php echo $cutoffdate11;?></strong></i></h4>
 	<h4 style = "margin-left: 10px;">Name: <b><i><?php echo $name123;?></i></b></h4>
@@ -554,20 +529,8 @@
 					<td >'.$row["typeoflea"]. ' : ' . $row['othersl']. '</td>	
 					<td >'.$row["reason"].'</td>	
 					<td><b>';	
-						if($row['state'] == 'UA'){
-							echo 'Pending';
-						}else if($row['state'] == 'AHR'){
-							echo '<p><font color = "green">Approved by HR</p>';
-						}else if($row['state'] == 'AACC'){
-							echo '<p><font color = "green">Approved by Accounting</p>';
-						}else if($row['state'] == 'AAdmin'){
-							echo '<p><font color = "green">Approved by Dep. Head</p>';
-						}else if($row['state'] == 'DAHR'){
-							echo '<p><font color = "red">Dispproved by HR</p>';
-						}else if($row['state'] == 'DAACC'){
-							echo '<p><font color = "red">Dispproved by Accounting</p>';
-						}else if($row['state'] == 'DAAdmin'){
-							echo '<p><font color = "red">Dispproved by Dep. Head</p>';
+						if($row['state'] == 'AAdmin'){
+							echo '<p><font color = "green">Appr. by Dep. Head</font></p>';
 						}
 					echo '<td></tr>';
 		}
@@ -623,7 +586,7 @@ $conn->close();
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>
-	<h5 style="margin-left: 10px;">Date: <?php echo date("M j, Y");?></h5>
+	<h5 style="margin-left: 10px;" id = "datepr">Date: <?php echo date("M j, Y");?></h5>
 	<h2 align = "center"> Undertime Report </h2>
 	<h4 style="margin-left: 10px;">Period: <i><strong><?php echo $cutoffdate11;?></strong></i></h4>
 	<h4 style = "margin-left: 10px;">Name: <b><i><?php echo $name123;?></i></b></h4>
@@ -651,26 +614,14 @@ $conn->close();
 			$datetoday = date("Y-m-d");
 			echo 
 				'<tr>
-					<td width = 180>'.$newDate.'</td>
-					<td width = 180>'.date("M j, Y", strtotime($row["dateofundrtime"])).'</td>					
-					<td width = 250 height = 70>'.$row["reason"].'</td>
-					<td>Fr: '.$row["undertimefr"] . ' <br>To: ' . $row['undertimeto'].'</td>
+					<td>'.$newDate.'</td>
+					<td>'.date("M j, Y", strtotime($row["dateofundrtime"])).'</td>					
+					<td>'.$row["reason"].'</td>
+					<td>Fr: '.$row["undertimefr"] . '<br>To: ' . $row['undertimeto'].'</td>
 					<td>'.$row["numofhrs"].'</td>
 					<td><b>';	
-						if($row['state'] == 'UA'){
-							echo 'Pending';
-						}else if($row['state'] == 'AHR'){
-							echo '<p><font color = "green">Approved by HR</p>';
-						}else if($row['state'] == 'AACC'){
-							echo '<p><font color = "green">Approved by Accounting</p>';
-						}else if($row['state'] == 'AAdmin'){
-							echo '<p><font color = "green">Approved by Dep. Head</p>';
-						}else if($row['state'] == 'DAHR'){
-							echo '<p><font color = "red">Dispproved by HR</p>';
-						}else if($row['state'] == 'DAACC'){
-							echo '<p><font color = "red">Dispproved by Accounting</p>';
-						}else if($row['state'] == 'DAAdmin'){
-							echo '<p><font color = "red">Dispproved by Dep. Head</p>';
+						if($row['state'] == 'AAdmin'){
+							echo '<p><font color = "green">Appr. by Dep. Head</font></p>';
 						}
 					echo '<td></tr>';
 		}
