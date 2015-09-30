@@ -32,6 +32,7 @@
 			margin-top: 1px;
 
 		}
+		
 		body * {
 	    	visibility: hidden;
 	    
@@ -45,6 +46,8 @@
 	 	#report h2{
 	  		margin-bottom: 10px;
 	  		margin-top: 10px;
+	  		font-size: 20px;
+	  		font-weight: bold;
 	    }
 	 	#report h4{
 			font-size: 15px;
@@ -54,9 +57,13 @@
 		}
 		#report th{
 	  		font-size: 12px;
+	  		width: 0;
 		} 
 		#report td{
 	  		font-size: 11px;
+	  		bottom: 0px;
+	  		padding: 2px;
+	  		max-width: 210px;
 		}
 		#report {
 	   		position: absolute;
@@ -65,7 +72,7 @@
 	    	right: 0;
 	  	}
 	  	#backs{
-	  		visibility: hidden;
+	  		display: none;
 	  	}
 	}
 </style>
@@ -106,10 +113,10 @@
 	}	
 	if(!isset($_GET['rep'])){
 		$_GET['rep'] = 'ot';
-		$title = "OT";
+		$title = "Overtime";
 		echo '<div align = "center"><h3> Overtime Reports </h3></div>';
 	}else if($_GET['rep'] == 'ot'){
-		$title = "OT";
+		$title = "Overtime";
 		echo '<div align = "center"><h3> Overtime Reports </h3></div>';
 	}else if($_GET['rep'] == 'ob'){
 		$title = "Official Business";
@@ -132,16 +139,64 @@
 			<tbody>	
 			<?php				
 				include("conf.php");
+					$date17 = date("d");
+					$dated = date("m");
+					$datey = date("Y");
+					
+					if($date17 <= 16){
+						$forque = 1;
+						$endque = 16;
+						$cutoffdates1 = '1 - 15';
+						$dated = date("m");
+					}else{
+						$forque = 16;
+						$endque = 32;
+						$cutoffdates1 = '16 - 30/31';
+						$dated = date("m");
+					}
+					if(date("d") < 2){
+						$date17 = 16;
+						$forque = 16;
+						$endque = 32;
+						$dated = date("m", strtotime("previous month"));
+					}
+					$date171 = date("d");
+					if($date171 < 2){
+						$cutoffdates1 = '16 - 30/31';
+						$datade1 = date("F", strtotime("previous month"));
+					}else{		
+						$datade1 = date("F") ;
+					}
 				$sql = "SELECT * FROM login where level != 'Admin'";
 				$result = $conn->query($sql);
 				if($result->num_rows > 0){
 					while($row = $result->fetch_assoc()){
-						echo '<tr style = "font-size: 15px"><td>'.$row['account_id'].'<input type = "hidden" name = "acc_id" value ="' .$row['account_id'].'"/></td>
-							<td style = "font-size: 15px">'.$row['fname'].' '.$row['lname'] .'</td>
-							<td style = "font-size: 15px"><a type = "button" class = "btn btn-primary" href = "?rep='.$_GET['rep'].'&acc_id='.$row['account_id'] .'"name = "submit">	 '.$title.' Report </a></td></tr>
-							';
+						$accidd = $row['account_id'];
+						echo '<tr id = "tohide" style = "font-size: 15px"><td>'.$row['account_id'].'<input type = "hidden" name = "acc_id" value ="' .$row['account_id'].'"/></td>
+								<td style = "font-size: 15px">'.$row['fname'].' '.$row['lname'] .'</td>
+								<td style = "font-size: 15px"><a style = "width: 250px;"type = "button" class = "btn btn-primary" href = "?rep='.$_GET['rep'].'&acc_id='.$row['account_id'] .'"name = "submit">'.$title.' Report ';
+						if($_GET['rep'] == 'ot'){	
+							$sql1 = "SELECT count(account_id) as count FROM overtime where overtime.account_id = $accidd and state = 'AAdmin' and DAY(dateofot) >= $forque and DAY(dateofot) < $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey ORDER BY datefile ASC";
+						}
+						else if($_GET['rep'] == 'ob'){	
+							$sql1 = "SELECT count(account_id) as count  FROM officialbusiness where officialbusiness.account_id = $accidd and state = 'AAdmin' and DAY(obdatereq) >= $forque and DAY(obdatereq) <= $endque and MONTH(obdatereq) = $dated and YEAR(obdatereq) = $datey ORDER BY obdate ASC";
+						}
+						else if($_GET['rep'] == 'lea'){	
+							$sql1 = "SELECT count(account_id) as count  FROM nleave where nleave.account_id = $accidd and state = 'AAdmin' and DAY(dateofleavfr) >= $forque and DAY(dateofleavfr) <= $endque and MONTH(dateofleavfr) = $dated and YEAR(dateofleavfr) = $datey ORDER BY datefile ASC";
+						}
+						else if($_GET['rep'] == 'undr'){	
+							$sql1 = "SELECT count(account_id) as count  FROM undertime where undertime.account_id = $accidd and state = 'AAdmin' and DAY(dateofundrtime) >= $forque and DAY(dateofundrtime) <= $endque and MONTH(dateofundrtime) = $dated and YEAR(dateofundrtime) = $datey ORDER BY datefile ASC";
+						}
+						$result1 = $conn->query($sql1);
+						if($result1->num_rows > 0){
+							while($row1 = $result1->fetch_assoc()){
+								echo '<span class="badge" style = "color: black; margin-left: 7px;">'.$row1['count'].'</span>';
+							}
+						}
+						echo '</a></td></tr>';
 					}
 				}
+				$conn->close();
 			?>
 			</tbody>
 		</table>
@@ -150,35 +205,7 @@
 <div id = "report">
 <?php
 	include("conf.php");
-	$date17 = date("d");
-	$dated = date("m");
-	$datey = date("Y");
-	
-	if($date17 <= 16){
-		$forque = 1;
-		$endque = 16;
-		$cutoffdates1 = '1 - 15';
-		$dated = date("m");
-	}else{
-		$forque = 16;
-		$endque = 32;
-		$cutoffdates1 = '16 - 30/31';
-		$dated = date("m");
-	}
-	if(date("d") < 2){
-		$date17 = 16;
-		$forque = 16;
-		$endque = 32;
-		$dated = date("m", strtotime("previous month"));
-	}
-	$date171 = date("d");
-	if($date171 < 2){
-		$cutoffdates1 = '16 - 30/31';
-		$datade1 = date("F", strtotime("previous month"));
-	}else{
-		
-		$datade1 = date("F") ;
-	}
+
 	$cutoffdate11 = $datade1  . ' '. $cutoffdates1 .', ' . $datey;
 	if(!isset($_GET['rep'])){
 		$_GET['rep'] = "";
@@ -208,9 +235,8 @@
 	<h4 style = "margin-left: 10px;">Name: <b><i><?php echo $name123;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Position: <b><i><?php echo $position;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Department: <b><i><?php echo $department;?></i></b></h4>
-	<div style="margin-bottom: 15px;"></div>
 	<form role = "form" action = "approval.php"    method = "get">
-		<table width = "100%"class = "table table-hover" align = "center">
+		<table width = "100%"class = "table table-hover " align = "center">
 			<thead>				
 				<tr>
 					<th width = "120">Date File</th>			
@@ -226,53 +252,6 @@
 	<?php
 		$cutofftime2 = 0;	
 		while($row = $result->fetch_assoc()){
-			/*
-
-			12 hr to 24 hr
-			echo date('H:i', strtotime($row["startofot"])) . '<br>';
-			echo date('H:i', strtotime($row["endofot"])) . '<br>';
-
-			$todate= strtotime($row["dateofleavfr"]);
-			$fromdate= strtotime($row["dateofleavto"]);
-			$calculate_seconds = $fromdate - $todate; // Number of seconds between the two dates
-			$days = floor($calculate_seconds / (24 * 60 * 60 )); // convert to days
-
-			//24 Hr OT Calculator
-			$time1 = date('H:i', strtotime($row["startofot"]));
-			$time2 = date('H:i', strtotime($row["endofot"]));
-			list($hours, $minutes) = explode(':', $time1);
-			$startTimestamp = mktime($hours, $minutes);
-			list($hours, $minutes) = explode(':', $time2);
-			$endTimestamp = mktime($hours, $minutes);
-			$seconds = $endTimestamp - $startTimestamp;
-			$minutes = ($seconds / 60) % 60;
-			$hours = floor($seconds / (60 * 60));
-			if($hours < 0){
-				$hours *= -1;
-			}
-			if($minutes < 0){
-				$minutes *= -1;
-			}
-			if($hours < 0){
-				$hours *= -1;
-			}
-			if($hours > 12){
-				$hours -= 24;
-				if($hours < 0){
-					$hours *= -1;
-				}
-				if($minutes < 0){
-					$minutes *= -1;
-				}
-			}
-			//else if($hours == 0 && $minutes == 0){
-				//	$hours = 24;
-			//}
-			echo $hours . ' ' . $minutes .'<br>';
-			$hours = 0;
-			$minutes = 0;
-			*/
-			//end of computation
 			$date17 = date("d");
 			$dated = date("m");
 			$datey = date("Y");		
@@ -347,8 +326,7 @@
 		$cutoffs = date("Y-m-16");
 		
 		if($row['state'] == 'AAdmin' && $row['dateofot'] >= $cutoffs){	
-			$cutoffdate = '16 - 30/31';	
-			
+			$cutoffdate = '16 - 30/31';				
 			$hrs1 = substr($row['approvedothrs'],0,4);
 			$min1 = substr($row['approvedothrs'],0,4);
 			list($hours1, $minutes1) = explode(':', $hrs1);
@@ -388,10 +366,9 @@
 		$minutetosec = $minutes12;
 		$totalmin = $hours12 + $minutes12;
 		$totalothrs = date('H:i', mktime(0,$minutes12));
-		echo '<div align = "center" style = "font-size: 16px;">Total OT: <strong>'. ($hours12 + substr($totalothrs,0,2)) . ' Hour/s ' . substr($totalothrs,3,5). ' Min/s</strong><br><br>';
-		echo '<button id = "backs" style = "margin-right: 10px;"class = "btn btn-primary" onclick = "window.print();"><span id = "backs"class="glyphicon glyphicon-print"></span> Print Report</button>';
+		echo '<div align = "center" style = "font-size: 16px; bottom: 0px;">Total OT: <strong>'. ($hours12 + substr($totalothrs,0,2)) . ' Hour/s ' . substr($totalothrs,3,5). ' Min/s</strong></div>';
+		echo '<div align = "center" id = "backs" style = "top: 0px;"><button id = "backs" style = "margin-right: 10px;"class = "btn btn-primary" onclick = "window.print();"><span id = "backs"class="glyphicon glyphicon-print"></span> Print Report</button>';
 		echo '<a id = "backs" class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'"><span id = "backs"class="glyphicon glyphicon-chevron-left"></span> Back</a></div>';
-
 		}
 	}else{
 		if($date17 > 16){
@@ -408,7 +385,7 @@
 		echo '<div align = "center">No Records for this Cutoff: <strong>'.$cutoff.'</strong><br>';
 		echo '<a class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'">Back</a></div>';
 	}
-}
+}$conn->close();
 ?>
 <?php
 	include("conf.php");
@@ -421,6 +398,12 @@
 	}else{
 		$forque = 1;
 		$endque = 15;
+	}
+	if(date("d") < 2){
+		$date17 = 16;
+		$forque = 16;
+		$endque = 32;
+		$dated = date("m", strtotime("previous month"));
 	}
 	if(!isset($_GET['rep'])){
 		$_GET['rep'] = "";
@@ -449,16 +432,16 @@
 	<h4 style = "margin-left: 10px;">Position: <b><i><?php echo $position;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Department: <b><i><?php echo $department;?></i></b></h4>
 	<div style="margin-bottom: 15px;"></div>
-	<form role = "form" action = "approval.php"    method = "get" style = "margin-top: -30px;">
-		<table class = "table table-hover" align = "center">
+	<form role = "form" action = "approval.php" method = "get">
+		<table width = "100%" class = "table table-hover" align = "center">
 			<thead>
 				<tr>
-					<th>Date File</th>
-					<th>Date of Request</th>
-					<th>Time In - Time Out</th>
-					<th>Offical Work Schedule</th>
+					<th width="105">Date File</th>
+					<th width="150">Date of Request</th>
+					<th width="150">Time In - Time Out</th>
+					<th width="200">Offical Work Schedule</th>
 					<th>Reason</th>
-					<th>State</th>
+					<th width="150">State</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -497,6 +480,12 @@
 			}else{
 				$cutoff = date('F 1 - 15, Y');
 			}
+			$date17 = date('d');
+			if($date17 == 1){
+				$date17 = 16;
+				$dateda = date("Y-m-d");
+				$cutoff = date('F 16 - 30/31, Y', strtotime("previous month"));
+			}
 			echo '<div align = "center">No Records for this Cutoff: <strong>'.$cutoff.'</strong><br>';
 			echo '<a class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'">Back</a></div>';
 		}
@@ -516,6 +505,12 @@
 		$forque = 1;
 		$endque = 15;
 	}
+	if(date("d") < 2){
+		$date17 = 16;
+		$forque = 16;
+		$endque = 32;
+		$dated = date("m", strtotime("previous month"));
+	}
 	if(!isset($_GET['rep'])){
 		$_GET['rep'] = "";
 	}
@@ -532,7 +527,7 @@
 		$position = $res123['position'];	
 		$department = $res123['department'];
 		$cutoffdate = date("Y-m-d");
-		$sql = "SELECT * FROM nleave where nleave.account_id = $accid and state = 'AAdmin' and DAY(datefile) >= $forque and DAY(datefile) <= $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
+		$sql = "SELECT * FROM nleave where nleave.account_id = $accid and state = 'AAdmin' and DAY(dateofleavfr) >= $forque and DAY(dateofleavfr) <= $endque and MONTH(dateofleavfr) = $dated and YEAR(dateofleavfr) = $datey ORDER BY datefile ASC";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>
@@ -543,15 +538,15 @@
 	<h4 style = "margin-left: 10px;">Position: <b><i><?php echo $position;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Department: <b><i><?php echo $department;?></i></b></h4>	
 	<div style="margin-bottom: 15px;"></div>
-	<form role = "form" action = "approval.php"    method = "get" style = "margin-top: -30px;">
-		<table class = "table table-hover" align = "center">
+	<form role = "form" action = "approval.php"    method = "get">
+		<table width = "100%" class = "table table-hover" align = "center">
 			<thead>					
 					<tr>
-						<th >Date File</th>
-						<th >Date Hired</th>						
-						<th >Date of Leave <br>(Fr - To)</th>
-						<th># of Day/s</th>
-						<th >Type</th>
+						<th width="103">Date File</th>
+						<th width="103">Date Hired</th>						
+						<th width="150">Date of Leave <br>(Fr - To)</th>
+						<th width="60"># of Day/s</th>
+						<th width="120">Type</th>
 						<th>Reason</th>
 						<th>State</th>
 					</tr>
@@ -567,13 +562,19 @@
 					echo '<tr style = "color: red">';
 				}else{
 					echo '<tr>';
-				}		
+				}
+
+				if($row['othersl'] == null || $row['othersl'] == ""){
+					$otherslea = "";
+				}else{
+					$otherslea = ': ' . $row['othersl'];
+				}
 				echo 
 					'<td>'.$newDate.'</td>
 					<td>'.date("M j, Y", strtotime($row["datehired"])).'</td>										
 					<td>Fr: '.date("M j, Y", strtotime($row["dateofleavfr"])) .'<br>To: '.date("M j, Y", strtotime($row["dateofleavto"])).'</td>
 					<td>'.$row["numdays"].'</td>					
-					<td >'.$row["typeoflea"]. ' : ' . $row['othersl']. '</td>	
+					<td >'.$row["typeoflea"].$otherslea . '</td>	
 					<td >'.$row["reason"].'</td>	
 					<td><b>';	
 						if($row['state'] == 'AAdmin'){
@@ -594,6 +595,12 @@
 			}else{
 				$cutoff = date('F 1 - 15, Y');
 			}
+			$date17 = date('d');
+			if($date17 == 1){
+				$date17 = 16;
+				$dateda = date("Y-m-d");
+				$cutoff = date('F 16 - 30/31, Y', strtotime("previous month"));
+			}
 			echo '<div align = "center">No Records for this Cutoff: <strong>'.$cutoff.'</strong><br>';
 			echo '<a class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'">Back</a></div>';
 	}
@@ -612,6 +619,12 @@ $conn->close();
 	}else{
 		$forque = 1;
 		$endque = 15;
+	}
+	if(date("d") < 2){
+		$date17 = 16;
+		$forque = 16;
+		$endque = 32;
+		$dated = date("m", strtotime("previous month"));
 	}
 	if(!isset($_GET['rep'])){
 		$_GET['rep'] = "";
@@ -644,11 +657,11 @@ $conn->close();
 		<table class = "table table-hover" align = "center">
 			<thead>
 				<tr>
-					<th>Date File</th>
-					<th>Date of Undertime</th>
-					<th>Reason</th>
+					<th width="105">Date File</th>
+					<th width="155">Date of Undertime</th>					
 					<th>Fr - To (Undertime)</th>
 					<th># of Hrs/Minutes</th>
+					<th>Reason</th>
 					<th>State</th>
 				</tr>
 			</thead>
@@ -662,10 +675,10 @@ $conn->close();
 			echo 
 				'<tr>
 					<td>'.$newDate.'</td>
-					<td>'.date("M j, Y", strtotime($row["dateofundrtime"])).'</td>					
-					<td>'.$row["reason"].'</td>
+					<td>'.date("M j, Y", strtotime($row["dateofundrtime"])).'</td>							
 					<td>Fr: '.$row["undertimefr"] . '<br>To: ' . $row['undertimeto'].'</td>
 					<td>'.$row["numofhrs"].'</td>
+					<td>'.$row["reason"].'</td>
 					<td><b>';	
 						if($row['state'] == 'AAdmin'){
 							echo '<p><font color = "green">Appr. by Dep. Head</font></p>';
@@ -684,6 +697,12 @@ $conn->close();
 			$cutoff = date('F 16 - 30/31, Y');
 		}else{
 			$cutoff = date('F 1 - 15, Y');
+		}
+		$date17 = date('d');
+		if($date17 == 1){
+			$date17 = 16;
+			$dateda = date("Y-m-d");
+			$cutoff = date('F 16 - 30/31, Y', strtotime("previous month"));
 		}
 		echo '<div align = "center" id = "userlist">No Records for this Cutoff: <strong>'.$cutoff.'</strong><br>';
 		echo '<a class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'">Back</a></div>';

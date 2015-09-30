@@ -144,7 +144,53 @@
 		</tbody>
 		</table>
 	</form>
+			/*
 
+			12 hr to 24 hr
+			echo date('H:i', strtotime($row["startofot"])) . '<br>';
+			echo date('H:i', strtotime($row["endofot"])) . '<br>';
+
+			$todate= strtotime($row["dateofleavfr"]);
+			$fromdate= strtotime($row["dateofleavto"]);
+			$calculate_seconds = $fromdate - $todate; // Number of seconds between the two dates
+			$days = floor($calculate_seconds / (24 * 60 * 60 )); // convert to days
+
+			//24 Hr OT Calculator
+			$time1 = date('H:i', strtotime($row["startofot"]));
+			$time2 = date('H:i', strtotime($row["endofot"]));
+			list($hours, $minutes) = explode(':', $time1);
+			$startTimestamp = mktime($hours, $minutes);
+			list($hours, $minutes) = explode(':', $time2);
+			$endTimestamp = mktime($hours, $minutes);
+			$seconds = $endTimestamp - $startTimestamp;
+			$minutes = ($seconds / 60) % 60;
+			$hours = floor($seconds / (60 * 60));
+			if($hours < 0){
+				$hours *= -1;
+			}
+			if($minutes < 0){
+				$minutes *= -1;
+			}
+			if($hours < 0){
+				$hours *= -1;
+			}
+			if($hours > 12){
+				$hours -= 24;
+				if($hours < 0){
+					$hours *= -1;
+				}
+				if($minutes < 0){
+					$minutes *= -1;
+				}
+			}
+			//else if($hours == 0 && $minutes == 0){
+				//	$hours = 24;
+			//}
+			echo $hours . ' ' . $minutes .'<br>';
+			$hours = 0;
+			$minutes = 0;
+			*/
+			//end of computation
   <h2>Modal Login Example</h2>
   <!-- Trigger the modal with a button -->
    <style>

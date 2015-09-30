@@ -120,7 +120,7 @@
 						</td></tr>';
 				}
 			}
-			$sql = "SELECT * from undertime,login where login.account_id = undertime.account_id and state like 'AACC%' and DAY(datefile) >= $forque and DAY(datefile) < $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
+			$sql = "SELECT * from undertime,login where login.account_id = undertime.account_id and state like 'AACC%' and DAY(dateofundrtime) >= $forque and DAY(dateofundrtime) < $endque and MONTH(dateofundrtime) = $dated and YEAR(dateofundrtime) = $datey ORDER BY datefile ASC";
 			$result = $conn->query($sql);
 			if($result->num_rows > 0){
 				while($row = $result->fetch_assoc()){
@@ -149,7 +149,7 @@
 						</td></tr>';
 				}
 			}
-			$sql = "SELECT * from officialbusiness,login where login.account_id = officialbusiness.account_id and state like 'AACC%' and DAY(obdate) >= $forque and DAY(obdate) < $endque and MONTH(obdate) = $dated and YEAR(obdate) = $datey ORDER BY obdate ASC";
+			$sql = "SELECT * from officialbusiness,login where login.account_id = officialbusiness.account_id and state like 'AACC%' and DAY(obdatereq) >= $forque and DAY(obdatereq) < $endque and MONTH(obdatereq) = $dated and YEAR(obdatereq) = $datey ORDER BY obdate ASC";
 			$result = $conn->query($sql);
 			if($result->num_rows > 0){
 				while($row = $result->fetch_assoc()){
@@ -178,7 +178,7 @@
 						</td></tr>';
 				}
 			}
-			$sql = "SELECT * from nleave,login where login.account_id = nleave.account_id and state like 'AACC%' and DAY(datefile) >= $forque and DAY(datefile) < $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
+			$sql = "SELECT * from nleave,login where login.account_id = nleave.account_id and state like 'AACC%' and DAY(dateofleavfr) >= $forque and DAY(dateofleavfr) < $endque and MONTH(dateofleavfr) = $dated and YEAR(dateofleavfr) = $datey ORDER BY datefile ASC";
 			$result = $conn->query($sql);
 			if($result->num_rows > 0){
 				while($row = $result->fetch_assoc()){

@@ -163,13 +163,13 @@
 				<tr class = "form-inline" >
 					<td>Type of Leave</td>
 					<td align = "left">
-						<select style = "width: 60%;"required class="form-control" id = "typeoflea" name="typeoflea">
+						<select style = "width: 60%; float: left;" required class="form-control" id = "typeoflea" name="typeoflea">
 							<option value = ""> ---- </option>
-							<option value = "Vacation Leave">Vacation Leave: </option>
-							<option value = "Sick Leave">Sick Leave: </option>
+							<option value = "Vacation Leave">Vacation Leave</option>
+							<option value = "Sick Leave">Sick Leave</option>
 							<option value = "Others">Others(Pls. Specify)</option>
 						</select>						
-						<input type = "text" name = "othersl" class = "form-control" id = "othersl" style = " width: 20%; display: none;"/>
+						<input type = "text" name = "othersl" class = "form-control" id = "othersl" style = "width: 40%; display: none;"/>
 					</td>
 				</tr>	
 				<div style = "display: none;">
@@ -199,7 +199,7 @@
 				</tr>
 				<tr class = "form-inline">
 					<td>Inclusive Dates: </td>
-					<td>
+					<td style="float:left;">
 						From: <input required class = "form-control" type = "date" min = "<?php echo date('m/d/Y'); ?>" name = "dateofleavfr"/>
 						To: <input required class = "form-control" type = "date" min = "<?php echo date('m/d/Y'); ?>" name = "dateofleavto"/>
 						Number of Days: <input maxlength = "3" style = "width: 90px;"type = "text" pattern = '[0-9]+' required name = "numdays"class = "form-control"/>

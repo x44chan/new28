@@ -123,11 +123,11 @@
 	<?php
 		while($row = $result->fetch_assoc()){
 			$originalDate = date($row['datefile']);
-			$newDate = date("F j, Y", strtotime($originalDate));
+			$newDate = date("M j, Y", strtotime($originalDate));
 			echo
 				'<tr>
 					<td>'.$newDate.'</td>
-					<td>'.date("F j, Y", strtotime($row["dateofot"])).'</td>
+					<td>'.date("M j, Y", strtotime($row["dateofot"])).'</td>
 					<td>'.$row["nameofemp"].'</td>
 					<td width = 300 height = 70>'.$row["reason"].'</td>
 					<td>'.$row["startofot"] . ' - ' . $row['endofot'].'</td>
@@ -162,18 +162,18 @@
 		if($result->num_rows > 0){
 	?>
 	<form role = "form" action = "approval.php"    method = "get">
-		<table class = "table table-hover" align = "center">
+		<table width = "100%"class = "table table-hover" align = "center">
 			<thead>
 				<tr>
 					<td colspan = 9 align = center><h2> Approved Official Business Request </h2></td>
 				</tr>
 				<tr>
-					<th>Date File</th>
+					<th width="105">Date File</th>
 					<th>Name of Employee</th>
 					<th>Position</th>
 					<th>Department</th>
 					<th>Date of Request</th>
-					<th>Time In - Time Out</th>
+					<th width="150">Time In - Time Out</th>
 					<th>Offical Work Schedule</th>
 					<th>Reason</th>
 					<th>State</th>
@@ -183,14 +183,14 @@
 	<?php
 		while($row = $result->fetch_assoc()){
 			$originalDate = date($row['obdate']);
-			$newDate = date("F j, Y", strtotime($originalDate));
+			$newDate = date("M j, Y", strtotime($originalDate));
 			echo
 				'<tr>
 					<td>'.$newDate.'</td>
 					<td>'.$row["obename"].'</td>
 					<td>'.$row["obpost"].'</td>
 					<td >'.$row["obdept"].'</td>
-					<td>'.date("F j, Y", strtotime($row['obdatereq'])).'</td>					
+					<td>'.date("M j, Y", strtotime($row['obdatereq'])).'</td>					
 					<td>'.$row["obtimein"] . ' - ' . $row['obtimeout'].'</td>
 					<td>'.$row["officialworksched"].'</td>				
 					<td >'.$row["obreason"].'</td>	
@@ -254,12 +254,12 @@
 	<?php
 		while($row = $result->fetch_assoc()){				
 			$originalDate = date($row['datefile']);
-			$newDate = date("F j, Y", strtotime($originalDate));		
+			$newDate = date("M j, Y", strtotime($originalDate));		
 			$datetoday = date("Y-m-d");
 			echo 
 				'<tr>
 					<td width = 180>'.$newDate.'</td>
-					<td>'.date("F j, Y", strtotime($row["dateofundrtime"])).'</td>
+					<td>'.date("M j, Y", strtotime($row["dateofundrtime"])).'</td>
 					<td>'.$row["name"].'</td>
 					<td width = 250 height = 70>'.$row["reason"].'</td>
 					<td>'.$row["undertimefr"] . ' - ' . $row['undertimeto'].'</td>
@@ -318,7 +318,7 @@
 			while($row = $result->fetch_assoc()){
 				
 				$originalDate = date($row['datefile']);
-				$newDate = date("F j, Y", strtotime($originalDate));
+				$newDate = date("M j, Y", strtotime($originalDate));
 				$datetoday = date("Y-m-d");
 				if($datetoday >= $row['twodaysred'] && $row['state'] == 'UA' ){
 					echo '<tr style = "color: red">';
@@ -331,7 +331,7 @@
 					<td>'.date("M j, Y", strtotime($row["datehired"])).'</td>
 					<td >'.$row["deprt"].'</td>
 					<td>'.$row['posttile'].'</td>					
-					<td>Fr: '.date("F j, Y", strtotime($row["dateofleavfr"])) .'<br>To: '.date("F j, Y", strtotime($row["dateofleavto"])).'</td>
+					<td>Fr: '.date("M j, Y", strtotime($row["dateofleavfr"])) .'<br>To: '.date("M j, Y", strtotime($row["dateofleavto"])).'</td>
 					<td>'.$row["numdays"].'</td>					
 					<td >'.$row["typeoflea"]. ' : ' . $row['othersl']. '</td>	
 					<td >'.$row["reason"].'</td>	

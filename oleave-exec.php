@@ -19,7 +19,7 @@
 			$othersl = $_POST['othersl'];
 		}else{
 			$typeoflea = $_POST['typeoflea'];
-			$othersl = ' ';
+			$othersl = '';
 		}
 		$reason = $_POST['leareason'];
 		if($_SESSION['level'] == 'ACC'){
