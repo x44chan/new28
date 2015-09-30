@@ -8,17 +8,14 @@
 	<script type="text/javascript"> 
 		window.location.replace("index.php");
 		alert("Restricted");
-	</script>	
-	
+	</script>		
 	<?php
 	}
 ?>
-
-<script type="text/javascript">
-		
+<script type="text/javascript">		
     $(document).ready( function () {
     	$('#myTable').DataTable();
-	} );
+	});
 </script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/dt/dt-1.10.9/datatables.min.css"/> 
 <script type="text/javascript" src="https://cdn.datatables.net/r/dt/dt-1.10.9/datatables.min.js"></script>
@@ -80,6 +77,12 @@
 				$forque = 1;
 				$endque = 16;
 			}
+			if(date("d") < 2){
+				$date17 = 16;
+				$forque = 16;
+				$endque = 32;
+				$dated = date("m", strtotime("previous month"));
+			}
 			$sql = "SELECT * from overtime,login where login.account_id = overtime.account_id and state like 'AACC%' and DAY(dateofot) >= $forque and DAY(dateofot) < $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey ORDER BY datefile ASC";
 			$result = $conn->query($sql);
 			if($result->num_rows > 0){
@@ -96,8 +99,8 @@
 					$newDate = date("F d, Y", strtotime($originalDate));
 					
 					if($row['datehr'] == "" || $row['datehr'] == NULL){
-						$datehr = 'HR REQUEST';
-						$dateacc = 'ACC REQUEST';
+						$datehr = 'HR/ACC REQUEST';
+						$dateacc = '';
 					}else{
 						$datehr = date("F d, Y h:i A", strtotime($row['datehr']));
 						$dateacc = date("F d, Y h:i A", strtotime($row['dateacc']));
@@ -105,8 +108,12 @@
 					echo '<td>'.$newDate.'</td>';
 					echo '<td>'.$row['fname'] .' ' .$row['lname'] .'</td>';
 					echo '<td>OT</td>';
-					echo '<td>'.$row['reason'].'</td>';
-					echo '<td>HR: '.$datehr . '<br>Accounting:' . $dateacc.'</td>';
+					echo '<td>'.$row['reason'].'</td>';					
+					if($dateacc != ""){
+						echo '<td>HR: '.$datehr .'<br>Accounting:' . $dateacc.'</td>';
+					}else{
+						echo '<td>'.$datehr. '</td>';
+					}
 					echo '<td >
 							<a href = "approval.php?approve=A'.$_SESSION['level'].'&overtime='.$row['overtime_id'].'"';?><?php echo'" class="btn btn-info" role="button">Approve</a>
 							<a href = "approval.php?approve=DA'.$_SESSION['level'].'&overtime='.$row['overtime_id'].'"';?><?php echo'" class="btn btn-info" role="button">Disapprove</a>

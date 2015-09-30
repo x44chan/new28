@@ -200,8 +200,7 @@
 
 		$sql = "SELECT * FROM overtime where overtime.account_id = $accid and state = 'AAdmin' and DAY(dateofot) >= $forque and DAY(dateofot) < $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey ORDER BY datefile ASC";
 		$result = $conn->query($sql);
-		if($result->num_rows > 0){
-			
+		if($result->num_rows > 0){			
 	?>	
 	<h5 style="margin-left: 10px;" id = "datepr">Date: <?php echo date("M j, Y");?></h5>
 	<h2 align = "center"> Overtime Report </h2>
@@ -209,29 +208,81 @@
 	<h4 style = "margin-left: 10px;">Name: <b><i><?php echo $name123;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Position: <b><i><?php echo $position;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Department: <b><i><?php echo $department;?></i></b></h4>
-	<br><br>
-	<form role = "form" action = "approval.php"    method = "get" style = "margin-top: -30px">
+	<div style="margin-bottom: 15px;"></div>
+	<form role = "form" action = "approval.php"    method = "get">
 		<table width = "100%"class = "table table-hover" align = "center">
 			<thead>				
 				<tr>
-					<th>Date File</th>			
-					<th>Date of O.T.</th>
-					<th>Fr - To</th>
-					<th>OT</th>
-					<th>Reason</th>
-					<th>Offical Work Schedule</th>
-					<th>State</th>
+					<th width = "120">Date File</th>			
+					<th width = "120">Date of O.T.</th>
+					<th width = "200">From - To</th>
+					<th width = "50">OT</th>
+					<th width = "300">Reason</th>
+					<th width = "200">Offical Work Schedule</th>
+					<th width = "100">State</th>
 				</tr>
 			</thead>
 			<tbody>
 	<?php
 		$cutofftime2 = 0;	
 		while($row = $result->fetch_assoc()){
+			/*
+
+			12 hr to 24 hr
+			echo date('H:i', strtotime($row["startofot"])) . '<br>';
+			echo date('H:i', strtotime($row["endofot"])) . '<br>';
+
+			$todate= strtotime($row["dateofleavfr"]);
+			$fromdate= strtotime($row["dateofleavto"]);
+			$calculate_seconds = $fromdate - $todate; // Number of seconds between the two dates
+			$days = floor($calculate_seconds / (24 * 60 * 60 )); // convert to days
+
+			//24 Hr OT Calculator
+			$time1 = date('H:i', strtotime($row["startofot"]));
+			$time2 = date('H:i', strtotime($row["endofot"]));
+			list($hours, $minutes) = explode(':', $time1);
+			$startTimestamp = mktime($hours, $minutes);
+			list($hours, $minutes) = explode(':', $time2);
+			$endTimestamp = mktime($hours, $minutes);
+			$seconds = $endTimestamp - $startTimestamp;
+			$minutes = ($seconds / 60) % 60;
+			$hours = floor($seconds / (60 * 60));
+			if($hours < 0){
+				$hours *= -1;
+			}
+			if($minutes < 0){
+				$minutes *= -1;
+			}
+			if($hours < 0){
+				$hours *= -1;
+			}
+			if($hours > 12){
+				$hours -= 24;
+				if($hours < 0){
+					$hours *= -1;
+				}
+				if($minutes < 0){
+					$minutes *= -1;
+				}
+			}
+			//else if($hours == 0 && $minutes == 0){
+				//	$hours = 24;
+			//}
+			echo $hours . ' ' . $minutes .'<br>';
+			$hours = 0;
+			$minutes = 0;
+			*/
 			//end of computation
 			$date17 = date("d");
 			$dated = date("m");
 			$datey = date("Y");		
-	
+			$explo = (explode(":",$row['approvedothrs']));
+			
+			if($explo[1] > 0){
+				$explo2 = '.5';
+			}else{
+				$explo2 = '.0';
+			}
 			$originalDate = date($row['datefile']);
 			$newDate = date("M j, Y", strtotime($originalDate));			
 			echo
@@ -239,12 +290,12 @@
 					<td>'.$newDate.'</td>
 					<td>'.date("M j, Y", strtotime($row["dateofot"])).'</td>
 					<td >'.$row["startofot"] . ' - ' . $row['endofot']. '</td>		
-					<td><strong>'.$row['approvedothrs'].'</strong></td>			
+					<td><strong>'.$explo[0].$explo2.'</strong></td>			
 					<td >'.$row["reason"].'</td>
 					<td >'.$row["officialworksched"].'</td>					
 					<td><b>';
 						if($row['state'] == 'AAdmin'){
-							echo '<p><font color = "green">Appr. by Dep. Head</font></p>';
+							echo '<p><font color = "green">App. by<br>Dep. Head</font></p>';
 						}
 					echo '</b></td></tr>';
 		}
@@ -297,6 +348,7 @@
 		
 		if($row['state'] == 'AAdmin' && $row['dateofot'] >= $cutoffs){	
 			$cutoffdate = '16 - 30/31';	
+			
 			$hrs1 = substr($row['approvedothrs'],0,4);
 			$min1 = substr($row['approvedothrs'],0,4);
 			list($hours1, $minutes1) = explode(':', $hrs1);
@@ -332,11 +384,11 @@
 		}else{
 			$datade = date("F") ;
 		}
-		$hours12 = $hours12 * 60;
-		$minutetosec = $minutes12 * 60;
+		$hours12 = $hours12;
+		$minutetosec = $minutes12;
 		$totalmin = $hours12 + $minutes12;
-		$totalothrs = date('H : i', mktime(0,$totalmin));
-		echo '<div align = "center" style = "font-size: 16px;">Total OT: <strong>'. substr($totalothrs,0,2) . ' Hour/s' . substr($totalothrs,4,5). ' Min/s</strong><br><br>';
+		$totalothrs = date('H:i', mktime(0,$minutes12));
+		echo '<div align = "center" style = "font-size: 16px;">Total OT: <strong>'. ($hours12 + substr($totalothrs,0,2)) . ' Hour/s ' . substr($totalothrs,3,5). ' Min/s</strong><br><br>';
 		echo '<button id = "backs" style = "margin-right: 10px;"class = "btn btn-primary" onclick = "window.print();"><span id = "backs"class="glyphicon glyphicon-print"></span> Print Report</button>';
 		echo '<a id = "backs" class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'"><span id = "backs"class="glyphicon glyphicon-chevron-left"></span> Back</a></div>';
 
@@ -396,7 +448,7 @@
 	<h4 style = "margin-left: 10px;">Name: <b><i><?php echo $name123;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Position: <b><i><?php echo $position;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Department: <b><i><?php echo $department;?></i></b></h4>
-	<br><br>
+	<div style="margin-bottom: 15px;"></div>
 	<form role = "form" action = "approval.php"    method = "get" style = "margin-top: -30px;">
 		<table class = "table table-hover" align = "center">
 			<thead>
@@ -490,7 +542,7 @@
 	<h4 style = "margin-left: 10px;">Name: <b><i><?php echo $name123;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Position: <b><i><?php echo $position;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Department: <b><i><?php echo $department;?></i></b></h4>	
-	<br><br>
+	<div style="margin-bottom: 15px;"></div>
 	<form role = "form" action = "approval.php"    method = "get" style = "margin-top: -30px;">
 		<table class = "table table-hover" align = "center">
 			<thead>					

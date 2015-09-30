@@ -4,8 +4,8 @@
 	
 	if(isset($_POST['datefile'])){		
 		//hrs:minutes computation
-		$time1 = substr($_POST['startofot'],0,4);
-		$time2 = substr($_POST['endofot'],0,4);
+		$time1 = date('H:i', strtotime($_POST['startofot']));
+		$time2 = date('H:i', strtotime($_POST['endofot']));
 		list($hours, $minutes) = explode(':', $time1);
 		$startTimestamp = mktime($hours, $minutes);
 		list($hours, $minutes) = explode(':', $time2);
@@ -13,8 +13,26 @@
 		$seconds = $endTimestamp - $startTimestamp;
 		$minutes = ($seconds / 60) % 60;
 		$hours = floor($seconds / (60 * 60));
-		//end of computation
+		if($hours < 0){
+			$hours *= -1;
+		}
+		if($minutes < 0){
+			$minutes *= -1;
+		}
+		if($hours < 0){
+			$hours *= -1;
+		}
+		if($hours > 12){
+			$hours -= 24;
+			if($hours < 0){
+				$hours *= -1;
+			}
+			if($minutes < 0){
+				$minutes *= -1;
+			}
+		}
 		$approvedothrs = $hours.':'.$minutes;
+		//end of computation		
 		$accid = $_SESSION['acc_id'];		
 		$datefile = date("Y-m-d");
 		$dateofot = $_POST['dateofot'];
