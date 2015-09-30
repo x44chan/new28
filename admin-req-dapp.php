@@ -308,6 +308,7 @@
 	?>
 </div>
 
+
 <div id = "newuser" class = "form-group" style = "display: none;">
 	<form role = "form" action = "newuser-exec.php" method = "post">
 		<table align = "center" width = "450">
@@ -333,6 +334,14 @@
 			<tr>
 				<td>Last Name:</td>
 				<td> <input required pattern="[a-zA-Z0-9\s]+" class ="form-control"type = "text" name = "reglname"/></td>
+			</tr>
+			<tr>
+				<td>Postion:</td>
+				<td> <input required pattern="[a-zA-Z\s]+" class ="form-control"type = "text" name = "regpos"/></td>
+			</tr>
+			<tr>
+				<td>Department:</td>
+				<td> <input required pattern="[a-zA-Z\s]+" class ="form-control"type = "text" name = "regdep"/></td>
 			</tr>
 			<tr>
 				<td>Account Level:</td>

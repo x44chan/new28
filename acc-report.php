@@ -190,7 +190,7 @@
 						$result1 = $conn->query($sql1);
 						if($result1->num_rows > 0){
 							while($row1 = $result1->fetch_assoc()){
-								echo '<span class="badge" style = "color: black; margin-left: 7px;">'.$row1['count'].'</span>';
+								echo '<span class="badge" style = "color: black; font-size: 13px; margin-left: 7px;">'.$row1['count'].'</span>';
 							}
 						}
 						echo '</a></td></tr>';
@@ -229,9 +229,9 @@
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){			
 	?>	
-	<h5 style="margin-left: 10px;" id = "datepr">Date: <?php echo date("M j, Y");?></h5>
+	<h5 style = "margin-left: 10px;" id = "datepr">Date: <?php echo date("M j, Y");?></h5>
 	<h2 align = "center"> Overtime Report </h2>
-	<h4 style="margin-left: 10px;">Period: <i><strong><?php echo $cutoffdate11;?></strong></i></h4>
+	<h4 style = "margin-left: 10px;">Period: <i><strong><?php echo $cutoffdate11;?></strong></i></h4>
 	<h4 style = "margin-left: 10px;">Name: <b><i><?php echo $name123;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Position: <b><i><?php echo $position;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Department: <b><i><?php echo $department;?></i></b></h4>
