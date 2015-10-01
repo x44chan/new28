@@ -39,7 +39,7 @@
 						<td>
 							<label for = "fr"> From: </label><input readonly placeholder = "Click to Set time" required style = "width: 150px;" autocomplete ="off" id = "to" class = "form-control"  name = "untimefr"/>
 							<label for = "to"> To:  </label><input readonly placeholder = "Click to Set time" required style = "width: 150px;" autocomplete ="off" id = "fr" class = "form-control" name = "untimeto"/>
-							<label for = "numhrs">Num. of Hrs/Mins </label><input required placeholder = "__hrs : __mins" id = "numhrs" class = "form-control" style = "width: 200px" name = "unumofhrs"/>
+							<label for = "numhrs">Num. of Hrs/Mins </label><input required placeholder = "_hrs : __mins" id = "numhrs" class = "form-control" style = "width: 200px" name = "unumofhrs"/>
 						</td>	
 					</tr>			
 					<script type="text/javascript">

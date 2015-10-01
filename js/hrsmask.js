@@ -1847,5 +1847,5 @@ $(document).ready(function(){
         };
     }
 })(jQuery);
-    $('#numhrs').inputmask('99hrs : 99mins');    
+    $('#numhrs').inputmask('9hrs : 99mins');    
 });

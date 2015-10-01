@@ -169,7 +169,7 @@
 							<option value = "Sick Leave">Sick Leave</option>
 							<option value = "Others">Others(Pls. Specify)</option>
 						</select>						
-						<input type = "text" name = "othersl" class = "form-control" id = "othersl" style = "width: 40%; display: none;"/>
+						<input disabled type = "text" name = "othersl" class = "form-control" id = "othersl" style = "width: 40%;"/>
 					</td>
 				</tr>	
 				<div style = "display: none;">

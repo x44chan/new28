@@ -96,19 +96,19 @@
 					}
 
 					$originalDate = date($row['datefile']);
-					$newDate = date("F d, Y", strtotime($originalDate));
-					
+					$newDate = date("F d, Y", strtotime($originalDate));					
+						
+					echo '<td>'.$newDate.'</td>';
+					echo '<td>'.$row['fname'] .' ' .$row['lname'] .'</td>';
+					echo '<td>OT</td>';
+					echo '<td>'.$row['reason'].'</td>';	
 					if($row['datehr'] == "" || $row['datehr'] == NULL){
 						$datehr = 'HR/ACC REQUEST';
 						$dateacc = '';
 					}else{
 						$datehr = date("F d, Y h:i A", strtotime($row['datehr']));
 						$dateacc = date("F d, Y h:i A", strtotime($row['dateacc']));
-					}	
-					echo '<td>'.$newDate.'</td>';
-					echo '<td>'.$row['fname'] .' ' .$row['lname'] .'</td>';
-					echo '<td>OT</td>';
-					echo '<td>'.$row['reason'].'</td>';					
+					}				
 					if($dateacc != ""){
 						echo '<td>HR: '.$datehr .'<br>Accounting:' . $dateacc.'</td>';
 					}else{
@@ -134,15 +134,22 @@
 					}
 					$datehr = date("F d, Y h:i A", strtotime($row['datehr']));
 					$dateacc = date("F d, Y h:i A", strtotime($row['dateacc']));
-					if($row['datehr'] == "" || $row['datehr'] == NULL){
-						$datehr = 'HR REQUEST';
-						$dateacc = 'ACC REQUEST';
-					}
 					echo '<td>'.$newDate .'</td>';
 					echo '<td>'.$row['fname'] .' ' .$row['lname'] .'</td>';
 					echo '<td>Undertime</td>';
 					echo '<td>'.$row['reason'].'</td>';
-					echo '<td>HR: '.$datehr . '<br>Accounting:' . $dateacc.'</td>';
+					if($row['datehr'] == "" || $row['datehr'] == NULL){
+						$datehr = 'HR/ACC REQUEST';
+						$dateacc = '';
+					}else{
+						$datehr = date("F d, Y h:i A", strtotime($row['datehr']));
+						$dateacc = date("F d, Y h:i A", strtotime($row['dateacc']));
+					}				
+					if($dateacc != ""){
+						echo '<td>HR: '.$datehr .'<br>Accounting:' . $dateacc.'</td>';
+					}else{
+						echo '<td>'.$datehr. '</td>';
+					}
 					echo '<td width = "200">
 							<a href = "approval.php?approve=A'.$_SESSION['level'].'&undertime='.$row['undertime_id'].'"';?><?php echo'" class="btn btn-info" role="button">Approve</a>
 							<a href = "approval.php?approve=DA'.$_SESSION['level'].'&undertime='.$row['undertime_id'].'"';?><?php echo'" class="btn btn-info" role="button">Disapprove</a>
@@ -163,15 +170,22 @@
 					}
 					$datehr = date("F d, Y h:i A", strtotime($row['datehr']));
 					$dateacc = date("F d, Y h:i A", strtotime($row['dateacc']));
-					if($row['datehr'] == "" || $row['datehr'] == NULL){
-						$datehr = 'HR REQUEST';
-						$dateacc = 'ACC REQUEST';
-					}
 					echo '<td>'.$newDate .'</td>';;
 					echo '<td>'.$row['fname'] .' ' .$row['lname'] .'</td>';
 					echo '<td>Official Business</td>';
 					echo '<td>'.$row['obreason'].'</td>';
-					echo '<td>HR: '.$datehr . '<br>Accounting:' . $dateacc.'</td>';
+					if($row['datehr'] == "" || $row['datehr'] == NULL){
+						$datehr = 'HR/ACC REQUEST';
+						$dateacc = '';
+					}else{
+						$datehr = date("F d, Y h:i A", strtotime($row['datehr']));
+						$dateacc = date("F d, Y h:i A", strtotime($row['dateacc']));
+					}				
+					if($dateacc != ""){
+						echo '<td>HR: '.$datehr .'<br>Accounting:' . $dateacc.'</td>';
+					}else{
+						echo '<td>'.$datehr. '</td>';
+					}
 					echo '<td width = "200">
 							<a href = "approval.php?approve=A'.$_SESSION['level'].'&officialbusiness_id='.$row['officialbusiness_id'].'"';?><?php echo'" class="btn btn-info" role="button">Approve</a>
 							<a href = "approval.php?approve=DA'.$_SESSION['level'].'&officialbusiness_id='.$row['officialbusiness_id'].'"';?><?php echo'" class="btn btn-info" role="button">Disapprove</a>
@@ -187,10 +201,6 @@
 					$datetoday = date("Y-m-d");
 					$datehr = date("F d, Y h:i A", strtotime($row['datehr']));
 					$dateacc = date("F d, Y h:i A", strtotime($row['dateacc']));
-					if($row['datehr'] == "" || $row['datehr'] == NULL){
-						$datehr = 'HR REQUEST';
-						$dateacc = 'ACC REQUEST';
-					}
 					if($datetoday >= $row['twodaysred'] ){
 						echo '<tr style = "color: red">';
 					}else{
@@ -200,7 +210,18 @@
 					echo '<td>'.$row['fname'] .' ' .$row['lname'] .'</td>';	
 					echo '<td>'.$row['typeoflea']. ' ' .$row['othersl']. '</td>';
 					echo '<td>'.$row['reason'].'</td>';
-					echo '<td>HR: '.$datehr . '<br>Accounting:' . $dateacc.'</td>';
+					if($row['datehr'] == "" || $row['datehr'] == NULL){
+						$datehr = 'HR/ACC REQUEST';
+						$dateacc = '';
+					}else{
+						$datehr = date("F d, Y h:i A", strtotime($row['datehr']));
+						$dateacc = date("F d, Y h:i A", strtotime($row['dateacc']));
+					}				
+					if($dateacc != ""){
+						echo '<td>HR: '.$datehr .'<br>Accounting:' . $dateacc.'</td>';
+					}else{
+						echo '<td>'.$datehr. '</td>';
+					}
 					echo '<td width = "200">
 							<a href = "approval.php?approve=A'.$_SESSION['level'].'&leave='.$row['leave_id'].'"';?><?php echo'" class="btn btn-info" role="button">Approve</a>
 							<a href = "approval.php?approve=DA'.$_SESSION['level'].'&leave='.$row['leave_id'].'"';?><?php echo'" class="btn btn-info" role="button">Disapprove</a>

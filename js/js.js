@@ -4,23 +4,24 @@ $(function(){
         window.location.reload();
     });
 });
-$(document).ready(function(){
-	
+$(document).ready(function(){	
     $("#regerr").click(function(){
         $("#regerr").attr("href", "admin.php?");
     });
 	$('#typeoflea').change(function() {
-    var selected = $(this).val();
+   		var selected = $(this).val();
 	
-    if(selected == 'Others'){
-      $('#othersl').show();
-	  $("#othersl").attr('required',true);
-    }
-    else{
-      $('#othersl').hide();	  
-	  $("#othersl").attr('required',false);
-    }
-});
+		if(selected == 'Others'){
+			$('#othersl').attr('disabled',false);
+			$("#othersl").attr('required',true);
+			$('#othersl').attr("placeholder", "Enter Reason").placeholder();
+   		}else{
+			$('#othersl').val("");
+			$('#othersl').attr('disabled',true);
+			$('#othersl').attr("placeholder", " ").placeholder();
+			$("#othersl").attr('required',false);
+   		}
+	});
 });
 
 //admin jquery
