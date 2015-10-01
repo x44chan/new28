@@ -92,7 +92,7 @@
 		Welcome <strong><?php echo $_SESSION['name'];?> !</strong><br>
 		<?php echo date('l jS \of F Y h:i A'); ?> <br>	<br>	
 		<div class="btn-group btn-group-lg">
-			<a  type = "button"class = "btn btn-primary" href = "/new">Home</a>		
+			<a  type = "button"class = "btn btn-primary" href = "accounting.php?ac=penot">Home</a>		
 			<div class="btn-group btn-group-lg">
 				<button type="button" class="btn btn-primary dropdown-toggle"  data-toggle="dropdown">New Request <span class="caret"></span></button>
 				<ul class="dropdown-menu" role="menu">

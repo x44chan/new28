@@ -76,7 +76,7 @@
 		Welcome <strong><?php echo $_SESSION['name'];?> !</strong><br>
 		<?php echo date('l jS \of F Y h:i A'); ?> <br>	<br>	
 		<div class="btn-group btn-group-lg">
-			<a  type = "button"class = "btn btn-primary" href = "/new">Home</a>
+			<a  type = "button"class = "btn btn-primary" href = "admin.php">Home</a>
 			<button  type = "button"class = "btn btn-primary"  id = "newuserbtn">New User</button>				
 			<a  type = "button"class = "btn btn-primary  active"  href = "admin-req-app.php"> Approved Request</a>		
 			<a type = "button"class = "btn btn-primary"  href = "admin-req-dapp.php">Dispproved Request</a>		

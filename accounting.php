@@ -26,7 +26,7 @@
 			<a type = "button" class = "btn btn-primary" href = "acc-req-dapp.php"  id = "showdispproveda">Dispproved Request</a>
 			<a type = "button" class = "btn btn-danger" href = "logout.php"  role="button">Logout</a>
 		</div><br><br>
-		<div class = "btn-group btn-group-justified" style = "width: 80%">
+		<div class = "btn-group btn-group">
 			<a  type = "button"class = "btn btn-success" id = "forpndot" href = "?ac=penot"> Pending Overtime Request </a>
 			<a  type = "button"class = "btn btn-success" id = "forpndob" href = "?ac=penob"> Pending Official Business Request </a>			
 			<a  type = "button"class = "btn btn-success" id = "forpnlea" href = "?ac=penlea"> Pending Leave Request </a>		
