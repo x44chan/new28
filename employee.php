@@ -1,17 +1,21 @@
+<?php session_start(); ?>
 <?php 
-	session_start();
-	$accid = $_SESSION['acc_id'];
 	include("conf.php");
-	if(isset($_SESSION['acc_id'])){
-		if($_SESSION['level'] != 'EMP'){
-			header("location: index.php");
-		}
-	}else{
-		header("location: index.php");
-	}
-	date_default_timezone_set('Asia/Manila');
 	$title="Employee Page";
-	include("header.php");	
+	include("header.php");
+	date_default_timezone_set('Asia/Manila');
+	$accid = $_SESSION['acc_id'];
+?>
+<?php if($_SESSION['level'] != 'EMP'){
+	?>
+		
+	<script type="text/javascript"> 
+		window.location.replace("index.php");
+		
+	</script>	
+	
+	<?php
+	}
 ?>
 <div align = "center" style = "margin-bottom: 30px;">
 	<div class="alert alert-success">
@@ -53,10 +57,15 @@
 		$forque = 1;
 		$endque = 16;
 	}
-	
+	if(date("d") < 2){
+		$date17 = 16;
+		$forque = 16;
+		$endque = 32;
+		$dated = date("m", strtotime("previous month"));
+	}
 	if(isset($_GET['ac']) && $_GET['ac'] == 'penot'){
 
-		$sql = "SELECT * FROM overtime,login where overtime.account_id = $accid and login.account_id = $accid and DAY(datefile) >= $forque and DAY(datefile) <= $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY state ASC,datefile ASC";
+		$sql = "SELECT * FROM overtime,login where overtime.account_id = $accid and login.account_id = $accid and DAY(dateofot) >= $forque and DAY(dateofot) <= $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey ORDER BY state ASC,datefile ASC";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>
@@ -126,7 +135,7 @@
 	if(isset($_GET['ac']) && $_GET['ac'] == 'penundr'){
 		
 		include("conf.php");
-		$sql = "SELECT * FROM undertime,login where undertime.account_id = $accid and login.account_id = $accid and DAY(datefile) >= $forque and DAY(datefile) <= $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY state ASC,datefile ASC";
+		$sql = "SELECT * FROM undertime,login where undertime.account_id = $accid and login.account_id = $accid and DAY(dateofundrtime) >= $forque and DAY(dateofundrtime) <= $endque and MONTH(dateofundrtime) = $dated and YEAR(dateofundrtime) = $datey ORDER BY state ASC,datefile ASC";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>
@@ -259,7 +268,7 @@
 <?php 
 	if(isset($_GET['ac']) && $_GET['ac'] == 'penlea'){
 		include("conf.php");
-		$sql = "SELECT * FROM nleave,login where login.account_id = $accid and nleave.account_id = $accid and DAY(datefile) >= $forque and DAY(datefile) <= $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY state ASC,datefile ASC";
+		$sql = "SELECT * FROM nleave,login where login.account_id = $accid and nleave.account_id = $accid and DAY(dateofleavfr) >= $forque and DAY(dateofleavfr) <= $endque and MONTH(dateofleavfr) = $dated and YEAR(dateofleavfr) = $datey ORDER BY state ASC,datefile ASC";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>	

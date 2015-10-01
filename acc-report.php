@@ -78,7 +78,15 @@
 	  		display: none;
 	  	}
 	}
+	.dataTables_filter, .dataTables_length, .dataTables_info {
+		display: none; 
+	}
 </style>
+<script type="text/javascript">		
+    $(document).ready( function () {
+    	$('#myTable').DataTable();
+	});
+</script>
 <div align = "center" style = "margin-bottom: 30px;">
 	<div class="alert alert-success"><br>
 		Welcome <strong><?php echo $_SESSION['name'];?> !</strong><br>
@@ -133,7 +141,7 @@
 	}
 	?>
 	<form action = "acc-report.php" method = "">
-		<table class = "table table-hover">
+		<table class = "table table-hover" id = "myTable">
 			<thead>
 				<th width = "30%">Account ID</th>
 				<th width = "40%">Employee Name</th>
@@ -175,7 +183,9 @@
 				if($result->num_rows > 0){
 					while($row = $result->fetch_assoc()){
 						$accidd = $row['account_id'];
-						echo '<tr id = "tohide" style = "font-size: 15px"><td>'.$row['account_id'].'<input type = "hidden" name = "acc_id" value ="' .$row['account_id'].'"/></td>
+						echo '
+							<tr id = "'.$accidd.'a" style = "font-size: 15px; display: none;">
+								<td>'.$row['account_id'].'<input type = "hidden" name = "acc_id" value ="' .$row['account_id'].'"/></td>
 								<td style = "font-size: 15px">'.$row['fname'].' '.$row['lname'] .'</td>
 								<td style = "font-size: 15px"><a style = "width: 250px;"type = "button" class = "btn btn-primary" href = "?rep='.$_GET['rep'].'&acc_id='.$row['account_id'] .'"name = "submit">'.$title.' Report ';
 						if($_GET['rep'] == 'ot'){	
@@ -194,6 +204,9 @@
 						if($result1->num_rows > 0){
 							while($row1 = $result1->fetch_assoc()){
 								echo '<span class="badge" style = "color: black; font-size: 13px; margin-left: 7px;">'.$row1['count'].'</span>';
+								if($row1['count'] > 0 ){
+									echo '<BR><script type="text/javascript">$(document).ready( function () {$("#'.$accidd.'a").show();});</script>';
+								}
 							}
 						}
 						echo '</a></td></tr>';
