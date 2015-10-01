@@ -65,6 +65,9 @@
 	  		padding: 2px;
 	  		max-width: 210px;
 		}
+		#totss{
+			font-size: 14px;
+		}
 		#report {
 	   		position: absolute;
 	    	left: 0;
@@ -279,9 +282,7 @@
 					echo '</b></td></tr>';
 		}
 		?>
-		</tbody>
-	</table>
-</form>
+
 <?php	
 	$conn->close();
 ?>
@@ -366,7 +367,12 @@
 		$minutetosec = $minutes12;
 		$totalmin = $hours12 + $minutes12;
 		$totalothrs = date('H:i', mktime(0,$minutes12));
-		echo '<div align = "center" style = "font-size: 16px; bottom: 0px;">Total OT: <strong>'. ($hours12 + substr($totalothrs,0,2)) . ' Hour/s ' . substr($totalothrs,3,5). ' Min/s</strong></div>';
+		if(substr($totalothrs,3,5) == 30){
+			$point5 = '.5';
+		}else{
+			$point5 = '';
+		}
+		echo '<tr ><td colspan = 4 style = "text-align: right; font-size: 16px;"><i id = "totss">Total OT: <u><strong>'. ($hours12 + substr($totalothrs,0,2)) .$point5. ' Hour/s</strong></i></u></td><td colspan = 3></td></tbody></table></form>';
 		echo '<div align = "center" id = "backs" style = "top: 0px;"><button id = "backs" style = "margin-right: 10px;"class = "btn btn-primary" onclick = "window.print();"><span id = "backs"class="glyphicon glyphicon-print"></span> Print Report</button>';
 		echo '<a id = "backs" class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'"><span id = "backs"class="glyphicon glyphicon-chevron-left"></span> Back</a></div>';
 		}
