@@ -108,11 +108,11 @@
 			<a href = "logout.php" class="btn btn-danger" onclick="return confirm('Do you really want to log out?');"  role="button">Logout</a>
 		</div>
 		<br><br>
-		<div class="btn-group btn-group-justified">
-			<a class = "btn btn-success" href = "?rep=ot"> Overtime Reports </a>
-			<a class = "btn btn-success" href = "?rep=ob"> Official Business Reports </a>
-			<a class = "btn btn-success" href = "?rep=lea"> Leave Reports </a>			
-			<a class = "btn btn-success" href = "?rep=undr"> Undertime Reports </a>	
+		<div class="btn-group btn-group">
+			<a style = "width: 250px;"class = "btn btn-success" href = "?rep=ot"> Overtime Reports </a>
+			<a style = "width: 250px;"class = "btn btn-success" href = "?rep=ob"> Official Business Reports </a>
+			<a style = "width: 250px;"class = "btn btn-success" href = "?rep=lea"> Leave Reports </a>			
+			<a style = "width: 250px;"class = "btn btn-success" href = "?rep=undr"> Undertime Reports </a>	
 		</div>
 	</div>
 </div>
@@ -140,7 +140,7 @@
 		echo '<div align = "center"><h3> Leave Reports </h3></div>';
 	}
 	?>
-	<form action = "acc-report.php" method = "">
+<form action = "acc-report.php" method = "">
 		<table class = "table table-hover" id = "myTable">
 			<thead>
 				<th width = "30%">Account ID</th>
@@ -153,7 +153,7 @@
 					$date17 = date("d");
 					$dated = date("m");
 					$datey = date("Y");
-					
+					$countss = 0;
 					if($date17 <= 16){
 						$forque = 1;
 						$endque = 16;
@@ -207,11 +207,15 @@
 								if($row1['count'] > 0 ){
 									echo '<BR><script type="text/javascript">$(document).ready( function () {$("#'.$accidd.'a").show();});</script>';
 								}
+								$countss += $row1['count'];
 							}
 						}
 						echo '</a></td></tr>';
+
 					}
-				}
+				}if($countss == 0){
+							echo '<tr><td></td><td>No Record Found</td><td></td></tr>';
+						}
 				$conn->close();
 			?>
 			</tbody>
@@ -260,7 +264,7 @@
 					<th width = "200">From - To</th>
 					<th width = "50">OT</th>
 					<th width = "300">Reason</th>
-					<th width = "200">Offical Work Schedule</th>
+					<th width = "200">Official Work Schedule</th>
 					<th width = "100">State</th>
 				</tr>
 			</thead>
@@ -458,7 +462,7 @@
 					<th width="105">Date File</th>
 					<th width="150">Date of Request</th>
 					<th width="150">Time In - Time Out</th>
-					<th width="200">Offical Work Schedule</th>
+					<th width="200">Official Work Schedule</th>
 					<th>Reason</th>
 					<th width="150">State</th>
 				</tr>

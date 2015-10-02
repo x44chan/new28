@@ -13,7 +13,7 @@
 		$obreason = $_POST['obreason'];
 		$obtimein = $_POST['obtimein'];
 		$obtimeout = $_POST['obtimeout'];
-		$officialworksched = $_POST['obofficialworkschedfr'] . ' ' . $_POST['obofficialworkschedto'];
+		$officialworksched = $_POST['obofficialworkschedfr'] . ' - ' . $_POST['obofficialworkschedto'];
 		if($_SESSION['level'] == 'ACC'){
 			$state = "AACCAdmin";
 		}else if($_SESSION['level'] == "HR"){
