@@ -62,7 +62,7 @@
 		#report td{
 	  		font-size: 11px;
 	  		bottom: 0px;
-	  		padding: 2px;
+	  		padding: 3px;
 	  		max-width: 210px;
 		}
 		#totss{
