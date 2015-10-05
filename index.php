@@ -49,21 +49,40 @@
 					$_SESSION['name'] = $row['fname'] . ' ' . $row['lname'];				
 					$_SESSION['level'] = $row['level'];
 					$_SESSION['acc_id'] = $row['account_id'];
+					$_SESSION['pass'] = $row['pword'];
+					$_SESSION['201date'] = $row['201date'];
+					$_SESSION['post'] = $row['position'];
+					$_SESSION['dept'] = $row['department'];
 					header("location: admin.php");
 				}else if($row['level'] == 'Employee'){
 					$_SESSION['name'] = $row['fname'] . ' ' . $row['lname'];				
 					$_SESSION['level'] = $row['level'];
 					$_SESSION['acc_id'] = $row['account_id'];
+					$_SESSION['pass'] = $row['pword'];
+					$_SESSION['201date'] = $row['201date'];
+					$_SESSION['post'] = $row['position'];
+					$_SESSION['dept'] = $row['department'];
+					$_SESSION['datehired'] = $row['edatehired'];
 					header("location: employee.php?ac=penot");		
 				}else if($row['level'] == 'HR'){
 					$_SESSION['name'] = $row['fname'] . ' ' . $row['lname'];				
 					$_SESSION['level'] = $row['level'];
 					$_SESSION['acc_id'] = $row['account_id'];
+					$_SESSION['pass'] = $row['pword'];
+					$_SESSION['201date'] = $row['201date'];
+					$_SESSION['post'] = $row['position'];
+					$_SESSION['dept'] = $row['department'];
+					$_SESSION['datehired'] = $row['edatehired'];
 					header("location: hr.php?ac=penot");		
 				}else{
 					$_SESSION['name'] = $row['fname'] . ' ' . $row['lname'];				
 					$_SESSION['level'] = $row['level'];
 					$_SESSION['acc_id'] = $row['account_id'];
+					$_SESSION['pass'] = $row['pword'];
+					$_SESSION['201date'] = $row['201date'];
+					$_SESSION['post'] = $row['position'];
+					$_SESSION['dept'] = $row['department'];
+					$_SESSION['datehired'] = $row['edatehired'];
 					header("location: accounting.php?ac=penot");	
 				}
 			}

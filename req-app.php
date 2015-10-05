@@ -236,6 +236,11 @@
 			$minutes12 += $minutes1;
 			}
 		}
+		if(date('Y-m-d') >= $cutoffs){
+			$cutoffdate = '16 - 31';
+		}else{
+			$cutoffdate = '1 - 15';
+		}
 		$hours12 = $hours12;
 		$totalmin = $hours12 + $minutes12;
 		$totalothrs = date('H : i', mktime($hours12,$minutes12));

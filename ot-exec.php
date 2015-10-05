@@ -39,7 +39,11 @@
 		$nameofemployee = $_POST['nameofemployee'];
 		$startofot = $_POST['startofot'];
 		$endofot = $_POST['endofot'];
-		$officialworksched = $_POST['officialworkschedfr']. ' - ' . $_POST['officialworkschedto'];
+		if($_POST['restday'] == 'restday'){
+			$officialworksched = "Restday";
+		}else{
+			$officialworksched = $_POST['officialworkschedfr']. ' - ' . $_POST['officialworkschedto'];
+		}		
 		$twodaysred = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d') + 2, date('Y')));;
 		$reason = $_POST['reason'];
 		if($_SESSION['level'] == 'ACC'){
@@ -48,17 +52,10 @@
 			$state = 'AACCAdmin';	
 		}else{
 			$state = 'UA';	
-		}
-		
-		
-	
-		
+		}		
 		$stmt = $conn->prepare("INSERT into `overtime` (account_id, datefile, 2daysred, dateofot, nameofemp, startofot, endofot, officialworksched, reason, state, approvedothrs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		$stmt->bind_param("issssssssss",$accid, $datefile, $twodaysred, $dateofot, $nameofemployee, $startofot, $endofot, $officialworksched, $reason, $state, $approvedothrs);
-		$stmt->execute();
-		
-		
-		
+		$stmt->execute();		
 		header("location: employee.php?ac=penot");
 		$conn->close();
 		

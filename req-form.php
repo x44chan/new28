@@ -21,11 +21,11 @@
 				</tr>
 				<tr>
 					<td>Position: </td>
-					<td><input required class = "form-control" type = "text" name = "obpost"/></td>
+					<td><input readonly value = "<?php echo $_SESSION['post'];?>"required class = "form-control" type = "text" name = "obpost"/></td>
 				</tr>
 				<tr>
 					<td>Department: </td>
-					<td><input required class = "form-control" type = "text" name = "obdept"/></td>
+					<td><input readonly value = "<?php echo $_SESSION['dept'];?>"required class = "form-control" type = "text" name = "obdept"/></td>
 				</tr>
 				<tr>
 					<td>Date Of Official Business: </td>
@@ -80,7 +80,7 @@
 <div id = "formhidden"style = "margin-top: -30px;display: none;">
 	<form role = "form"  align = "center"action = "ot-exec.php" method = "post">
 		<div class = "form-group">
-			<table align = "center" >
+			<table align = "center" width="50%">
 				<tr>
 					<td colspan = 2 align = center>
 						<h2> Overtime Request </h2>
@@ -119,15 +119,21 @@
 					<td>End (Time of OT): </td>
 					<td><input required class = "form-control" readonly name = "endofot" placeholder = "Click to Set time" autocomplete ="off" /></td>
 					
-				</tr>				
-				<tr class = "form-inline" >
-					<td>Official Work Sched: </td>
-					<td >
-						<label for = "fr">From:</label><input readonly placeholder = "Click to Set time" required style = "width: 130px;" autocomplete ="off" id = "to"class = "form-control"  name = "officialworkschedfr"/>
-						<label for = "to">To:</label><input readonly placeholder = "Click to Set time" required style = "width: 130px;" autocomplete ="off" class = "form-control" id = "fr"  name = "officialworkschedto"/>
+				</tr>	
+				<tr>
+					<td></td>
+					<td style="float:left;">
+						<label for="restday" style="font-size: 15px; width: 500px; margin-left: -200px;"><input type="checkbox" value = "restday" name="restday" id="restday"/> Rest Day</label>
 					</td>
-					
-				</tr>
+				</tr>	
+				<tr id = "rday" class = "form-inline" >
+					<td>Official Work Sched: </td>
+					<td style="float:left;">
+						<label for = "fr">From:</label><input readonly placeholder = "Click to Set time" required style = "width: 130px;" autocomplete ="off" id = "toasd"class = "form-control"  name = "officialworkschedfr"/>
+						<label for = "to" style="margin-left: 5px;">To:</label><input readonly placeholder = "Click to Set time" required style = "width: 130px;" autocomplete ="off" class = "form-control" id = "frasd"  name = "officialworkschedto"/>
+					</td>					
+				</tr>		
+						
 					<script type="text/javascript">
 						$(document).ready(function(){
 							$('input[name="startofot"]').ptTimeSelect();
@@ -183,15 +189,15 @@
 				</tr>				
 				<tr>
 					<td>Date Hired: </td>
-					<td><input type = "date" class = "form-control"  name = "datehired" required /></td>
+					<td><input readonly value = "<?php echo date('F j, Y', strtotime($_SESSION['datehired'])); ?>"type = "text" class = "form-control"  name = "datehired" required /></td>
 				</tr>
 				<tr>
 					<td>Department: </td>
-					<td><input type = "text" class = "form-control"  name = "deprt" required/></td>
+					<td><input readonly value = "<?php echo $_SESSION['dept'];?>" type = "text" class = "form-control"  name = "deprt" required/></td>
 				</tr>
 				<tr>
 					<td>Position Title: </td>
-					<td><input type = "text" class = "form-control"  name = "posttile" required/></td>
+					<td><input readonly value = "<?php echo $_SESSION['post'];?>" type = "text" class = "form-control"  name = "posttile" required/></td>
 				</tr>
 				<tr>
 					<td colspan = 3 align = "center">
@@ -217,3 +223,15 @@
 		</div>
 	</form>
 </div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#restday').change(function(){
+	    if($('#restday').is(":checked"))   	        
+	    	 $("#rday").hide();
+	    else
+	        $("#rday").show();
+
+	    });
+});
+</script>

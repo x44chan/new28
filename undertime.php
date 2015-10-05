@@ -16,11 +16,11 @@
 				</tr>
 				<tr>
 					<td>Position: </td>
-					<td><input required class = "form-control" type = "text" name = "unpost"/></td>
+					<td><input readonly value = "<?php echo $_SESSION['post'];?>" required class = "form-control" type = "text" name = "unpost"/></td>
 				</tr>
 				<tr>
 					<td>Department: </td>
-					<td><input required class = "form-control" type = "text" name = "undept"/></td>
+					<td><input readonly value = "<?php echo $_SESSION['dept'];?>" required class = "form-control" type = "text" name = "undept"/></td>
 				</tr>	
 				<tr>
 					<td>Reason: </td>
