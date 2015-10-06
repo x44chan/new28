@@ -31,6 +31,7 @@
 				  <li><a href="#" id = "newoffb">Official Business Request</a></li>
 				  <li><a href="#" id = "newleave">Leave Of Absence Request</a></li>				  
 				  <li><a href="#" id = "newundertime">Undertime Request Form</a></li>
+				  <li><a href="#"  data-toggle="modal" data-target="#petty">Petty Cash Form</a></li>
 				</ul>
 			</div>		
 			<a  type = "button"class = "btn btn-primary" href = "req-app.php" id = "myapproveh">My Approved Request</a>		
@@ -110,7 +111,7 @@
 						<td width = 300 height = 70>'.$row["reason"].'</td>
 						<td>'.$row["officialworksched"].'</td>				
 						<td><b>';
-							if($row['state'] == 'UA'){
+							if($row['state'] == 'UA' || $row['state'] == 'UATech'){
 								echo 'Pending';
 							}else if($row['state'] == 'AHR'){
 								echo '<p><font color = "green">Approved by HR</font></p> ';
@@ -124,7 +125,9 @@
 								echo '<p><font color = "red">Dispproved by Accounting</font></p> '.$row['dareason'];
 							}else if($row['state'] == 'DAAdmin'){
 								echo '<p><font color = "red">Dispproved by Dep. Head</font></p> '.$row['dareason'];
-							}
+							}else if($row['state'] == 'DATECH'){
+							echo '<p><font color = "red">Disapproved by Technician Supervisor</font></p>'.$row['dareason'];
+						}
 						echo '<td></tr>';
 			}
 			echo '</tbody></table></form>';
@@ -176,7 +179,7 @@
 					<td>'.$row["undertimefr"] . ' - ' . $row['undertimeto'].'</td>
 					<td>'.$row["numofhrs"].'</td>
 					<td><b>';
-						if($row['state'] == 'UA'){
+						if($row['state'] == 'UA' || $row['state'] == 'UATech'){
 							echo 'Pending';
 						}else if($row['state'] == 'AHR'){
 							echo '<p><font color = "green">Approved by HR</font></p> ' ;
@@ -190,6 +193,8 @@
 							echo '<p><font color = "red">Dispproved by Accounting</font></p> '.$row['dareason'];
 						}else if($row['state'] == 'DAAdmin'){
 							echo '<p><font color = "red">Dispproved by Dep. Head</font></p> '.$row['dareason'];
+						}else if($row['state'] == 'DATECH'){
+							echo '<p><font color = "red">Disapproved by Technician Supervisor</font></p>'.$row['dareason'];
 						}
 					echo '<td></tr>';
 			}
@@ -244,7 +249,7 @@
 						<td>'.$row["officialworksched"].'</td>				
 						<td >'.$row["obreason"].'</td>	
 					<td><b>';
-							if($row['state'] == 'UA'){
+							if($row['state'] == 'UA' || $row['state'] == 'UATech'){
 								echo 'Pending';
 							}else if($row['state'] == 'AHR'){
 								echo '<p><font color = "green">Approved by HR</font></p> ' ;
@@ -258,7 +263,9 @@
 								echo '<p><font color = "red">Dispproved by Accounting</font></p> '.$row['dareason'];
 							}else if($row['state'] == 'DAAdmin'){
 								echo '<p><font color = "red">Dispproved by Dep. Head</font></p> '.$row['dareason'];
-							}
+							}else if($row['state'] == 'DATECH'){
+							echo '<p><font color = "red">Disapproved by Technician Supervisor</font></p>'.$row['dareason'];
+						}
 						echo '<td></tr>';
 		}
 		echo '</tbody></table></form>';
@@ -316,7 +323,7 @@
 					<td >'.$row["typeoflea"]. ' : ' . $row['othersl']. '</td>	
 					<td >'.$row["reason"].'</td>	
 					<td width = "200"><b>';
-							if($row['state'] == 'UA'){
+							if($row['state'] == 'UA' || $row['state'] == 'UATech'){
 								echo 'Pending';
 							}else if($row['state'] == 'AHR'){
 								echo '<p><font color = "green">Approved by HR</font></p> ' ;
@@ -330,7 +337,9 @@
 								echo '<p><font color = "red">Dispproved by Accounting</font></p> '.$row['dareason'];
 							}else if($row['state'] == 'DAAdmin'){
 								echo '<p><font color = "red">Dispproved by Dep. Head</font></p> '.$row['dareason'];
-							}
+							}else if($row['state'] == 'DATECH'){
+							echo '<p><font color = "red">Disapproved by Technician Supervisor</font></p>'.$row['dareason'];
+						}
 						echo '<td></tr>';
 		}
 		echo '</tbody></table></form>';
@@ -342,7 +351,7 @@
 <?php 
 	if($_SESSION['pass'] == 'default'){
 		include('up-pass.php');
-	}else if($_SESSION['201date'] == null){
+	}else if($_SESSION['pass'] == 'chan123'){
 	?>
 <script type="text/javascript">
 $(document).ready(function(){	      

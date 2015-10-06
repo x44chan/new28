@@ -3,6 +3,7 @@
 	include('conf.php');
 	
 	if(isset($_POST['unsubmit'])){
+		$post = strtolower($_SESSION['post']);
 		$accid = $_SESSION['acc_id'];		
 		$undate = date("Y-m-d");
 		$unname = $_POST['unename'];
@@ -18,6 +19,8 @@
 			$state = "AACCAdmin";
 		}else if($_SESSION['level'] == "HR"){
 			$state = 'AACCAdmin';	
+		}else if($post == "service technician"){
+			$state = 'UATech';	
 		}else{
 			$state = 'UA';	
 		}

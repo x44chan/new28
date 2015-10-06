@@ -5,7 +5,7 @@
 	include("conf.php");
 	if(isset($_SESSION['acc_id'])){
 		$accid = $_SESSION['acc_id'];
-		if($_SESSION['level'] == 'Employee'){
+		if($_SESSION['level'] == 'EMP'){
 			header("location: index.php");
 		}
 	}else{
@@ -37,7 +37,16 @@
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}
-		}else{
+		}else if($_SESSION['level'] == 'TECH'){
+			$date = date('Y-m-d h:i A');
+			$sql = "UPDATE overtime set state = '$state',datehr = '$date',dareason = '$dareason' where overtime_id = $id and state = 'UATech'";			
+			if($conn->query($sql) == TRUE){
+				header('location: techsupervisor.php?ac='.$_GET['ac'].'');		
+			}else{
+				die("Connection error:". $conn->connect_error);
+			}
+		}
+		else{
 			$sql = "UPDATE overtime set state = '$state' where overtime_id = $id and state like 'AACC%'";
 			if($conn->query($sql) == TRUE){
 				echo 'added';
@@ -70,6 +79,14 @@
 			$sql = "UPDATE officialbusiness set state = '$state',datehr = '$date',dareason = '$dareason'  where officialbusiness_id = $id and state = 'UA'";			
 			if($conn->query($sql) == TRUE){
 				header('location: hr.php?ac='.$_GET['ac'].'');
+			}else{
+				die("Connection error:". $conn->connect_error);
+			}
+		}else if($_SESSION['level'] == 'TECH'){
+			$date = date('Y-m-d h:i A');
+			$sql = "UPDATE officialbusiness set state = '$state',datehr = '$date',dareason = '$dareason'  where officialbusiness_id = $id and state = 'UATech'";			
+			if($conn->query($sql) == TRUE){
+				header('location: techsupervisor.php?ac='.$_GET['ac'].'');		
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}
@@ -111,6 +128,14 @@
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}
+		}else if($_SESSION['level'] == 'TECH'){
+			$date = date('Y-m-d h:i A');
+			$sql = "UPDATE undertime set state = '$state',datehr = '$date',dareason = '$dareason'  where undertime_id = $id and state = 'UATech'";			
+			if($conn->query($sql) == TRUE){
+				header('location: techsupervisor.php?ac='.$_GET['ac'].'');		
+			}else{
+				die("Connection error:". $conn->connect_error);
+			}
 		}else{
 			$sql = "UPDATE undertime set state = '$state' where undertime_id = $id and state like 'AACC%'";
 			if($conn->query($sql) == TRUE){
@@ -145,6 +170,14 @@
 			$sql = "UPDATE nleave set state = '$state',datehr = '$date',dareason = '$dareason'  where leave_id = $id and state = 'UA'";			
 			if($conn->query($sql) == TRUE){
 				header('location: hr.php?ac='.$_GET['ac'].'');		
+			}else{
+				die("Connection error:". $conn->connect_error);
+			}
+		}else if($_SESSION['level'] == 'TECH'){
+			$date = date('Y-m-d h:i A');
+			$sql = "UPDATE nleave set state = '$state',datehr = '$date',dareason = '$dareason'  where leave_id = $id and state = 'UATech'";			
+			if($conn->query($sql) == TRUE){
+				header('location: techsupervisor.php?ac='.$_GET['ac'].'');		
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}

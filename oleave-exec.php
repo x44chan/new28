@@ -3,7 +3,7 @@
 	include('conf.php');
 	
 	if(isset($_POST['leasubmit'])){
-
+		$post = strtolower($_SESSION['post']);
 		$accid = $_SESSION['acc_id'];		
 		$datefile = date("Y-m-d");
 		$twodaysred = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d') + 2, date('Y')));;
@@ -26,6 +26,8 @@
 			$state = "AACCAdmin";
 		}else if($_SESSION['level'] == "HR"){
 			$state = 'AACCAdmin';	
+		}else if($post == "service technician"){
+			$state = 'UATech';	
 		}else{
 			$state = 'UA';	
 		}

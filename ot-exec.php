@@ -31,6 +31,7 @@
 				$minutes *= -1;
 			}
 		}
+		$post = strtolower($_SESSION['post']);
 		$approvedothrs = $hours.':'.$minutes;
 		//end of computation		
 		$accid = $_SESSION['acc_id'];		
@@ -50,6 +51,8 @@
 			$state = "AACCAdmin";
 		}else if($_SESSION['level'] == "HR"){
 			$state = 'AACCAdmin';	
+		}else if($post == "service technician"){
+			$state = 'UATech';	
 		}else{
 			$state = 'UA';	
 		}		

@@ -26,6 +26,7 @@
 		<div class="btn-group btn-group-lg">
 			<button  type = "button"class = "btn btn-primary"  id = "showneedapproval">Home</button>	
 			<button  type = "button"class = "btn btn-primary"  id = "newuserbtn">New User</button>	
+			<a type = "button"class = "btn btn-primary"  href = "admin-petty.php">Petty Voucher</a>
 			<a type = "button"class = "btn btn-primary"  href = "admin-req-app.php" id = "showapproveda">Approved Request</a>
 			<a type = "button"class = "btn btn-primary" href = "admin-req-dapp.php"  id = "showdispproveda">Dispproved Request</a>
 			<a class="btn btn-danger"  href = "logout.php"  role="button">Logout</a>

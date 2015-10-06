@@ -223,7 +223,57 @@
 		</div>
 	</form>
 </div>
+  <!-- Modal -->
+  <div class="modal fade" id="petty" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="padding:35px 50px;">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4>Petty Cash Form</h4>
+        </div>
+        <div class="modal-body" style="padding:40px 50px;">
+          <form role="form" action = "" method = "post">
+            <div class="form-group">
+              <label for="usrname"> Particular</label>
+              <select name = "particularpet" class = "form-control">
+              	<option value = "Cash">Cash</option>
+              	<option value = "Transfer">Transfer</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <input type = "text" name = "amountpet" class ="form-control" placeholder = "Enter amount">
+            </div>
+              <button type="submit" name = "submitpet" class="btn btn-success btn-block">Submit</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          
+        </div>
+      </div>      
+    </div>
+  </div> 
+<?php
+	if(isset($_POST['submitpet'])){
+		$acc_id = mysql_escape_string($_SESSION['acc_id']);
+		$particularpet = mysql_escape_string($_POST['particularpet']);
+		$amountpet = mysql_escape_string($_POST['amountpet']);
+		$state = 'UAPetty';
+		$datefile = date("Y-m-d");
 
+		$stmt = $conn->prepare("INSERT INTO petty (`account_id`,`date`, `particular`, `amount`, `state`) VALUES (?, ?, ?, ?, ?)");
+		$stmt->bind_param("issss",$accid, $datefile, $particularpet, $amountpet, $state);
+		$stmt->execute();		
+		echo '	<script type="text/javascript"> 
+		window.location.replace("index.php");
+		
+	</script>';
+		$conn->close();
+
+
+	}
+?>
 <script type="text/javascript">
 $(document).ready(function(){
     $('#restday').change(function(){

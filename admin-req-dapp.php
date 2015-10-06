@@ -76,7 +76,8 @@
 		<?php echo date('l jS \of F Y h:i A'); ?> <br>	<br>	
 		<div class="btn-group btn-group-lg">
 			<a  type = "button"class = "btn btn-primary" href = "admin.php">Home</a>
-			<button  type = "button"class = "btn btn-primary"  id = "newuserbtn">New User</button>				
+			<button  type = "button"class = "btn btn-primary"  id = "newuserbtn">New User</button>	
+			<a type = "button"class = "btn btn-primary"  href = "admin-petty.php">Petty Voucher</a>			
 			<a  type = "button"class = "btn btn-primary"  href = "admin-req-app.php" >Approved Request</a>		
 			<a  type = "button"class = "btn btn-primary  active"  href = "admin-req-dapp.php">Dispproved Request</a>		
 			<a href = "logout.php" class="btn btn-danger" onclick="return confirm('Do you really want to log out?');"  role="button">Logout</a>
