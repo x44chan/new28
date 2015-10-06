@@ -103,6 +103,7 @@
 				</ul>
 			</div>			
 			<a type = "button" class = "btn btn-primary  active" href = "acc-report.php" id = "showapproveda">Cutoff Summary</a>
+			<a type = "button"class = "btn btn-primary"  href = "accounting-petty.php">Petty Voucher</a>
 			<a  type = "button"class = "btn btn-primary"  href = "acc-req-app.php"> Approved Request</a>		
 			<a type = "button"class = "btn btn-primary"  href = "acc-req-dapp.php">Dispproved Request</a>		
 			<a href = "logout.php" class="btn btn-danger" onclick="return confirm('Do you really want to log out?');"  role="button">Logout</a>

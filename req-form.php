@@ -236,6 +236,10 @@
         <div class="modal-body" style="padding:40px 50px;">
           <form role="form" action = "" method = "post">
             <div class="form-group">
+              <label for="usrname"> Name</label>
+              <input type = "text" readonly class = "form-control" value = "<?php echo $_SESSION['name'];?>"/>
+            </div>
+            <div class="form-group">
               <label for="usrname"> Particular</label>
               <select name = "particularpet" class = "form-control">
               	<option value = "Cash">Cash</option>
@@ -243,7 +247,8 @@
               </select>
             </div>
             <div class="form-group">
-              <input type = "text" name = "amountpet" class ="form-control" placeholder = "Enter amount">
+            	 <label for="usrname"> Amount</label>
+              <input type = "text" pattern = "[0-9]*"name = "amountpet" class ="form-control" placeholder = "Enter amount">
             </div>
               <button type="submit" name = "submitpet" class="btn btn-success btn-block">Submit</button>
           </form>

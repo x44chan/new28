@@ -21,7 +21,8 @@
 				  <li><a href="#" id = "newundertime">Undertime Request Form</a></li>
 				</ul>
 			</div>
-			<a type = "button" class = "btn btn-primary" href = "acc-report.php" id = "showapproveda">Cutoff Summary</a>	
+			<a type = "button" class = "btn btn-primary" href = "acc-report.php" id = "showapproveda">Cutoff Summary</a>					
+			<a type = "button"class = "btn btn-primary"  href = "accounting-petty.php">Petty Voucher</a>
 			<a type = "button" class = "btn btn-primary" href = "acc-req-app.php" id = "showapproveda">Approved Request</a>
 			<a type = "button" class = "btn btn-primary" href = "acc-req-dapp.php"  id = "showdispproveda">Dispproved Request</a>
 			<a type = "button" class = "btn btn-danger" href = "logout.php"  role="button">Logout</a>

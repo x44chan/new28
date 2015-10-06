@@ -1,17 +1,11 @@
 <?php session_start(); ?>
-<?php  $title="Admin Page";
+<?php  $title="Accounting Page";
 	include('header.php');	
 	date_default_timezone_set('Asia/Manila');
 ?>
-<?php if($_SESSION['level'] != 'Admin'){
-	?>		
-	<script type="text/javascript"> 
-		window.location.replace("index.php");
-		alert("Restricted");
-	</script>		
-	<?php
-	}
-?>
+<?php if($_SESSION['level'] != 'ACC'){	?>		
+	<script type="text/javascript">	window.location.replace("index.php");</script>	
+<?php	} ?>
 <script type="text/javascript">		
     $(document).ready( function () {
     	$('#myTable').DataTable();
@@ -24,14 +18,22 @@
 		Welcome <strong><?php echo $_SESSION['name'];?> !</strong> <br>
 		<?php echo date('l jS \of F Y h:i A'); ?> <br><br>
 		<div class="btn-group btn-group-lg">
-			<a href = "admin.php"  type = "button"class = "btn btn-primary"  id = "showneedapproval">Home</a>	
-			<button  type = "button"class = "btn btn-primary"  id = "newuserbtn">New User</button>				
-			<a type = "button"class = "btn btn-primary active"  href = "admin-petty.php">Petty Voucher</a>
-			<a type = "button"class = "btn btn-primary"  href = "admin-req-app.php" id = "showapproveda">Approved Request</a>
-			<a type = "button"class = "btn btn-primary" href = "admin-req-dapp.php"  id = "showdispproveda">Dispproved Request</a>
-			<a class="btn btn-danger"  href = "logout.php"  role="button">Logout</a>
-		</div><br><br>
-		
+			<a  type = "button"class = "btn btn-primary"  href = "accounting.php?ac=penot">Home</a>
+			<div class="btn-group btn-group-lg">
+				<button type="button" class="btn btn-primary dropdown-toggle"  data-toggle="dropdown">New Request <span class="caret"></span></button>
+				<ul class="dropdown-menu" role="menu">
+				  <li><a href="#" id = "newovertime">Overtime Request</a></li>
+				  <li><a href="#" id = "newoffb">Official Business Request</a></li>
+				  <li><a href="#" id = "newleave">Leave Of Absence Request</a></li>				  
+				  <li><a href="#" id = "newundertime">Undertime Request Form</a></li>
+				</ul>
+			</div>
+			<a type = "button" class = "btn btn-primary" href = "acc-report.php" id = "showapproveda">Cutoff Summary</a>							
+			<a type = "button"class = "btn btn-primary active"  href = "accounting-petty.php">Petty Voucher</a>	
+			<a type = "button" class = "btn btn-primary" href = "acc-req-app.php" id = "showapproveda">Approved Request</a>
+			<a type = "button" class = "btn btn-primary" href = "acc-req-dapp.php"  id = "showdispproveda">Dispproved Request</a>
+			<a type = "button" class = "btn btn-danger" href = "logout.php"  role="button">Logout</a>
+		</div>
 	</div>
 </div>
 <?php	
@@ -51,23 +53,25 @@
 ?>
 <div id = "needaproval">
 <?php if(!isset($_GET['pettyac'])){ ?>
-<h2 align = "center"><i> Petty Dashboard </i></h2>
+<div align = "right"><a href = "acc-petty-rep.php" class = "btn btn-primary">Accounting Petty Report</a></div>
+<h2 align = "center"><i> Accounting Petty Dashboard </i></h2>
 	<form role = "form">
 		<table id="myTable" style = "width: 100%;"class = "table table-hover " align = "center">
 			<thead>
 				<tr>
-					<th width="20%"><i>Date File</i></th>					
-					<th width="20%"><i>Name of Employee</i></th>
-					<th width="20%"><i>Type</i></th>
-					<th width="20%"><i>Amount</i></th>
-					<th width="20%"><i>Action</i></th>
+					<th ><i>Date File</i></th>					
+					<th ><i>Name of Employee</i></th>
+					<th ><i>Type</i></th>
+					<th ><i>Amount</i></th>
+					<th ><i>Transfer ID</i></th>
+					<th ><i>Action</i></th>
 				</tr>
 			</thead>
 			<tbody>
 			
 <?php
 	include("conf.php");
-	$sql = "SELECT * from `petty`,`login` where login.account_id = petty.account_id and state = 'UAPetty'";
+	$sql = "SELECT * from `petty`,`login` where login.account_id = petty.account_id and state = 'AAPetty' and source = 'Accounting'";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0){
 		while($row = $result->fetch_assoc()){
@@ -77,8 +81,9 @@
 				<td><?php echo $row['fname']. ' '.$row['lname'];?></td>
 				<td><?php echo $row['particular'];?></td>
 				<td>PHP: <?php echo number_format($row['amount']);?></td>
+				<td><?php echo $row['transfer_id'];?></td>
 				<td><?php echo '<a class = "btn btn-primary" href = "?pettyac=a&petty_id='.$row['petty_id'].'">Approve</a> ';
-						echo '<a class = "btn btn-primary" href = "petty-exec.php?pettyac=d&petty_id='.$row['petty_id'].'"">Disapprove</a>';?></td>
+						echo '<a class = "btn btn-primary" onclick = "return confirm(\'Are you sure?\');"href = "petty-exec.php?pettyac=d&petty_id='.$row['petty_id'].'"">Disapprove</a>';?></td>
 				</tr>
 	<?php
 		}
@@ -105,9 +110,8 @@
 				echo '<tr><td style = "width: 30%;">Name : </td><td style = "width: 50%;">' . $row['fname'] . ' ' . $row['lname'].'</td></tr>';
 				echo '<tr><td style = "width: 30%;">Particular: </td><td style = "width: 50%;">' . $row['particular'].'</td></tr>';	
 				echo '<tr><td style = "width: 30%;">Amount: </td><td style = "width: 50%;"><input class = "form-control" type = "text" name = "pettyamount" value ="' . $row['amount'].'"/></td></tr>';
-				if($row['particular'] == "Transfer"){ echo '<tr><td>Transfer ID: <td><input placeholder = "Enter transaction code" required class = "form-control" type = "text" name = "transct"/></tr></td>'; }		
-				echo '<tr><td style = "width: 30%;">Source of Fund</td><td><select name = "source" class = "form-control"><option value = "Eli/Sha">Eli/Sha</option><option value = "Accounting">Accounting</option></select></td></tr>';
-				echo '<tr><td colspan = 2><button class = "btn btn-primary" name = "submitpetty">Submit</button><br><br><a href = "admin-petty.php" class = "btn btn-danger" name = "backpety">Back</a></td></tr>';
+				if($row['particular'] == "Transfer"){ echo '<tr><td>Transfer ID: <td><input placeholder = "Enter transaction code" required value ="' . $row['transfer_id'].'"class = "form-control" type = "text" name = "transct"/></tr></td>'; }		
+				echo '<tr><td colspan = 2><button class = "btn btn-primary" name = "submitpetty">Submit</button><br><br><a href = "accounting-petty.php" class = "btn btn-danger" name = "backpety">Back</a></td></tr>';
 
 			}
 		}
