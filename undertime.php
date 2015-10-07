@@ -30,7 +30,7 @@
 				<tr>
 					<td>Date Of Undertime: </td>
 					<td>
-						<input required class = "form-control" type = "date" min = "<?php echo date('m/d/Y'); ?>" name = "undatereq"/>
+						<input required class = "form-control" type = "date" required="" data-date='{"startView": 2, "openOnMouseFocus": true}' placeholder = "click to set date"min = "<?php echo date('m/d/Y'); ?>" name = "undatereq"/>
 					</td>						
 				</tr>					
 				<div class = "ui-widget-content" style = "border: none;">		
