@@ -2,6 +2,7 @@
 <?php  $title="Technician Supervisor Page";
 	include('header.php');	
 	date_default_timezone_set('Asia/Manila');
+	$accid = $_SESSION['acc_id'];
 ?>
 <?php if($_SESSION['level'] != 'TECH'){ ?>		
 	<script type="text/javascript">	window.location.replace("index.php");</script>		
@@ -33,12 +34,30 @@
 		</div> 
 	</div>
 </div>
-<div id = "needaproval" style = "margin-top: -30px;">		
+<div id = "needaproval" style = "margin-top: -30px;">	
 	<?php 
 		if(isset($_GET['ac']) && $_GET['ac'] == 'penot'){
+			echo '<form role = "form" action = "approval.php"    method = "get">
+		<table class = "table table-hover" align = "center">
+			<thead>				
+				<tr>
+					<td colspan = 7 align = center><h2> Pending Overtime Request </h2></td>
+				</tr>
+				<tr >
+					<th>Date File</th>
+					<th>Date of Overtime</th>
+					<th>Name of Employee</th>
+					<th>Reason</th>
+					<th>From - To (Overtime)</th>
+					<th>Offical Work Schedule</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>	';
 		$date17 = date("d");
 		$dated = date("m");
 		$datey = date("Y");
+		
 		if($date17 > 16){
 			$forque = 16;
 			$endque = 31;
@@ -51,23 +70,7 @@
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>
-	<form role = "form" action = "approval.php"    method = "get">
-			<table class = "table table-hover" align = "center">
-				<thead>				
-					<tr>
-						<td colspan = 7 align = center><h2> Pending Overtime Request </h2></td>
-					</tr>
-					<tr >
-						<th>Date File</th>
-						<th>Date of Overtime</th>
-						<th>Name of Employee</th>
-						<th>Reason</th>
-						<th>From - To (Overtime)</th>
-						<th>Offical Work Schedule</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
+
 	<?php
 			while($row = $result->fetch_assoc()){				
 				$originalDate = date($row['datefile']);
@@ -87,7 +90,7 @@
 						<td>'.$row["startofot"] . ' - ' . $row['endofot'].'</td>
 						<td>'.$row["officialworksched"].'</td>';
 				if($row['state'] == 'UAACCAdmin'){
-						echo '<td><strong>Pending to Admin<strong></td>';
+						echo '<td><strong>Pending to Admin<strong></td></tr>';
 				}else{
 					echo '<td width = "200">
 							<a onclick = "return confirm(\'Are you sure?\');" href = "approval.php?approve=UA&overtime='.$row['overtime_id'].'&ac='.$_GET['ac'].'"';?><?php echo'" class="btn btn-info" role="button">Approve</a>
@@ -96,31 +99,42 @@
 					</tr>';
 				}
 			}
-			echo '</tbody></table></form>';
-		}else{
-			echo '<h2 align = "center" style = "margin-top: 30px;"> No Pending Overtime Request </h2>';
 		}
+		include("conf.php");
+		$sql = "SELECT * FROM overtime,login where login.account_id = overtime.account_id and overtime.account_id = '$accid' and DAY(datefile) >= $forque and DAY(datefile) < $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
+		$result = $conn->query($sql);
+		if($result->num_rows > 0){
+						while($row = $result->fetch_assoc()){				
+				$originalDate = date($row['datefile']);
+				$newDate = date("F j, Y", strtotime($originalDate));
+
+				$datetoday = date("Y-m-d");
+				if($datetoday >= $row['2daysred'] ){
+					echo '<tr style = "color: red">';
+				}else{
+					echo '<tr>';
+				}
+				echo 
+					'	<td width = 180>'.$newDate.'</td>
+						<td>'.date("F j, Y", strtotime($row["dateofot"])).'</td>
+						<td>'.$row["nameofemp"].'</td>
+						<td width = 250 height = 70>'.$row["reason"].'</td>
+						<td>'.$row["startofot"] . ' - ' . $row['endofot'].'</td>
+						<td>'.$row["officialworksched"].'</td>';
+				if($row['state'] == 'UA'){
+						echo '<td><strong>Pending to HR<strong></td></tr>';
+				}
+			}
+		}
+		echo '		</tbody>
+	</table>
+</form>';
 	}
 ?>
 
 <?php 
 		if(isset($_GET['ac']) && $_GET['ac'] == 'penlea'){
-		$date17 = date("d");
-		$dated = date("m");
-		$datey = date("Y");
-		if($date17 > 16){
-			$forque = 16;
-			$endque = 31;
-		}else{
-			$forque = 1;
-			$endque = 16;
-		}
-		include("conf.php");
-		$sql = "SELECT * FROM nleave,login where login.account_id = nleave.account_id and state like 'UATech' and DAY(datefile) >= $forque and DAY(datefile) < $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
-		$result = $conn->query($sql);
-		if($result->num_rows > 0){
-	?>
-	<form role = "form" action = "approval.php"    method = "get">
+			echo '	<form role = "form" action = "approval.php"    method = "get">
 			<table width = "100%"class = "table table-hover" align = "center">
 				<thead>				
 					<tr>
@@ -139,7 +153,22 @@
 						<th width = "240">Action</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody>';
+		$date17 = date("d");
+		$dated = date("m");
+		$datey = date("Y");
+		if($date17 > 16){
+			$forque = 16;
+			$endque = 31;
+		}else{
+			$forque = 1;
+			$endque = 16;
+		}
+		include("conf.php");
+		$sql = "SELECT * FROM nleave,login where login.account_id = nleave.account_id and state like 'UATech' and DAY(datefile) >= $forque and DAY(datefile) < $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
+		$result = $conn->query($sql);
+		if($result->num_rows > 0){
+	?>
 	<?php
 			while($row = $result->fetch_assoc()){				
 				$originalDate = date($row['datefile']);
@@ -161,8 +190,8 @@
 					 <td>'.$row["numdays"].'</td>					
 					 <td >'.$row["typeoflea"]. ' : ' . $row['othersl']. '</td>	
 					 <td >'.$row["reason"].'</td>';
-					 if($row['state'] == 'UAACCAdmin'){
-						echo '<td><strong>Pending to Admin<strong></td>';
+					 if($row['state'] == 'UA'){
+						echo '<td><strong>Pending to HR<strong></td>';
 				}else{
 				echo'	
 					 <td width = "200">
@@ -172,30 +201,47 @@
 					</tr>';
 			}
 		}
-			echo '</tbody></table></form>';
-		}else{
-			echo '<h2 align = "center" style = "margin-top: 30px;"> No Pending Leave Request </h2>';
+			
 		}
+		include("conf.php");
+		$sql = "SELECT * FROM nleave,login where login.account_id = nleave.account_id and nleave.account_id = '$accid' and DAY(datefile) >= $forque and DAY(datefile) < $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
+		$result = $conn->query($sql);
+		if($result->num_rows > 0){
+			while($row = $result->fetch_assoc()){				
+				$originalDate = date($row['datefile']);
+				$newDate = date("F j, Y", strtotime($originalDate));
+
+				$datetoday = date("Y-m-d");
+				if($datetoday >= $row['twodaysred'] ){
+					echo '<tr style = "color: red">';
+				}else{
+					echo '<tr>';
+				}
+				/*$date1=date_create($row['dateofleavfr']);
+				$date2=date_create($row['dateofleavto']);
+				$diff=date_diff($date1,$date2);
+				echo $diff->format("%a");*/
+				echo 
+					'<td>'.$newDate.'</td>
+					 <td>'.$row["nameofemployee"].'</td>
+					 <td>'.date("F d, Y", strtotime($row["datehired"])).'</td>
+					 <td >'.$row["deprt"].'</td>
+					 <td>'.$row['posttile'].'</td>					
+					 <td> Fr: '.date("F d, Y", strtotime($row["dateofleavfr"])) .'<br>To: '.date("F d, Y", strtotime($row["dateofleavto"])).'</td>
+					 <td>'.$row["numdays"]. '</td>					
+					 <td >'.$row["typeoflea"]. ' : ' . $row['othersl']. '</td>	
+					 <td >'.$row["reason"].'</td>';
+					if($row['state'] == 'UA'){
+						echo '<td><strong>Pending to HR<strong></td></tr>';
+				}
+		}
+		}
+		echo '</tbody></table></form>';
 		}
 ?>
 <?php 
 		if(isset($_GET['ac']) && $_GET['ac'] == 'penundr'){
-		$date17 = date("d");
-		$dated = date("m");
-		$datey = date("Y");
-		if($date17 > 16){
-			$forque = 16;
-			$endque = 31;
-		}else{
-			$forque = 1;
-			$endque = 16;
-		}
-		include("conf.php");
-		$sql = "SELECT * FROM undertime,login where login.account_id = undertime.account_id and state like 'UATech' and DAY(datefile) >= $forque and DAY(datefile) < $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
-		$result = $conn->query($sql);
-		if($result->num_rows > 0){
-	?>
-	<form role = "form" action = "approval.php"    method = "get">
+			echo '	<form role = "form" action = "approval.php"    method = "get">
 			<table class = "table table-hover" align = "center">
 				<thead>				
 					<tr>
@@ -211,7 +257,23 @@
 						<th>Action</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody>';
+		$date17 = date("d");
+		$dated = date("m");
+		$datey = date("Y");
+		if($date17 > 16){
+			$forque = 16;
+			$endque = 31;
+		}else{
+			$forque = 1;
+			$endque = 16;
+		}
+		include("conf.php");
+		$sql = "SELECT * FROM undertime,login where login.account_id = undertime.account_id and state like 'UATech' and DAY(datefile) >= $forque and DAY(datefile) < $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
+		$result = $conn->query($sql);
+		if($result->num_rows > 0){
+	?>
+
 	<?php
 			while($row = $result->fetch_assoc()){				
 				$originalDate = date($row['datefile']);
@@ -239,31 +301,41 @@
 						<a href = "?approve=DA'.$_SESSION['level'].'&dundertime='.$row['undertime_id'].'&acc='.$_GET['ac'].'"';?><?php echo'" class="btn btn-info" role="button">Disapprove</a>
 					</td>
 				</tr>';
-			}}
-			echo '</tbody></table></form>';
-		}else{
-			echo '<h2 align = "center" style = "margin-top: 30px;"> No Pending Undertime Request </h2>';
+			}
 		}
+			
+	}
+	$sql = "SELECT * FROM undertime,login where login.account_id = undertime.account_id and undertime.account_id = '$accid' and DAY(datefile) >= $forque and DAY(datefile) < $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
+		$result = $conn->query($sql);
+		if($result->num_rows > 0){
+			while($row = $result->fetch_assoc()){				
+					$originalDate = date($row['datefile']);
+					$newDate = date("F j, Y", strtotime($originalDate));
+					
+					$datetoday = date("Y-m-d");
+					if($datetoday >= $row['twodaysred'] && $row['state'] == 'UA' ){
+					echo '<tr style = "color: red">';
+					}else{
+						echo '<tr>';
+					}		
+					echo 
+						'<td width = 180>'.$newDate.'</td>
+						<td>'. date("F j, Y", strtotime($row["dateofundrtime"])).'</td>
+						<td>'.$row["name"].'</td>
+						<td width = 250 height = 70>'.$row["reason"].'</td>
+						<td>'.$row["undertimefr"] . ' - ' . $row['undertimeto'].'</td>
+						<td>'.$row["numofhrs"].'</td>	';
+						 if($row['state'] == 'UA'){
+							echo '<td><strong>Pending to HR<strong></td>';
+					}
+			}
 		}
+	echo '</tbody></table></form>';
+}
 ?>
 <?php
 	if(isset($_GET['ac']) && $_GET['ac'] == 'penob'){
-	$date17 = date("d");
-	$dated = date("m");
-	$datey = date("Y");
-	if($date17 > 16){
-		$forque = 16;
-		$endque = 31;
-	}else{
-		$forque = 1;
-		$endque = 16;
-	}
-	include("conf.php");
-	$sql = "SELECT * FROM officialbusiness,login where login.account_id = officialbusiness.account_id and state like 'UATech' and DAY(obdate) >= $forque and DAY(obdate) < $endque and MONTH(obdate) = $dated and YEAR(obdate) = $datey ORDER BY obdate ASC";
-	$result = $conn->query($sql);
-	if($result->num_rows > 0){
-?>
-
+		echo '
 	<form role = "form" action = "approval.php"    method = "get">
 		<table class = "table table-hover" align = "center">
 			<thead>
@@ -282,7 +354,23 @@
 					<th>Action</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody>';
+	$date17 = date("d");
+	$dated = date("m");
+	$datey = date("Y");
+	if($date17 > 16){
+		$forque = 16;
+		$endque = 31;
+	}else{
+		$forque = 1;
+		$endque = 16;
+	}
+	include("conf.php");
+	$sql = "SELECT * FROM officialbusiness,login where login.account_id = officialbusiness.account_id and state like 'UATech' and DAY(obdate) >= $forque and DAY(obdate) < $endque and MONTH(obdate) = $dated and YEAR(obdate) = $datey ORDER BY obdate ASC";
+	$result = $conn->query($sql);
+	if($result->num_rows > 0){
+?>
+
 <?php
 		while($row = $result->fetch_assoc()){
 			
@@ -312,13 +400,40 @@
 							<a href = "?approve=DA'.$_SESSION['level'].'&dofficialbusiness_id='.$row['officialbusiness_id'].'&acc='.$_GET['ac'].'"';?><?php echo'" class="btn btn-info" role="button" id = "DAHR">Disapprove</a>
 						</td>
 					</tr>';
+				}
+		}
+		
+	}
+	include("conf.php");
+	$sql = "SELECT * FROM officialbusiness,login where login.account_id = officialbusiness.account_id and officialbusiness.account_id = '$accid' and DAY(obdate) >= $forque and DAY(obdate) < $endque and MONTH(obdate) = $dated and YEAR(obdate) = $datey ORDER BY obdate ASC";
+	$result = $conn->query($sql);
+	if($result->num_rows > 0){
+		while($row = $result->fetch_assoc()){
+			
+			$originalDate = date($row['obdate']);
+			$newDate = date("F j, Y", strtotime($originalDate));
+			$datetoday = date("Y-m-d");
+			if($datetoday >= $row['twodaysred'] && $row['state'] == 'UATech' ){
+				echo '<tr style = "color: red">';
+			}else{
+				echo '<tr>';
+			}		
+			echo 
+					'<td>'.$newDate.'</td>
+					<td>'.$row["obename"].'</td>
+					<td>'.$row["obpost"].'</td>
+					<td >'.$row["obdept"].'</td>
+					<td>'.date("F d, Y", strtotime($row['obdatereq'])).'</td>					
+					<td>'.$row["obtimein"] . ' - ' . $row['obtimeout'].'</td>
+					<td>'.$row["officialworksched"].'</td>				
+					<td >'.$row["obreason"].'</td>	';
+					if($row['state'] == 'UA'){
+						echo '<td><strong>Pending to HR<strong></td>';
 					}
 		}
-		echo '</tbody></table></form>';
-	}else{
-		echo '<div id = "dash"><h2 align = "center" style = "margin-top: 30px;"> No Pending Official Request </h2></div>';
-	}$conn->close();
-}
+	}
+	echo '</tbody></table></form>';
+}$conn->close();
 ?>
 
 <?php
