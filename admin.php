@@ -26,7 +26,13 @@
 		<div class="btn-group btn-group-lg">
 			<button  type = "button"class = "btn btn-primary"  id = "showneedapproval">Home</button>	
 			<button  type = "button"class = "btn btn-primary"  id = "newuserbtn">New User</button>	
-			<a type = "button"class = "btn btn-primary"  href = "admin-petty.php">Petty Voucher</a>
+			<div class="btn-group btn-group-lg">
+				<button type="button" class="btn btn-primary dropdown-toggle"  data-toggle="dropdown">Petty Voucher <span class="caret"></span></button>
+				<ul class="dropdown-menu" role="menu">
+				  <li><a type = "button"  href = "admin-petty.php">Petty List</a></li>
+				  <li><a type = "button"  href = "admin-petty.php?report=1">Petty Report</a></li>
+				</ul>
+			</div>
 			<a type = "button"class = "btn btn-primary"  href = "admin-req-app.php" id = "showapproveda">Approved Request</a>
 			<a type = "button"class = "btn btn-primary" href = "admin-req-dapp.php"  id = "showdispproveda">Dispproved Request</a>
 			<a class="btn btn-danger"  href = "logout.php"  role="button">Logout</a>

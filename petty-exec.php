@@ -12,8 +12,12 @@
 			$trans = null;
 		}
 		if($_SESSION['level'] == 'Admin'){
-			$state = 'AAPetty';
 			$source = $_POST['source'];
+			if($source == 'Eli/Sha'){
+				$state = 'AAPettyRep';
+			}else{
+				$state = 'AAPetty';
+			}
 		}else if($_SESSION['level'] == 'ACC'){
 			$state = 'AAPettyRep';
 			$source = 'Accounting';

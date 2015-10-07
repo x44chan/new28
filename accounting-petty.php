@@ -1,5 +1,5 @@
 <?php session_start(); ?>
-<?php  $title="Accounting Page";
+<?php  $title="Petty Report";
 	include('header.php');	
 	date_default_timezone_set('Asia/Manila');
 ?>
@@ -11,6 +11,62 @@
     	$('#myTable').DataTable();
 	});
 </script>
+<style type="text/css">
+	@media print {		
+		body * {
+	    	visibility: hidden;
+	    
+	  	}
+	  	@page{
+	  		margin-left: 5mm;
+	  		margin-right: 5mm;
+	  	}
+	  	#datepr{
+	  		margin-top: 25px;
+	  	}
+	  	#report, #report * {
+	    	visibility: visible;
+	 	}
+	 	#report h2{
+	  		margin-bottom: 10px;
+	  		margin-top: 10px;
+	  		font-size: 20px;
+	  		font-weight: bold;
+	    }
+	 	#report h4{
+			font-size: 15px;
+		}
+		#report h3{
+	  		margin-bottom: 10px;
+		}
+		#report th{
+	  		font-size: 12px;
+	  		width: 0;
+		} 
+		#report td{
+	  		font-size: 11px;
+	  		bottom: 0px;
+	  		padding: 3px;
+	  		max-width: 210px;
+		}
+		#totss{
+			font-size: 14px;
+		}
+		#report {
+	   		position: absolute;
+	    	left: 0;
+	    	top: 0;
+	    	right: 0;
+	  	}
+	  	#backs{
+	  		display: none;
+	  	}
+	  		.dataTables_filter, .dataTables_length, .dataTables_info, .dataTables_paginate  {
+		display: none; 
+	}
+	}
+
+</style>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/dt/dt-1.10.9/datatables.min.css"/> 
 <script type="text/javascript" src="https://cdn.datatables.net/r/dt/dt-1.10.9/datatables.min.js"></script>
 <div align = "center">
@@ -29,7 +85,13 @@
 				</ul>
 			</div>
 			<a type = "button" class = "btn btn-primary" href = "acc-report.php" id = "showapproveda">Cutoff Summary</a>							
-			<a type = "button"class = "btn btn-primary active"  href = "accounting-petty.php">Petty Voucher</a>	
+			<div class="btn-group btn-group-lg">
+				<button type="button" class="btn btn-primary dropdown-toggle"  data-toggle="dropdown">Petty Voucher <span class="caret"></span></button>
+				<ul class="dropdown-menu" role="menu">
+				  <li><a type = "button"  href = "accounting-petty.php">Petty List</a></li>
+				  <li><a type = "button"  href = "accounting-petty.php?report=1">Petty Report</a></li>
+				</ul>
+			</div>	
 			<a type = "button" class = "btn btn-primary" href = "acc-req-app.php" id = "showapproveda">Approved Request</a>
 			<a type = "button" class = "btn btn-primary" href = "acc-req-dapp.php"  id = "showdispproveda">Dispproved Request</a>
 			<a type = "button" class = "btn btn-danger" href = "logout.php"  role="button">Logout</a>
@@ -52,9 +114,8 @@
 	}
 ?>
 <div id = "needaproval">
-<?php if(!isset($_GET['pettyac'])){ ?>
-<div align = "right"><a href = "acc-petty-rep.php" class = "btn btn-primary">Accounting Petty Report</a></div>
-<h2 align = "center"><i> Accounting Petty Dashboard </i></h2>
+<?php if(!isset($_GET['pettyac']) && !isset($_GET['report'])){ ?>
+<h2 align = "center"><i> Pending Petty Request </i></h2>
 	<form role = "form">
 		<table id="myTable" style = "width: 100%;"class = "table table-hover " align = "center">
 			<thead>
@@ -80,8 +141,8 @@
 				<td><?php echo date("M j, y", strtotime($row['date']));?></td>			
 				<td><?php echo $row['fname']. ' '.$row['lname'];?></td>
 				<td><?php echo $row['particular'];?></td>
-				<td>PHP: <?php echo number_format($row['amount']);?></td>
-				<td><?php echo $row['transfer_id'];?></td>
+				<td>PHP: <?php if(!is_numeric($row['amount'])){ echo $row['amount']; }else{ echo number_format($row['amount']); }?></td>
+				<td><?php if($row['transfer_id'] == null){echo 'N/A';}else{echo $row['transfer_id'];} ?></td>
 				<td><?php echo '<a class = "btn btn-primary" href = "?pettyac=a&petty_id='.$row['petty_id'].'">Approve</a> ';
 						echo '<a class = "btn btn-primary" onclick = "return confirm(\'Are you sure?\');"href = "petty-exec.php?pettyac=d&petty_id='.$row['petty_id'].'"">Disapprove</a>';?></td>
 				</tr>
@@ -109,7 +170,7 @@
 				echo '<tr><td style = "width: 30%;">Petty Number: </td><td style = "width: 50%;"><input name = "petty_id"type = "hidden" value = "' . $row['petty_id'].'"/>' . $row['petty_id'].'</td></tr>';
 				echo '<tr><td style = "width: 30%;">Name : </td><td style = "width: 50%;">' . $row['fname'] . ' ' . $row['lname'].'</td></tr>';
 				echo '<tr><td style = "width: 30%;">Particular: </td><td style = "width: 50%;">' . $row['particular'].'</td></tr>';	
-				echo '<tr><td style = "width: 30%;">Amount: </td><td style = "width: 50%;"><input class = "form-control" type = "text" name = "pettyamount" value ="' . $row['amount'].'"/></td></tr>';
+				echo '<tr><td style = "width: 30%;">Amount: </td><td style = "width: 50%;"><input class = "form-control" type = "text" name = "pettyamount" value ="'; if(!is_numeric($row['amount'])){ echo $row['amount']; }else{ echo number_format($row['amount']); };echo'"/></td></tr>';
 				if($row['particular'] == "Transfer"){ echo '<tr><td>Transfer ID: <td><input placeholder = "Enter transaction code" required value ="' . $row['transfer_id'].'"class = "form-control" type = "text" name = "transct"/></tr></td>'; }		
 				echo '<tr><td colspan = 2><button class = "btn btn-primary" name = "submitpetty">Submit</button><br><br><a href = "accounting-petty.php" class = "btn btn-danger" name = "backpety">Back</a></td></tr>';
 
@@ -117,7 +178,46 @@
 		}
 		echo "</table></form>";
 }
+	if(isset($_GET['report']) && $_GET['report'] == '1'){
+		echo '<div id = "report"><h2 align = "center">Petty Report</h2>';
+		echo '<table id = "myTable" align = "center" class = "table table-hover" style="font-size: 14px;">';
+		echo '<thead>
+				<tr>
+					<th>Petty#</th>
+					<th>Date</th>
+					<th>Name</th>
+					<th>Particular</th>
+					<th>Source</th>
+					<th>Transfer Code</th>
+					<th>Amount</th>
+				</tr>
+			  </thead>
+			  <tbody>';
+		include("conf.php");
+		$sql = "SELECT * from `petty`,`login` where login.account_id = petty.account_id and state = 'AApettyRep'";
+		$result = $conn->query($sql);
+		if($result->num_rows > 0){
+			while($row = $result->fetch_assoc()){
+				echo '<tr>';
+				echo '<td>' . $row['petty_id'] . '</td>';
+				echo '<td>' . date("M j, Y", strtotime($row['date'])). '</td>';
+				echo '<td>' . $row['fname'] . ' '. $row['lname'] . '</td>';				
+				echo '<td>' . $row['particular'] . '</td>';
+				echo '<td>' . $row['source'] . '</td>';
+				echo '<td>';
+				if($row['transfer_id'] == null){echo 'N/A';}else{echo $row['transfer_id'];} 
+				echo '</td>';
+				echo '<td>PHP: ';
+				if(!is_numeric($row['amount'])){ echo $row['amount']; }else{ echo number_format($row['amount']); } ;
+				echo '</td>';
+				echo '</tr>';
+			}
+		}
+		echo "</tbody></table></div>";
+		echo '<div align = "center"><br><button id = "backs" style = "margin-right: 10px;"class = "btn btn-primary" onclick = "window.print();"><span id = "backs"class="glyphicon glyphicon-print"></span> Print Report</button><a id = "backs" class = "btn btn-danger" href = "accounting-petty.php"><span id = "backs"class="glyphicon glyphicon-chevron-left"></span> Back to List</a></div>';
+}
 ?>
+
 </div>
 <div id = "newuser" class = "form-group" style = "display: none;">
 	<form role = "form" action = "newuser-exec.php" method = "post">

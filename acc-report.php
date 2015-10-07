@@ -103,8 +103,13 @@
 				</ul>
 			</div>			
 			<a type = "button" class = "btn btn-primary  active" href = "acc-report.php" id = "showapproveda">Cutoff Summary</a>
-			<a type = "button"class = "btn btn-primary"  href = "accounting-petty.php">Petty Voucher</a>
-			<a  type = "button"class = "btn btn-primary"  href = "acc-req-app.php"> Approved Request</a>		
+			<div class="btn-group btn-group-lg">
+				<button type="button" class="btn btn-primary dropdown-toggle"  data-toggle="dropdown">Petty Voucher <span class="caret"></span></button>
+				<ul class="dropdown-menu" role="menu">
+				  <li><a type = "button"  href = "accounting-petty.php">Petty List</a></li>
+				  <li><a type = "button"  href = "accounting-petty.php?report=1">Petty Report</a></li>
+				</ul>
+			</div>				<a  type = "button"class = "btn btn-primary"  href = "acc-req-app.php"> Approved Request</a>		
 			<a type = "button"class = "btn btn-primary"  href = "acc-req-dapp.php">Dispproved Request</a>		
 			<a href = "logout.php" class="btn btn-danger" onclick="return confirm('Do you really want to log out?');"  role="button">Logout</a>
 		</div>
