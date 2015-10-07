@@ -29,7 +29,7 @@
 				</tr>
 				<tr>
 					<td>Date Of Official Business: </td>
-					<td><input required class = "form-control" type = "date" min = "<?php echo date('m/d/Y'); ?>" name = "obdatereq"/></td>
+					<td><input required class = "form-control" type = "date" placeholder = "Click to set date" required="" data-date='{"startView": 2, "openOnMouseFocus": true}' min = "<?php echo date('m/d/Y'); ?>" name = "obdatereq"/></td>
 				</tr>				
 				<tr>
 					<td>Description of Work Order: </td>
@@ -66,7 +66,7 @@
 				</div>
 				<tr>
 					<td style = "padding: 3px;"colspan = "2" align = center>
-						<input type = "submit" name = "submit" class = "btn btn-default"/>					
+						<input type = "submit" name = "submit" onclick = "return confirm('Are you sure? You can still review your application.');" class = "btn btn-default"/>					
 						<input type = "button" id = "hideob" name = "submit" class = "btn btn-default" value = "Cancel">
 					</td>
 				</tr>
@@ -96,8 +96,8 @@
 					<td><input type = "text" class = "form-control" readonly name = "datefile" value = "<?php echo date('F j, Y');?>"/></td>
 				</tr>
 				<tr>
-					<td>Date Of Overtime: </td>
-					<td><input required class = "form-control" type = "date" min = "<?php echo date('m/d/Y'); ?>" name = "dateofot"/></td>
+					<td>Date Of Overtime : </td>
+					<td><input required class = "form-control" type = "date" required="" data-date='{"startView": 2, "openOnMouseFocus": true}' placeholder = "YYYY-MM-DD" required="" data-date='{"startView": 2, "openOnMouseFocus": true}' name = "dateofot"/></td>
 				</tr>				
 				<tr>
 					<td>Name of Employee: </td>
@@ -142,7 +142,7 @@
 							$('input[name="endofot"]').ptTimeSelect();
 						});
 					</script>
-				</div>
+				
 				<tr>
 					<td colspan = 2 align = center><input type = "submit" name = "unsubmit" class = "btn btn-default"/><input type = "button" id = "hideot" name = "submit" class = "btn btn-default" value = "Cancel"></td>
 					
@@ -206,8 +206,8 @@
 				<tr class = "form-inline">
 					<td>Inclusive Dates: </td>
 					<td style="float:left;">
-						From: <input required class = "form-control" type = "date" min = "<?php echo date('m/d/Y'); ?>" name = "dateofleavfr"/>
-						To: <input required class = "form-control" type = "date" min = "<?php echo date('m/d/Y'); ?>" name = "dateofleavto"/>
+						From: <input required class = "form-control" type = "date" placeholder = "Click to set date"required="" data-date='{"startView": 2, "openOnMouseFocus": true}' min = "<?php echo date('m/d/Y'); ?>" name = "dateofleavfr"/>
+						To: <input required class = "form-control" type = "date" placeholder = "Click to set date"required="" data-date='{"startView": 2, "openOnMouseFocus": true}' min = "<?php echo date('m/d/Y'); ?>" name = "dateofleavto"/>
 						Number of Days: <input maxlength = "3" style = "width: 90px;"type = "text" pattern = '[0-9]+' required name = "numdays"class = "form-control"/>
 					</td>
 				</tr>					
@@ -241,14 +241,15 @@
             </div>
             <div class="form-group">
               <label for="usrname"> Particular</label>
-              <select name = "particularpet" class = "form-control">
+              <select required name = "particularpet" class = "form-control">
+              	<option value = "">----------</option>
               	<option value = "Cash">Cash</option>
               	<option value = "Transfer">Transfer</option>
               </select>
             </div>
             <div class="form-group">
             	 <label for="usrname"> Amount</label>
-              <input type = "text" pattern = "[0-9]*"name = "amountpet" class ="form-control" placeholder = "Enter amount">
+              <input type = "text" pattern = "[0-9]*" title = "No comma" required name = "amountpet" class ="form-control" autocomplete = "off" placeholder = "Enter amount">
             </div>
               <button type="submit" name = "submitpet" class="btn btn-success btn-block">Submit</button>
           </form>
@@ -289,4 +290,12 @@ $(document).ready(function(){
 
 	    });
 });
+</script>
+<script src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
+<!-- polyfiller file to detect and load polyfills -->
+<script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
+<script>
+  webshims.setOptions('waitReady', false);
+  webshims.setOptions('forms-ext', {types: 'date'});
+  webshims.polyfill('forms forms-ext');
 </script>

@@ -17,6 +17,62 @@
     	$('#myTable').DataTable();
 	});
 </script>
+<style type="text/css">
+	@media print {		
+		body * {
+	    	visibility: hidden;
+	    
+	  	}
+	  	@page{
+	  		margin-left: 5mm;
+	  		margin-right: 5mm;
+	  	}
+	  	#datepr{
+	  		margin-top: 25px;
+	  	}
+	  	#report, #report * {
+	    	visibility: visible;
+	 	}
+	 	#report h2{
+	  		margin-bottom: 10px;
+	  		margin-top: 10px;
+	  		font-size: 20px;
+	  		font-weight: bold;
+	    }
+	 	#report h4{
+			font-size: 15px;
+		}
+		#report h3{
+	  		margin-bottom: 10px;
+		}
+		#report th{
+	  		font-size: 12px;
+	  		width: 0;
+		} 
+		#report td{
+	  		font-size: 11px;
+	  		bottom: 0px;
+	  		padding: 3px;
+	  		max-width: 210px;
+		}
+		#totss{
+			font-size: 14px;
+		}
+		#report {
+	   		position: absolute;
+	    	left: 0;
+	    	top: 0;
+	    	right: 0;
+	  	}
+	  	#backs{
+	  		display: none;
+	  	}
+	  		.dataTables_filter, .dataTables_length, .dataTables_info, .dataTables_paginate  {
+		display: none; 
+	}
+	}
+
+</style>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/r/dt/dt-1.10.9/datatables.min.css"/> 
 <script type="text/javascript" src="https://cdn.datatables.net/r/dt/dt-1.10.9/datatables.min.js"></script>
 <div align = "center">
