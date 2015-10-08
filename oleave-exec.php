@@ -6,7 +6,7 @@
 		$post = strtolower($_SESSION['post']);
 		$accid = $_SESSION['acc_id'];		
 		$datefile = date("Y-m-d");
-		$twodaysred = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d') + 2, date('Y')));;
+		$twodaysred = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d') + 2, date('Y')));
 		$nameofemployee = $_POST['nameofemployee'];
 		$datehired = $_POST['datehired'];
 		$deprt = $_POST['deprt'];
