@@ -263,7 +263,7 @@
 				<tr class = "form-inline" >
 					<td>Type of Leave</td>
 					<td align = "left">
-						<?php if($row['typeoflea'] == 'Others'){ echo $row['Others'] . ': '.$row['reason'];}else{echo $row['typeoflea'];}?>
+						<?php if($row['typeoflea'] == 'Others'){ echo $row['typeoflea'] . ': '.$row['othersl'];}else{echo $row['typeoflea'];}?>
 					</td>
 				</tr>	
 				<div style = "display: none;">

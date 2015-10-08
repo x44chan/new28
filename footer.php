@@ -1,5 +1,5 @@
 				
-			<div align = "center" style = "margin-top: 10%; margin-bottom: 0px;" >
+			<div align = "center" style = "margin-top: 10%; margin-bottom: 50px;" >
 				<blockquote>
 					<footer>Netlink Advance Solution, Inc.</footer>
 				</blockquote>
