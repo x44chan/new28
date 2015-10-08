@@ -37,6 +37,7 @@
 		$start = $_POST['uptimein'];
 		$end = $_POST['uptimeout'];
 		$post = strtolower($_SESSION['post']);
+		$reason = $_POST['reason'];
 		if(isset($_POST['uprestday']) && $_POST['uprestday'] == 'restday'){
 			$officialworksched = "Restday";
 		}else{
@@ -52,10 +53,14 @@
 			$state = 'UA';	
 		}		
 		$stmt = "UPDATE `overtime` set 
-			approvedothrs = '$approvedothrs', officialworksched = '$officialworksched', startofot = '$start', endofot = '$end'
+			approvedothrs = '$approvedothrs', officialworksched = '$officialworksched', startofot = '$start', endofot = '$end', reason = '$reason'
 			where account_id = '$accid' and state like '$state' and overtime_id = '$_SESSION[otid]'";
 		if ($conn->query($stmt) === TRUE) {
-	    	echo '<script type="text/javascript">window.location.replace("employee.php?ac='.$_SESSION['acc'].'"); </script>';
+			if($_SESSION['level'] == 'EMP'){
+				echo '<script type="text/javascript">window.location.replace("employee.php?ac='.$_SESSION['acc'].'"); </script>';
+			}else if($_SESSION['level'] == 'TECH'){
+				echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac='.$_SESSION['acc'].'"); </script>';
+			}	    	
 	  	}else {
 	    	echo "Error updating record: " . $conn->error;
 	  	}
@@ -83,7 +88,11 @@
 			obreason = '$obreason', obtimein = '$obtimein', obtimeout = '$obtimeout', officialworksched = '$officialworksched'
 			where account_id = '$accid' and state = '$state' and officialbusiness_id = '$_SESSION[otid]'";
 		if ($conn->query($stmt) === TRUE) {
-	    	echo '<script type="text/javascript">window.location.replace("employee.php?ac='.$_SESSION['acc'].'"); </script>';
+	    	if($_SESSION['level'] == 'EMP'){
+				echo '<script type="text/javascript">window.location.replace("employee.php?ac='.$_SESSION['acc'].'"); </script>';
+			}else if($_SESSION['level'] == 'TECH'){
+				echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac='.$_SESSION['acc'].'"); </script>';
+			}
 	  	}else {
 	    	echo "Error updating record: " . $conn->error;
 	  	}
@@ -111,7 +120,11 @@
 			dateofleavfr = '$dateofleavfr', dateofleavto = '$dateofleavto', numdays = '$numdays', reason = '$reason'
 			where account_id = '$accid' and state = '$state' and leave_id = '$_SESSION[otid]'";
 		if ($conn->query($stmt) === TRUE) {
-	    	echo '<script type="text/javascript">window.location.replace("employee.php?ac='.$_SESSION['acc'].'"); </script>';
+	    	if($_SESSION['level'] == 'EMP'){
+				echo '<script type="text/javascript">window.location.replace("employee.php?ac='.$_SESSION['acc'].'"); </script>';
+			}else if($_SESSION['level'] == 'TECH'){
+				echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac='.$_SESSION['acc'].'"); </script>';
+			}
 	  	}else {
 	    	echo "Error updating record: " . $conn->error;
 	  	}
@@ -141,7 +154,11 @@
 			dateofundrtime = '$undatereq', undertimefr = '$undertimefr', undertimeto = '$undertimeto', reason = '$unreason', numofhrs = '$unumofhrs'
 			where account_id = '$accid' and state = '$state' and undertime_id = '$_SESSION[otid]'";
 		if ($conn->query($stmt) === TRUE) {
-	    	echo '<script type="text/javascript">window.location.replace("employee.php?ac='.$_SESSION['acc'].'"); </script>';
+	    	if($_SESSION['level'] == 'EMP'){
+				echo '<script type="text/javascript">window.location.replace("employee.php?ac='.$_SESSION['acc'].'"); </script>';
+			}else if($_SESSION['level'] == 'TECH'){
+				echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac='.$_SESSION['acc'].'"); </script>';
+			}
 	  	}else {
 	    	echo "Error updating record: " . $conn->error;
 	  	}

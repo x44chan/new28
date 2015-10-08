@@ -60,7 +60,11 @@
           </div>
           <div class="col-md-4">
             <label for="efname"> Duration <font color = "red">*</font></label>
-            <input type="text" value = "<?php echo $row['eduration']; ?>"name = "eduration" id = "efname" style = "font-weight:normal;text-transform:capitalize;" class="form-control" required autocomplete="off"placeholder="Enter duration">
+            <select name = "eduration" id = "eduration" required class = "form-control">
+              <option value = "">-------</option>
+              <option value = "6 Months"<?php if($row['eduration'] == '6 Months'){echo 'selected';}?> >6 Months</option>
+              <option value = "1 Year"  <?php if($row['eduration'] == '1 Year'){  echo 'selected';}?> >1 Year</option>
+            </select>
           </div>
          <div class="col-md-4">
             <label for="usrname"> Tel. #</label>
@@ -255,24 +259,44 @@
         </div>
         <div class="row" >
           <div class="col-md-3">
-            <input class = "form-control" type = "text" value = "<?php echo $row['empost']; ?>"name = "empost" placeholder = "Position"/> <br><br>
-            <input class = "form-control" type = "text" value = "<?php echo $row['empost2']; ?>"name = "empost2" placeholder = "Position"/>  <br><br>
-            <input class = "form-control" type = "text" value = "<?php echo $row['empost3']; ?>"name = "empost3" placeholder = "Position"/>  
+            <input  pattern="[a-zA-Z\s]+" class = "form-control" type = "text" value = "<?php echo $row['empost']; ?>"name = "empost" placeholder = "Position"/>
           </div>
           <div class="col-md-3">
-            <textarea  class = "form-control" name = "emcompany" placeholder = "Company Name"><?php echo $row['emcompany']; ?></textarea><br>
-            <textarea  class = "form-control" name = "emcompany2" placeholder = "Company Name"><?php echo $row['emcompany2']; ?></textarea><br>
-            <textarea  class = "form-control" name = "emcompany3" placeholder = "Company Name"><?php echo $row['emcompany3']; ?></textarea>
+            <textarea pattern="[a-zA-Z\s]+" id = "textareaaa" class = "form-control" name = "emcompany" placeholder = "Company Name"><?php echo $row['emcompany']; ?></textarea>
           </div>
-          <div class="col-xs-3">
-            <input  class = "form-control" value = "<?php echo $row['empdatefr']; ?>"type = "date" name = "empdatefr" placeholder = "Star"/> <br><br>
-            <input  class = "form-control" value = "<?php echo $row['empdatefr2']; ?>"type = "date" name = "empdatefr2" placeholder = "Star"/> <br><br>
-            <input  class = "form-control" value = "<?php echo $row['empdatefr3']; ?>"type = "date" name = "empdatefr3" placeholder = "Star"/>  
+          <div class="col-md-3">
+            <input  class = "form-control" value = "<?php echo $row['empdatefr']; ?>"type = "date" name = "empdatefr" placeholder = "Start"/> 
           </div>
-          <div class="col-xs-3">
-           <input  class = "form-control" value = "<?php echo $row['empdateto']; ?>"type = "date" name = "empdateto" placeholder = "End"/><br><br>
-           <input  class = "form-control" value = "<?php echo $row['empdateto2']; ?>"type = "date" name = "empdateto2" placeholder = "End"/><br><br>
-           <input  class = "form-control" value = "<?php echo $row['empdateto3']; ?>"type = "date" name = "empdateto3" placeholder = "End"/>   
+          <div class="col-md-3">
+            <input  class = "form-control" value = "<?php echo $row['empdateto']; ?>"type = "date" name = "empdateto" placeholder = "End"/>             
+          </div>
+        </div>
+        <div class="row" >
+          <div class="col-md-3">            
+            <input  pattern="[a-zA-Z\s]+" class = "form-control" type = "text" value = "<?php echo $row['empost2']; ?>"name = "empost2" placeholder = "Position"/>
+          </div>
+          <div class="col-md-3"> 
+            <textarea pattern="[a-zA-Z\s]+" id = "textareaaa" class = "form-control" name = "emcompany2" placeholder = "Company Name"><?php echo $row['emcompany2']; ?></textarea>
+          </div>
+          <div class="col-md-3"> 
+            <input  class = "form-control" value = "<?php echo $row['empdatefr2']; ?>"type = "date" name = "empdatefr2" placeholder = "Start"/>
+          </div>
+          <div class="col-md-3"> 
+            <input  class = "form-control" value = "<?php echo $row['empdateto2']; ?>"type = "date" name = "empdateto2" placeholder = "End"/>           
+          </div>
+        </div>
+        <div class="row" >
+          <div class="col-md-3">
+            <input  pattern="[a-zA-Z\s]+" class = "form-control" type = "text" value = "<?php echo $row['empost3']; ?>"name = "empost3" placeholder = "Position"/> 
+          </div>
+          <div class="col-md-3">
+            <textarea pattern="[a-zA-Z\s]+" id = "textareaaa" class = "form-control" name = "emcompany3" placeholder = "Company Name"><?php echo $row['emcompany3']; ?></textarea>
+          </div>
+          <div class="col-md-3">
+            <input  class = "form-control" value = "<?php echo $row['empdatefr3']; ?>"type = "date" name = "empdatefr3" placeholder = "Start"/>  
+          </div>
+          <div class="col-md-3">
+            <input  class = "form-control" value = "<?php echo $row['empdateto3']; ?>"type = "date" name = "empdateto3" placeholder = "End"/>
           </div>
         </div> 
         <div style="margin-top: 15px;">
