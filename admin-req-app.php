@@ -78,7 +78,13 @@
 		<div class="btn-group btn-group-lg">
 			<a  type = "button"class = "btn btn-primary" href = "admin.php">Home</a>
 			<button  type = "button"class = "btn btn-primary"  id = "newuserbtn">New User</button>			
-			<a type = "button"class = "btn btn-primary"  href = "admin-petty.php">Petty Voucher</a>				
+						<div class="btn-group btn-group-lg">
+				<button type="button" class="btn btn-primary dropdown-toggle"  data-toggle="dropdown">Petty Voucher <span class="caret"></span></button>
+				<ul class="dropdown-menu" role="menu">
+				  <li><a type = "button"  href = "admin-petty.php">Petty List</a></li>
+				  <li><a type = "button"  href = "admin-petty.php?report=1">Petty Report</a></li>
+				</ul>
+			</div>			
 			<a  type = "button"class = "btn btn-primary  active"  href = "admin-req-app.php"> Approved Request</a>		
 			<a type = "button"class = "btn btn-primary"  href = "admin-req-dapp.php">Dispproved Request</a>		
 			<a href = "logout.php" class="btn btn-danger" onclick="return confirm('Do you really want to log out?');"  role="button">Logout</a>
