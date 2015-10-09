@@ -104,13 +104,17 @@
         window.open('','_parent','');
         window.close();
     }
+</script><script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
+});
 </script>
 <div class="modal fade" id="myModal2" role="dialog">
   <div class="modal-dialog modal-lg" >    
     <!-- Modal content-->
     <div class="modal-content" >
       <div class="modal-header" style="padding:25px 50px;">
-       <a href="javascript:window.open('','_parent','');window.close();" type="button" class="close" style="font-size: 35px;">&times;</a>
+       <a href="javascript:window.open('','_parent','');window.close();" data-toggle="tooltip" data-placement="bottom" title="Close" class="close" style="font-size: 35px;"><font color = "red">&times;</font></a>
         	<div class="row" style="margin-left: 30px;">           
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -132,7 +136,7 @@
             </div>
     		<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                	<img style = "margin: auto;"src="images/<?php echo $_GET['view'];?>.jpg" onerror="if (this.src != 'images/default.jpg') this.src = 'images/default.jpg';" class="img-rounded" alt="Cinque Terre" width="250" height="200"><br><br>
+                	<img style = "margin: auto;" src="<?php echo 'images/'. $_GET['view'] . '.jpg?'.rand(1,32000);?>" onerror="if (this.src != 'images/default.jpg') this.src = 'images/default.jpg';" class="img-rounded" alt="Cinque Terre" width="250" height="200"><br><br>
             	</div>
             </div>
     </div>
