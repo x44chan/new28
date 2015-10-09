@@ -104,6 +104,7 @@
 		<?php echo date('l jS \of F Y h:i A'); ?> <br>	<br>	
 		<div class="btn-group btn-group-lg">
 			<a  type = "button"class = "btn btn-primary" href = "employee.php?ac=penot" id = "home">Home</a>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal2">Update Profile</button>
 			<div class="btn-group btn-group-lg">
 				<button type="button" class="btn btn-primary dropdown-toggle"  data-toggle="dropdown">New Request <span class="caret"></span></button>
 				<ul class="dropdown-menu" role="menu">
@@ -364,5 +365,12 @@
 	}$conn->close();
 	?>
 </div>
+<script type="text/javascript">      
+  $('#myModal2').modal({
+    backdrop: 'static',
+    keyboard: false
+  });
+</script>
+<?php include('emp-prof.php') ?>
 <?php include('req-form.php');?>
 <?php include('footer.php');?>
