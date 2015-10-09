@@ -8,7 +8,7 @@
 		$datefile = date("Y-m-d");
 		$twodaysred = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d') + 2, date('Y')));
 		$nameofemployee = $_POST['nameofemployee'];
-		$datehired = $_POST['datehired'];
+		$datehired = $_SESSION['datehired'];
 		$deprt = $_POST['deprt'];
 		$posttile = $_POST['posttile'];
 		$dateofleavfr = $_POST['dateofleavfr'];
