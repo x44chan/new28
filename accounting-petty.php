@@ -150,6 +150,27 @@
 		}
 	
 	}
+		$sql = "SELECT * from `petty`,`login` where login.account_id = petty.account_id and state like 'AAPettyReceived' and source = 'Accounting'";
+	$result = $conn->query($sql);
+	if($result->num_rows > 0){
+		while($row = $result->fetch_assoc()){
+	?>
+				<tr>
+				<td><?php echo date("M j, y", strtotime($row['date']));?></td>			
+				<td><?php echo $row['fname']. ' '.$row['lname'];?></td>
+				<td><?php echo $row['particular'];?></td>
+				<td>PHP: <?php if(!is_numeric($row['amount'])){ echo $row['amount']; }else{ echo number_format($row['amount']); }?></td>
+				<td><?php if($row['transfer_id'] == null){echo 'N/A';}else{echo $row['transfer_id'];} ?></td>
+				<td>
+					<?php echo "<b>Received</b><br>";?>
+					<?php echo '<a class = "btn btn-success" style = "width: 100px" href = "petty-exec.php?pettydone=a&petty_id='.$row['petty_id'].'">Done</a>';?>
+				</td>
+				</tr>
+	<?php
+		}
+	
+	}
+
 }
 	?>			
 			</tbody>

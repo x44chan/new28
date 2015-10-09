@@ -10,8 +10,7 @@
 	?>
 		
 	<script type="text/javascript"> 
-		window.location.replace("index.php");
-		
+		window.location.replace("index.php");		
 	</script>	
 	
 	<?php
@@ -42,12 +41,76 @@
 			<a  role = "button"class = "btn btn-success"  href = "?ac=penot"> Overtime Request Status </a>
 			<a  role = "button"class = "btn btn-success" href = "?ac=penob"> Official Business Request Status</a>			
 			<a  role = "button"class = "btn btn-success"  href = "?ac=penlea"> Leave Request Status</a>		
-			<a  role = "button"class = "btn btn-success"  href = "?ac=penundr"> Undertime Request Status</a>	
+			<a  role = "button"class = "btn btn-success"  href = "?ac=penundr"> Undertime Request Status</a>			
+			<a  role = "button"class = "btn btn-success"  href = "?ac=penpty"> Petty Request Status</a>	
 		</div>
 	</div>
 </div>
 
 <div id = "dash" class = "resp" style = "margin-top: -30px;">	
+<?php 
+	if(isset($_GET['ac']) && $_GET['ac'] == 'penpty'){
+		include("conf.php");
+		$sql = "SELECT * FROM petty,login where login.account_id = $accid and petty.account_id = $accid order by state ASC";
+		$result = $conn->query($sql);
+		if($result->num_rows > 0){
+	?>	
+		<form role = "form" action = "approval.php"    method = "get">
+			<table class = "table table-hover" align = "center">
+				<thead>
+					<tr>
+						<td colspan = 8 align = center><h2> Pending Petty Request </h2></td>
+					</tr>
+					<tr>
+						<th>Petty #</th>
+						<th>Date File</th>
+						<th>Name</th>
+						<th>Particular</th>
+						<th>Source</th>
+						<th>Transfer Code</th>
+						<th>Amount</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+	<?php
+			while($row = $result->fetch_assoc()){
+				
+				$originalDate = date($row['date']);
+				$newDate = date("F j, Y", strtotime($originalDate));
+				$datetoday = date("Y-m-d");
+				echo 
+					'<tr>
+						<td>'.$row['petty_id'].'</td>
+						<td>'.$newDate.'</td>
+						<td>'.$row['fname'] . ' '. $row['lname'].'</td>
+						<td>'.$row['particular'].'</td>
+						<td>'.$row['source'].'</td>
+						<td>'.$row['transfer_id'].'</td>
+						<td>PHP: '.$row['amount'].'</td>
+						<td>';
+							if($row['state'] == "UAPetty"){
+								echo '<b>Pending to Admin';
+							}elseif($row['state'] == 'AAAPettyReceive'){
+								echo '<a href = "petty-exec.php?o='.$row['petty_id'].'&acc='.$_GET['ac'].'" class = "btn btn-success">Receive Petty</a>';
+							}elseif($row['state'] == 'DAPetty'){
+								echo 'Disapproved request';
+							}elseif($row['state'] == 'AAPettyReceived'){
+								echo '<font color = "green"><b>Received ';
+							}elseif($row['state'] == 'AAPetty'){
+								echo '<font color = "green"><b>Pending to Accounting</font>';
+							}elseif($row['state'] == 'AAPettyRep'){
+								echo '<font color = "green"><b>Received ';
+								if($row['source'] == 'Accounting'){echo ' from Accounting</font>';}
+								if($row['source'] == 'Eli/Sha'){echo ' from Sir Eli/Maam Sha</font>';}
+							}
+				echo '</td></tr>';
+
+		}
+		echo '</tbody></table></form>';
+	}$conn->close();
+}
+?> 
 <?php
 	if(isset($_GET['acc']) && isset($_GET['update']) && $_GET['acc'] == 'penot'){
 		$oid = mysql_escape_string($_GET['o']);
@@ -87,8 +150,17 @@
 					<td><?php echo $row['department'];?></td>
 				</tr>
 				<tr>
+					<?php
+						if($row['dateam'] != '0000-00-00'){
+							$fr = "<b>Fr: </b>";
+							$dateam = ' <b>To: </b>' . date('F j, Y', strtotime($row['dateam']));
+						}else{
+							$dateam = "";
+							$fr = "";
+						}
+					?>
 					<td>Date Of Overtime: </td>
-					<td><?php echo date("F j, Y", strtotime($row['dateofot']));?></td>
+					<td><?php echo $fr.date("F j, Y", strtotime($row['dateofot'])) . $dateam;?></td>
 				</tr>				
 				<tr>
 					<td>Reason (Work to be done): </td>
@@ -476,7 +548,13 @@
 				$originalDate = date($row['datefile']);
 				$newDate = date("F j, Y", strtotime($originalDate));
 				$newDate2 = date("F j, Y", strtotime($row['dateofot']));
-					
+				if($row['dateam'] != '0000-00-00'){
+					$fr = "Fr: ";
+					$dateam = 'To: ' . date('F j, Y', strtotime($row['dateam']));
+				}elseif($row['dateam'] == '0000-00-00'){
+					$dateam = "";
+					$fr = "";
+				}
 				if($datetoday >= $row['2daysred'] && $row['state'] == 'UA'){
 					echo '<tr style = "color: red">';
 				}else{
@@ -486,8 +564,8 @@
 					'
 						<td>'.$newDate .'</td>						
 						<td>'.$row["nameofemp"].'</td>
-						<td>'.$newDate2.'</td>
-						<td>'.$row["startofot"] . ' - ' . $row['endofot'] .'</td>						
+						<td>'.$fr.$newDate2 . '<br>' . $dateam.'</td>
+						<td>'.$row["startofot"] . ' - ' . $row['endofot'] . ' <b>( '. $row['approvedothrs'] .' )</td>						
 						<td width = 300 height = 70>'.$row["reason"].'</td>
 						<td>'.$row["officialworksched"].'</td>				
 						<td><b>';
@@ -703,7 +781,7 @@
 				
 				$originalDate = date($row['datefile']);
 				$newDate = date("M j, Y", strtotime($originalDate));
-				$newDate2 = date("M j, Y", strtotime($row["datehired"]));
+				$newDate2 = date("M j, Y", strtotime($row["edatehired"]));
 				$datetoday = date("Y-m-d");
 				if($datetoday >= $row['twodaysred'] && $row['state'] == 'UA' ){
 					echo '<tr style = "color: red">';
@@ -755,7 +833,7 @@
 <?php 
 	if($_SESSION['pass'] == 'default'){
 		include('up-pass.php');
-	}else if($_SESSION['201date'] == 'null'){
+	}else if($_SESSION['201date'] == null){
 	?>
 <script type="text/javascript">
 $(document).ready(function(){	      
