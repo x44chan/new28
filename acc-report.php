@@ -201,7 +201,7 @@
 							$sql1 = "SELECT count(account_id) as count  FROM officialbusiness where officialbusiness.account_id = $accidd and state = 'AAdmin' and DAY(obdatereq) >= $forque and DAY(obdatereq) <= $endque and MONTH(obdatereq) = $dated and YEAR(obdatereq) = $datey ORDER BY obdate ASC";
 						}
 						else if($_GET['rep'] == 'lea'){	
-							$sql1 = "SELECT count(account_id) as count  FROM nleave where nleave.account_id = $accidd and state = 'AAdmin' and DAY(dateofleavfr) >= $forque and DAY(dateofleavfr) <= $endque and MONTH(dateofleavfr) = $dated and YEAR(dateofleavfr) = $datey ORDER BY datefile ASC";
+							$sql1 = "SELECT count(account_id) as count  FROM nleave where nleave.account_id = $accidd and state = 'AAdmin' and YEAR(dateofleavfr) = $datey ORDER BY datefile ASC";
 						}
 						else if($_GET['rep'] == 'undr'){	
 							$sql1 = "SELECT count(account_id) as count  FROM undertime where undertime.account_id = $accidd and state = 'AAdmin' and DAY(dateofundrtime) >= $forque and DAY(dateofundrtime) <= $endque and MONTH(dateofundrtime) = $dated and YEAR(dateofundrtime) = $datey ORDER BY datefile ASC";
@@ -556,7 +556,7 @@
 		$position = $res123['position'];	
 		$department = $res123['department'];
 		$cutoffdate = date("Y-m-d");
-		$sql = "SELECT * FROM nleave where nleave.account_id = $accid and state = 'AAdmin' and DAY(dateofleavfr) >= $forque and DAY(dateofleavfr) <= $endque and MONTH(dateofleavfr) = $dated and YEAR(dateofleavfr) = $datey ORDER BY datefile ASC";
+		$sql = "SELECT * FROM nleave where nleave.account_id = $accid and state = 'AAdmin' and YEAR(dateofleavfr) = $datey ORDER BY datefile ASC";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>

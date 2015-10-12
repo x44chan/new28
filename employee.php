@@ -324,7 +324,7 @@
 				?>	
 				<tr>
 					<td colspan = 3 align = center>
-						<h2> Leave Request </h2>
+						<h2> Update Leave Request </h2>
 					</td>
 				</tr>
 				<tr>
@@ -757,7 +757,7 @@
 <?php 
 	if(isset($_GET['ac']) && $_GET['ac'] == 'penlea'){
 		include("conf.php");
-		$sql = "SELECT * FROM nleave,login where login.account_id = $accid and nleave.account_id = $accid and DAY(dateofleavfr) >= $forque and DAY(dateofleavfr) <= $endque and MONTH(dateofleavfr) = $dated and YEAR(dateofleavfr) = $datey ORDER BY state ASC,datefile ASC";
+		$sql = "SELECT * FROM nleave,login where login.account_id = $accid and nleave.account_id = $accid and YEAR(dateofleavfr) = $datey ORDER BY state ASC,datefile ASC";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>	
@@ -801,7 +801,7 @@
 					<td>'.$row['posttile'].'</td>					
 					<td width = "300">Fr: '.date("M j, Y", strtotime($row["dateofleavfr"])) .' <br>To: '.date("M j, Y", strtotime($row["dateofleavto"])).'</td>
 					<td>'.$row["numdays"].'</td>					
-					<td >'.$row["typeoflea"]. ' : ' . $row['othersl']. '</td>	
+					<td >'.$row["typeoflea"]. ' ' . $row['othersl']. '</td>	
 					<td >'.$row["reason"].'</td>	
 					<td width = "200"><b>';
 							if($row['state'] == 'UA' && strtolower($row['position']) != 'service technician'){

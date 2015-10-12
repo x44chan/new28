@@ -26,6 +26,7 @@
 		<div class="btn-group btn-group-lg">
 			<button  type = "button"class = "btn btn-primary"  id = "showneedapproval">Home</button>	
 			<button  type = "button"class = "btn btn-primary"  id = "newuserbtn">New User</button>	
+			<a href = "admin-emprof.php" type = "button"class = "btn btn-primary"  id = "newuserbtn">Employee Profile</a>	
 			<div class="btn-group btn-group-lg">
 				<button type="button" class="btn btn-primary dropdown-toggle"  data-toggle="dropdown">Petty Voucher <span class="caret"></span></button>
 				<ul class="dropdown-menu" role="menu">
@@ -199,7 +200,7 @@
 						</td></tr>';
 				}
 			}
-			$sql = "SELECT * from nleave,login where login.account_id = nleave.account_id and state like 'AACC%' and DAY(dateofleavfr) >= $forque and DAY(dateofleavfr) < $endque and MONTH(dateofleavfr) = $dated and YEAR(dateofleavfr) = $datey ORDER BY datefile ASC";
+			$sql = "SELECT * from nleave,login where login.account_id = nleave.account_id and state like 'AACC%' and YEAR(dateofleavfr) = $datey ORDER BY datefile ASC";
 			$result = $conn->query($sql);
 			if($result->num_rows > 0){
 				while($row = $result->fetch_assoc()){
