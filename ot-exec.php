@@ -4,36 +4,33 @@
 	
 	if(isset($_POST['datefile'])){		
 		//hrs:minutes computation
+		function gettimediff($dtime,$atime){ 
+		 $nextday = $dtime > $atime?1:0;
+		 $dep = explode(':',$dtime);
+		 $arr = explode(':',$atime);
+		 $diff = abs(mktime($dep[0], $dep[1], 0, date('n'), date('j'), date('y')) - mktime($arr[0], $arr[1], 0, date('n'), date('j') + $nextday, date('y')));
+		 $hours = floor($diff / (60*60));
+		 $mins = floor(($diff - ($hours*60*60))/(60));
+		 $secs = floor(($diff - (($hours*60*60)+($mins*60))));
+		 if(strlen($hours) < 2){
+		 	$hours = "0" . $hours;
+		 }
+		 if(strlen($mins) < 2){
+		 	$mins = "0" . $mins;
+		 }
+		 if(strlen($secs) < 2){
+		 	$secs = "0" . $secs;
+		 }
+		 if($hours == 00){
+		 	$hours += 24;	
+		 }
+		 return $hours . ':' . $mins;
+		}
 		$time1 = date('H:i', strtotime($_POST['startofot']));
 		$time2 = date('H:i', strtotime($_POST['endofot']));
-		list($hours, $minutes) = explode(':', $time1);
-		$startTimestamp = mktime($hours, $minutes);
-		list($hours, $minutes) = explode(':', $time2);
-		$endTimestamp = mktime($hours, $minutes);
-		$seconds = $endTimestamp - $startTimestamp;
-		$minutes = ($seconds / 60) % 60;
-		$hours = floor($seconds / (60 * 60));
-		if($hours < 0){
-			$hours *= -1;
-		}
-		if($minutes < 0){
-			$minutes *= -1;
-		}
-		if($hours < 0){
-			$hours *= -1;
-		}
-		if($hours > 12){
-			$hours -= 24;
-			if($hours < 0){
-				$hours *= -1;
-			}
-			if($minutes < 0){
-				$minutes *= -1;
-			}
-		}
+		$approvedothrs = gettimediff($time1,$time2);
+		//end of computation				
 		$post = strtolower($_SESSION['post']);
-		$approvedothrs = $hours.':'.$minutes;
-		//end of computation		
 		$accid = $_SESSION['acc_id'];		
 		$datefile = date("Y-m-d");
 		$dateofot = $_POST['dateofot'];
