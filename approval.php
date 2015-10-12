@@ -19,13 +19,15 @@
 		$state = mysqli_real_escape_string($conn, $_GET['approve']);
 		if(isset($_GET['dareason'])){
 			$dareason = mysqli_real_escape_string($conn, $_GET['dareason']);
+		}else{
+			$dareason = "";
 		}
 		
 		if($_SESSION['level'] == 'ACC'){
 			$date = date('Y-m-d h:i A');
 			$sql = "UPDATE overtime set state = '$state',dateacc = '$date',dareason = '$dareason' where overtime_id = $id and state = 'AHR'";			
 			if($conn->query($sql) == TRUE){
-				header('location: accounting.php?ac='.$_GET['ac'].'');			
+				echo '<script type="text/javascript">window.location.replace("accounting.php?ac='.$_GET['ac'].'"); </script>';		
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}
@@ -33,7 +35,7 @@
 			$date = date('Y-m-d h:i A');
 			$sql = "UPDATE overtime set state = '$state',datehr = '$date',dareason = '$dareason' where overtime_id = $id and state = 'UA'";			
 			if($conn->query($sql) == TRUE){
-				header('location: hr.php?ac='.$_GET['ac'].'');		
+				echo '<script type="text/javascript">window.location.replace("hr.php?ac='.$_GET['ac'].'"); </script>';	
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}
@@ -41,7 +43,7 @@
 			$date = date('Y-m-d h:i A');
 			$sql = "UPDATE overtime set state = '$state',datehr = '$date',dareason = '$dareason' where overtime_id = $id and state = 'UATech'";			
 			if($conn->query($sql) == TRUE){
-				header('location: techsupervisor.php?ac='.$_GET['ac'].'');		
+				echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac='.$_GET['ac'].'"); </script>';		
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}
@@ -50,7 +52,7 @@
 			$sql = "UPDATE overtime set state = '$state' where overtime_id = $id and state like 'AACC%'";
 			if($conn->query($sql) == TRUE){
 				echo 'added';
-				header('location: admin.php');
+				echo '<script type="text/javascript">window.location.replace("admin.php"); </script>';
 			}else{
 			die("Connection error:". $conn->connect_error);
 		}		
@@ -65,12 +67,14 @@
 		$state = mysqli_real_escape_string($conn, $_GET['approve']);		
 		if(isset($_GET['dareason'])){
 			$dareason = mysqli_real_escape_string($conn, $_GET['dareason']);
+		}else{
+			$dareason = "";
 		}
 		if($_SESSION['level'] == 'ACC'){
 			$date = date('Y-m-d h:i A');
 			$sql = "UPDATE officialbusiness set state = '$state',dateacc = '$date',dareason = '$dareason'  where officialbusiness_id = $id and state = 'AHR'";			
 			if($conn->query($sql) == TRUE){
-				header('location: accounting.php?ac='.$_GET['ac'].'');			
+				echo '<script type="text/javascript">window.location.replace("accounting.php?ac='.$_GET['ac'].'"); </script>';		
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}
@@ -78,15 +82,15 @@
 			$date = date('Y-m-d h:i A');
 			$sql = "UPDATE officialbusiness set state = '$state',datehr = '$date',dareason = '$dareason'  where officialbusiness_id = $id and state = 'UA'";			
 			if($conn->query($sql) == TRUE){
-				header('location: hr.php?ac='.$_GET['ac'].'');
+				echo '<script type="text/javascript">window.location.replace("hr.php?ac='.$_GET['ac'].'"); </script>';
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}
 		}else if($_SESSION['level'] == 'TECH'){
 			$date = date('Y-m-d h:i A');
 			$sql = "UPDATE officialbusiness set state = '$state',datehr = '$date',dareason = '$dareason'  where officialbusiness_id = $id and state = 'UATech'";			
-			if($conn->query($sql) == TRUE){
-				header('location: techsupervisor.php?ac='.$_GET['ac'].'');		
+			if($conn->query($sql) == TRUE){				
+				echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac='.$_GET['ac'].'"); </script>';
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}
@@ -94,7 +98,7 @@
 			$sql = "UPDATE officialbusiness set state = '$state' where officialbusiness_id = $id and state like 'AACC%'";
 			if($conn->query($sql) == TRUE){
 				echo 'added';
-				header('location: admin.php');
+				echo '<script type="text/javascript">window.location.replace("admin.php"); </script>';
 			}else{
 			die("Connection error:". $conn->connect_error);
 		}		
@@ -110,13 +114,15 @@
 		$state = mysqli_real_escape_string($conn, $_GET['approve']);
 		if(isset($_GET['dareason'])){
 			$dareason = mysqli_real_escape_string($conn, $_GET['dareason']);
+		}else{
+			$dareason = "";
 		}
 		echo $id.''.$state;
 		if($_SESSION['level'] == 'ACC'){
 			$date = date('Y-m-d h:i A');
 			$sql = "UPDATE undertime set state = '$state',dateacc = '$date',dareason = '$dareason'  where undertime_id = $id and state = 'AHR'";			
 			if($conn->query($sql) == TRUE){
-				header('location: accounting.php?ac='.$_GET['ac'].'');			
+				echo '<script type="text/javascript">window.location.replace("accounting.php?ac='.$_GET['ac'].'"); </script>';		
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}
@@ -124,7 +130,7 @@
 			$date = date('Y-m-d h:i A');
 			$sql = "UPDATE undertime set state = '$state',datehr = '$date',dareason = '$dareason'  where undertime_id = $id and state = 'UA'";			
 			if($conn->query($sql) == TRUE){
-				header('location: hr.php?ac='.$_GET['ac'].'');		
+				echo '<script type="text/javascript">window.location.replace("hr.php?ac='.$_GET['ac'].'"); </script>';	
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}
@@ -132,7 +138,7 @@
 			$date = date('Y-m-d h:i A');
 			$sql = "UPDATE undertime set state = '$state',datehr = '$date',dareason = '$dareason'  where undertime_id = $id and state = 'UATech'";			
 			if($conn->query($sql) == TRUE){
-				header('location: techsupervisor.php?ac='.$_GET['ac'].'');		
+				echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac='.$_GET['ac'].'"); </script>';
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}
@@ -140,7 +146,7 @@
 			$sql = "UPDATE undertime set state = '$state' where undertime_id = $id and state like 'AACC%'";
 			if($conn->query($sql) == TRUE){
 				echo 'added';
-				header('location: admin.php');
+				echo '<script type="text/javascript">window.location.replace("admin.php"); </script>';
 			}else{
 			die("Connection error:". $conn->connect_error);
 		}		
@@ -156,12 +162,14 @@
 		$state = mysqli_real_escape_string($conn, $_GET['approve']);
 		if(isset($_GET['dareason'])){
 			$dareason = mysqli_real_escape_string($conn, $_GET['dareason']);
+		}else{
+			$dareason = "";
 		}
 		if($_SESSION['level'] == 'ACC'){
 			$date = date('F d, Y h:i A');
 			$sql = "UPDATE nleave set state = '$state',dateacc = '$date',dareason = '$dareason'  where leave_id = $id and state = 'AHR'";			
 			if($conn->query($sql) == TRUE){
-				header('location: accounting.php?ac='.$_GET['ac'].'');			
+				echo '<script type="text/javascript">window.location.replace("accounting.php?ac='.$_GET['ac'].'"); </script>';			
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}
@@ -169,7 +177,7 @@
 			$date = date('F d, Y h:i A');
 			$sql = "UPDATE nleave set state = '$state',datehr = '$date',dareason = '$dareason'  where leave_id = $id and state = 'UA'";			
 			if($conn->query($sql) == TRUE){
-				header('location: hr.php?ac='.$_GET['ac'].'');		
+				echo '<script type="text/javascript">window.location.replace("hr.php?ac='.$_GET['ac'].'"); </script>';		
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}
@@ -177,7 +185,7 @@
 			$date = date('Y-m-d h:i A');
 			$sql = "UPDATE nleave set state = '$state',datehr = '$date',dareason = '$dareason'  where leave_id = $id and state = 'UATech'";			
 			if($conn->query($sql) == TRUE){
-				header('location: techsupervisor.php?ac='.$_GET['ac'].'');		
+				echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac='.$_GET['ac'].'"); </script>';		
 			}else{
 				die("Connection error:". $conn->connect_error);
 			}
@@ -185,7 +193,7 @@
 			$sql = "UPDATE nleave set state = '$state' where leave_id = $id and state like 'AACC%'";
 			if($conn->query($sql) == TRUE){
 				echo 'added';
-				header('location: admin.php');
+				echo '<script type="text/javascript">window.location.replace("admin.php"); </script>';
 			}else{
 			die("Connection error:". $conn->connect_error);
 		}		
