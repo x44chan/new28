@@ -141,7 +141,7 @@
 				<td><?php echo date("M j, y", strtotime($row['date']));?></td>			
 				<td><?php echo $row['fname']. ' '.$row['lname'];?></td>
 				<td><?php echo $row['particular'];?></td>
-				<td>PHP: <?php if(!is_numeric($row['amount'])){ echo $row['amount']; }else{ echo number_format($row['amount']); }?></td>
+				<td>&#8369; <?php if(!is_numeric($row['amount'])){ echo $row['amount']; }else{ echo number_format($row['amount']); }?></td>
 				<td><?php if($row['transfer_id'] == null){echo 'N/A';}else{echo $row['transfer_id'];} ?></td>
 				<td><?php echo '<a class = "btn btn-primary" href = "?pettyac=a&petty_id='.$row['petty_id'].'">Approve</a> ';
 						echo '<a class = "btn btn-primary" onclick = "return confirm(\'Are you sure?\');"href = "petty-exec.php?pettyac=d&petty_id='.$row['petty_id'].'"">Disapprove</a>';?></td>
@@ -159,7 +159,7 @@
 				<td><?php echo date("M j, y", strtotime($row['date']));?></td>			
 				<td><?php echo $row['fname']. ' '.$row['lname'];?></td>
 				<td><?php echo $row['particular'];?></td>
-				<td>PHP: <?php if(!is_numeric($row['amount'])){ echo $row['amount']; }else{ echo number_format($row['amount']); }?></td>
+				<td>&#8369; <?php if(!is_numeric($row['amount'])){ echo $row['amount']; }else{ echo number_format($row['amount']); }?></td>
 				<td><?php if($row['transfer_id'] == null){echo 'N/A';}else{echo $row['transfer_id'];} ?></td>
 				<td>
 					<?php echo "<b>Received</b><br>";?>
@@ -228,7 +228,7 @@
 				echo '<td>';
 				if($row['transfer_id'] == null){echo 'N/A';}else{echo $row['transfer_id'];} 
 				echo '</td>';
-				echo '<td>PHP: ';
+				echo '<td>&#8369; ';
 				if(!is_numeric($row['amount'])){ echo $row['amount']; }else{ echo number_format($row['amount']); } ;
 				echo '</td>';
 				echo '</tr>';
@@ -291,4 +291,5 @@
 		</table>
 	</form>
 </div>
+<?php include('req-form.php');?>
 <?php include('footer.php');?>

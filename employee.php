@@ -87,7 +87,7 @@
 						<td>'.$row['particular'].'</td>
 						<td>'.$row['source'].'</td>
 						<td>'.$row['transfer_id'].'</td>
-						<td>PHP: '.$row['amount'].'</td>
+						<td>&#8369;: '.$row['amount'].'</td>
 						<td>';
 							if($row['state'] == "UAPetty"){
 								echo '<b>Pending to Admin';

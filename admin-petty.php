@@ -138,7 +138,7 @@
 				<td><?php echo date("M j, Y", strtotime($row['date']));?></td>			
 				<td><?php echo $row['fname']. ' '.$row['lname'];?></td>
 				<td><?php echo $row['particular'];?></td>
-				<td>PHP: <?php if(!is_numeric($row['amount'])){ echo $row['amount']; }else{ echo number_format($row['amount']); }?></td>
+				<td>&#8369; <?php echo $row['amount']; ?></td>
 				<td><?php echo '<a class = "btn btn-primary" href = "?pettyac=a&petty_id='.$row['petty_id'].'">Approve</a> ';
 						echo '<a class = "btn btn-primary" href = "petty-exec.php?pettyac=d&petty_id='.$row['petty_id'].'"">Disapprove</a>';?></td>
 				</tr>
@@ -155,7 +155,7 @@
 				<td><?php echo date("M j, Y", strtotime($row['date']));?></td>			
 				<td><?php echo $row['fname']. ' '.$row['lname'];?></td>
 				<td><?php echo $row['particular'];?></td>
-				<td>PHP: <?php if(!is_numeric($row['amount'])){ echo $row['amount']; }else{ echo number_format($row['amount']); }?></td>
+				<td>&#8369; <?php echo $row['amount']; ?></td>
 				<td>
 					<?php echo "<b>Received</b><br>";?>
 					<?php echo '<a class = "btn btn-success" style = "width: 100px" href = "petty-exec.php?pettydone=a&petty_id='.$row['petty_id'].'">Done</a>';?>
@@ -185,7 +185,7 @@
 				echo '<tr><td style = "width: 30%;">Petty Number: </td><td style = "width: 50%;"><input name = "petty_id"type = "hidden" value = "' . $row['petty_id'].'"/>' . $row['petty_id'].'</td></tr>';
 				echo '<tr><td style = "width: 30%;">Name : </td><td style = "width: 50%;">' . $row['fname'] . ' ' . $row['lname'].'</td></tr>';
 				echo '<tr><td style = "width: 30%;">Particular: </td><td style = "width: 50%;">' . $row['particular'].'</td></tr>';	
-				echo '<tr><td style = "width: 30%;">Amount: </td><td style = "width: 50%;"><input class = "form-control" type = "text" name = "pettyamount" value ="' ; if(!is_numeric($row['amount'])){ echo $row['amount']; }else{ echo number_format($row['amount']); };echo'"/></td></tr>';
+				echo '<tr><td style = "width: 30%;">Amount: </td><td style = "width: 50%;"><input id = "petamount" class = "form-control" type = "text" name = "pettyamount" value ="'. $row['amount'].'"/></td></tr>';
 				if($row['particular'] == "Transfer"){ echo '<tr><td>Transfer ID: </td><td><input placeholder = "Enter transaction code" required class = "form-control" type = "text" name = "transct"/></tr></td>'; }		
 				if($row['particular'] == "Check"){ echo '<tr><td>Reference #: <font color = "red">*</font></td><td><input placeholder = "Enter reference #" required class = "form-control" type = "text" name = "transct"/></tr></td>'; }		
 				echo '<tr><td style = "width: 30%;">Source of Fund <font color = "red">*</font></td><td><select required name = "source" class = "form-control"><option value = "">-------</option><option value = "Eli/Sha">Eli/Sha</option><option value = "Accounting">Accounting</option></select></td></tr>';
@@ -224,9 +224,7 @@ if(isset($_GET['report']) && $_GET['report'] == '1'){
 				echo '<td>';
 				if($row['transfer_id'] == null){echo 'N/A';}else{echo $row['transfer_id'];} 
 				echo '</td>';
-				echo '<td>PHP: ';
-				if(!is_numeric($row['amount'])){ echo $row['amount']; }else{ echo number_format($row['amount']); } ;
-				echo '</td>';
+				echo '<td>&#8369; '. $row['amount']. '</td>';
 				echo '</tr>';
 			}
 		}

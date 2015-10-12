@@ -275,8 +275,8 @@
               </select>
             </div>
             <div class="form-group">
-            	 <label for="usrname"> Amount</label>
-              <input type = "text" pattern = "[0-9]*" title = "No comma" required name = "amountpet" class ="form-control" autocomplete = "off" placeholder = "Enter amount">
+            	<label for="usrname"> Amount</label><br>
+            	<input type = "text" pattern = "[0-9,]*" id = "petamount" required name = "amountpet" class ="form-control" autocomplete = "off" placeholder = "Enter amount">
             </div>
               <button type="submit" name = "submitpet" class="btn btn-success btn-block">Submit</button>
           </form>
