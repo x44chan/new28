@@ -26,6 +26,7 @@
 		<div class="btn-group btn-group-lg">
 			<a href = "admin.php"  type = "button"class = "btn btn-primary"  id = "showneedapproval">Home</a>	
 			<button  type = "button"class = "btn btn-primary"  id = "newuserbtn">New User</button>				
+      <a href = "admin-emprof.php" type = "button"class = "btn btn-primary"  id = "newuserbtn">Employee Profile</a> 
 			<div class="btn-group btn-group-lg">
 				<button type="button" class="btn btn-primary dropdown-toggle"  data-toggle="dropdown">Petty Voucher <span class="caret"></span></button>
 				<ul class="dropdown-menu" role="menu">

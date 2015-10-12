@@ -14,7 +14,7 @@
 		$dateofleavfr = $_POST['dateofleavfr'];
 		$dateofleavto = $_POST['dateofleavto'];
 		$numdays = $_POST['numdays'];
-		if($_POST['typeoflea'] == 'Others'){
+		if($_POST['typeoflea'] == 'Others:'){
 			$typeoflea = $_POST['typeoflea'];
 			$othersl = $_POST['othersl'];
 		}else{

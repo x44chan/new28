@@ -21,7 +21,7 @@
 		 if(strlen($secs) < 2){
 		 	$secs = "0" . $secs;
 		 }
-		 if($hours == 00){
+		 if($hours == 00 && $minutes != 00){
 		 	$hours += 24;	
 		 }
 		 return $hours . ':' . $mins;
