@@ -27,7 +27,7 @@
         </div>
         <div class="row">
         <div class = "col-lg-5 col-md-5 col-sm-5 col-xs-5" align="center">
-            <img style = "margin: auto;"src="images/<?php echo $_SESSION['acc_id'];?>.jpg" class="img-rounded" alt="Cinque Terre" width="200" height="180"><br><br>
+            <img style = "margin: auto;" src="<?php echo 'images/'. $_SESSION['acc_id'] . '.jpg?'.rand(1,32000);?>" class="img-rounded" alt="Cinque Terre" width="200" height="180"><br><br>
             <a href = "takephoto.php" class="btn btn-primary"> Take Photo </a>
          </div>
           <div class="col-md-7">
