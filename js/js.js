@@ -11,7 +11,7 @@ $(document).ready(function(){
 	$('#typeoflea').change(function() {
    		var selected = $(this).val();
 	
-		if(selected == 'Others'){
+		if(selected == 'Others:'){
 			$('#othersl').attr('disabled',false);
 			$("#othersl").attr('required',true);
 			$('#othersl').attr("placeholder", "Enter Reason").placeholder();
