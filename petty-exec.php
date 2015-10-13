@@ -40,7 +40,7 @@
 	 		if($_SESSION['level'] == 'Admin'){
 	    		echo '<script type="text/javascript">window.location.replace("admin-petty.php"); </script>';
 	 		}else if($_SESSION['level'] == 'ACC'){
-	 			echo '<script type="text/javascript">window.location.replace("admin-petty.php"); </script>';
+	 			echo '<script type="text/javascript">window.location.replace("accounting-petty.php"); </script>';
 	 		}
 	  	}else {
 	    	echo "Error updating record: " . $conn->error;
