@@ -179,6 +179,104 @@
 </div>
 
 <div id = "leave"style = "margin-top: -30px; display: none;">
+<?php
+	include('conf.php');
+	$accid = $_SESSION['acc_id'];
+	$sql = "SELECT * from `login` where account_id = '$accid'";
+	$result = $conn->query($sql);
+	$datey = date("Y");
+	if($result->num_rows > 0){
+		while($row = $result->fetch_assoc()){
+			$accidd = $row['account_id'];
+			if($accidd == '23' && date('Y') == "2015"){
+				$desick = '6';
+				$devl = '8';
+			}elseif($accidd == '26' && date('Y') == "2015"){
+				$desick = '1';
+				$devl = '2';
+			}elseif($accidd == '14' && date('Y') == "2015"){
+				$desick = '5';
+				$devl = '5';
+			}elseif($accidd == '3' && date('Y') == "2015"){
+				$desick = '3';
+				$devl = '6';
+			}elseif($accidd == '16' && date('Y') == "2015"){
+				$desick = '';
+				$devl = '3';
+			}elseif($accidd == '12' && date('Y') == "2015"){
+				$desick = '';
+				$devl = '2';
+			}elseif($accidd == '20' && date('Y') == "2015"){
+				$desick = '1';
+				$devl = '1';
+			}elseif($accidd == '17' && date('Y') == "2015"){
+				$desick = '';
+				$devl = '6';
+			}elseif($accidd == '11' && date('Y') == "2015"){
+				$desick = '3';
+				$devl = '7';
+			}elseif($accidd == '10' && date('Y') == "2015"){
+				$desick = '';
+				$devl = '3';
+			}elseif($accidd == '4' && date('Y') == "2015"){
+				$desick = '';
+				$devl = '7';
+			}else{
+				$desick = 0;
+				$devl = 0;
+			}
+			$sql1 = "SELECT SUM(numdays) as count  FROM nleave where nleave.account_id = $accidd and typeoflea like 'Sick Leave' and state = 'AAdmin' and YEAR(dateofleavfr) = $datey";
+			$result1 = $conn->query($sql1);
+			if($result1->num_rows > 0){
+				while($row1 = $result1->fetch_assoc()){
+					$availsick = $row['sickleave'] - $row1['count'];
+					$scount = $row1['count'];						
+					}
+			}		
+			if($scount == null){
+				$scount = " - ";
+			}
+			
+			$sql1 = "SELECT SUM(numdays) as count  FROM nleave where nleave.account_id = $accidd and typeoflea like 'Vacation Leave' and state = 'AAdmin' and YEAR(dateofleavfr) = $datey";
+			$result1 = $conn->query($sql1);
+			if($result1->num_rows > 0){
+				while($row1 = $result1->fetch_assoc()){
+					$availvac = $row['vacleave'] - $row1['count'];
+					$count = $row1['count'];
+					}
+			}			
+			
+			$sql1 = "SELECT SUM(numdays) as count  FROM nleave where nleave.account_id = $accidd and typeoflea like 'Others%' and state = 'AAdmin' and YEAR(dateofleavfr) = $datey";
+			$result1 = $conn->query($sql1);
+			if($result1->num_rows > 0){
+				while($row1 = $result1->fetch_assoc()){
+					$totavailvac = $availvac - $row1['count'];
+					$count = $row1['count'];
+					}
+			}	
+
+			$sql1 = "SELECT SUM(numdays) as count  FROM nleave where nleave.account_id = $accidd and typeoflea like 'Paternity Leave' and state = 'AAdmin' and YEAR(dateofleavfr) = $datey";
+			$result1 = $conn->query($sql1);
+			if($result1->num_rows > 0){
+				while($row1 = $result1->fetch_assoc()){
+					$patternity = 7 - $row1['count'];
+					$count = $row1['count'];
+					}
+			}
+
+			$sql1 = "SELECT SUM(numdays) as count  FROM nleave where nleave.account_id = $accidd and typeoflea like 'Wedding Leave' and state = 'AAdmin' and YEAR(dateofleavfr) = $datey";
+			$result1 = $conn->query($sql1);
+			if($result1->num_rows > 0){
+				while($row1 = $result1->fetch_assoc()){
+					$wedding = 7 -  $row1['count'];
+					$count = $row1['count'];
+					}
+			}				
+			
+		}
+	}
+
+?>
 	<form role = "form"  align = "center"action = "oleave-exec.php" method = "post">
 		<div class = "form-group">
 			<table align = "center" width = "60%">
@@ -187,18 +285,22 @@
 						<h2> Leave Request </h2>
 					</td>
 				</tr>
+				
 				<tr>
 					<td colspan = 3 align = center>
 						<h5><p style = "font-style: italic; color: red;">For scheduled leave, submit Leave request to Human Resources Department seven(7) days prior to leave date. </h5>
 					</td>
-				</tr>		
+				</tr>	
+
 				<tr class = "form-inline" >
 					<td>Type of Leave</td>
 					<td align = "left">
 						<select style = "width: 60%; float: left;" required class="form-control" id = "typeoflea" name="typeoflea">
-							<option value = ""> ---- </option>
-							<option value = "Vacation Leave">Vacation Leave</option>
+							<option value = ""> ---- </option>							
 							<option value = "Sick Leave">Sick Leave</option>
+							<option value = "Vacation Leave">Vacation Leave</option>
+							<?php if($patternity > 0){ echo '<option value = "Paternity Leave">Paternity Leave </option>'; }?>
+							<?php if($wedding  > 0){ echo '<option value = "Wedding Leave">Wedding Leave </option>';}?>
 							<option value = "Others:">Others(Pls. Specify)</option>
 						</select>						
 						<input disabled type = "text" name = "othersl" class = "form-control" id = "othersl" style = "width: 40%;"/>
@@ -229,15 +331,74 @@
 					<td colspan = 3 align = "center">
 						<h3>LEAVE DETAILS</h3>
 				</tr>
+				<tr>
+					<td align = center>	Sick Leave Balance: </td>
+					<td><input readonly="" id = "sickleave" value = "<?php echo $availsick - $desick;?>" class = "form-control"/></td>
+				</tr>	
+				<tr>
+					<td align = center>	Vacation Leave Balance: </td>
+					<td><input readonly="" id = "vacleave" value = "<?php echo $totavailvac - $devl;?>" type = "number" class = "form-control"/></td>
+				</tr>	
 				<tr class = "form-inline">
 					<td>Inclusive Dates: </td>
 					<td style="float:left;">
-						From: <input required class = "form-control" type = "date" placeholder = "Click to set date"required="" data-date='{"startView": 2, "openOnMouseFocus": true}' min = "<?php echo date('m/d/Y'); ?>" name = "dateofleavfr"/>
-						To: <input required class = "form-control" type = "date" placeholder = "Click to set date"required="" data-date='{"startView": 2, "openOnMouseFocus": true}' min = "<?php echo date('m/d/Y'); ?>" name = "dateofleavto"/>
-						Number of Days: <input maxlength = "3" style = "width: 90px;"type = "text" pattern = '[0-9]+' required name = "numdays"class = "form-control"/>
+						<b>FROM: </b><input required class = "form-control" type = "date" placeholder = "Click to set date"required="" data-date='{"startView": 2, "openOnMouseFocus": true}' min = "<?php echo date('m/d/Y'); ?>" name = "dateofleavfr"/>
+						<b>TO: </b><input required class = "form-control" type = "date" placeholder = "Click to set date"required="" data-date='{"startView": 2, "openOnMouseFocus": true}' min = "<?php echo date('m/d/Y'); ?>" name = "dateofleavto"/>
+						<b>Number of Days: </b><input maxlength = "3" id = "numdays" style = "width: 90px;"type = "text" pattern = '[0-9]+' required name = "numdays"class = "form-control"/>
 					</td>
 				</tr>					
+				<script type="text/javascript">
+				/*$(document).ready(function(){	
+					$('#typeoflea').change(function() {
+				   		var selected = $(this).val();
+						$('#numdays').val("");
+				   		if(selected == 'Paternity Leave'){
+				   			$('#numdays').val(<?php echo $patternity;?>);
+				   			$('#numdays').attr('readonly', true);
+				   		}else if(selected ==  'Wedding Leave'){
+				   			$('#numdays').val(<?php echo $wedding;?>);
+				   			$('#numdays').attr('readonly', true);
+				   		}else{
+				   			$('#numdays').val();
+				   			$('#numdays').attr('readonly', false);
+				   		}
 
+					});
+					$('#numdays').change(function() {
+						if($("#typeoflea").val() == "Sick Leave"){
+							int1 = '<?php echo $availsick - $desick;?>';
+							int2 = $('#numdays').val();
+							if(parseInt(int1) < parseInt(int2)){
+								alert("Not enough balance.");
+								$('#numdays').val("");
+								$('#numdays').focus();
+								return false;
+							}
+							if(parseInt(int1) <= 0){
+								alert("No more balance.");
+								$('#numdays').val("");
+								$('#numdays').focus();
+								return false;
+							}
+						}else if($("#typeoflea").val() == "Vacation Leave" || $("#typeoflea").val() == "Others:"){
+							int1 = '<?php echo $totavailvac - $devl;?>';
+							int2 = $('#numdays').val();
+							if(parseInt(int1) < parseInt(int2)){
+								alert("Not enough balance.");
+								$('#numdays').val("");
+								$('#numdays').focus();
+								return false;
+							}
+							if(parseInt(int1) <= 0){
+								alert("No more balance.");
+								$('#numdays').val("");
+								$('#numdays').focus();
+								return false;
+							}
+						}
+					});
+				});*/
+				</script>
 				<tr>
 					<td>Reason: </td>
 					<td><textarea class = "form-control" name = "leareason"required></textarea></td>

@@ -10,17 +10,25 @@ $(document).ready(function(){
     });
 	$('#typeoflea').change(function() {
    		var selected = $(this).val();
-	
+		$('#numdays').val("");
 		if(selected == 'Others:'){
 			$('#othersl').attr('disabled',false);
 			$("#othersl").attr('required',true);
-			$('#othersl').attr("placeholder", "Enter Reason").placeholder();
+			$('#othersl').attr("placeholder", "Enter Reason");
    		}else{
 			$('#othersl').val("");
 			$('#othersl').attr('disabled',true);
-			$('#othersl').attr("placeholder", " ").placeholder();
+			$('#othersl').attr("placeholder", " ");
 			$("#othersl").attr('required',false);
    		}
+   		if(selected == 'Paternity Leave' || selected == 'Wedding Leave'){
+   			$('#numdays').val('7');
+   			$('#numdays').attr('readonly', true);
+   		}else{
+   			$('#numdays').val();
+   			$('#numdays').attr('readonly', false);
+   		}
+
 	});
 	$("#petamount").keyup(function(e){
         $(this).val(format($(this).val()));

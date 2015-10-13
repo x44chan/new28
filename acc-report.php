@@ -85,6 +85,9 @@
 <script type="text/javascript">		
     $(document).ready( function () {
     	$('#myTable').DataTable();
+    	$('#myTablelea').DataTable( {
+        "order": [[ 3, "desc" ]]
+    } );
 	});
 </script>
 <div align = "center" style = "margin-bottom: 30px;">
@@ -122,7 +125,113 @@
 		</div>
 	</div>
 </div>
-<div id = "userlist" <?php if(isset($_GET['acc_id'])){ echo 'style = "display: none;"';}?>>
+
+	<div>
+<?php 
+	if(isset($_GET['sumar']) && $_GET['sumar'] == 'leasum'){
+		$title = "Employee Leave Summary";
+?>
+	<div id = "report">
+		<i><h2 align = "center">Employee Leave Summary</h2>
+		<h4 align = "center">January <?php echo date("Y");?> - December <?php echo date("Y");?></h4></i>
+		<table id = "myTablelea" align = "center" class = "table table-hover" style="font-size: 16px;">
+		<thead>
+				<tr>
+					<th>Account ID</th>
+					<th>Name</th>
+					<th>Given S.L.</th>
+					<th>Total Used S.L.</th>
+					<th>Avail S.L.</th>
+					<th>Given V.L.</th>
+					<th>Total Used V.L.</th>
+					<th>Avail V.L.</th>
+					<th>Paternity/Wedding Leave</th>
+				</tr>
+			  </thead>
+			  <tbody>
+<?php 
+		include("conf.php");
+		$sql = "SELECT * from `login` where level != 'Admin'";
+		$result = $conn->query($sql);
+		$datey = date("Y");
+		if($result->num_rows > 0){
+			while($row = $result->fetch_assoc()){
+				$accidd = $row['account_id'];
+				echo '<tr>';
+				echo '<td>'.$accidd.'</td>';
+				echo '<td>'.$row['fname']. ' ' . $row['mname']. ' '.$row['lname'].'</td>';
+				
+				$sql1 = "SELECT SUM(numdays) as count  FROM nleave where nleave.account_id = $accidd and typeoflea like 'Sick Leave' and state = 'AAdmin' and YEAR(dateofleavfr) = $datey";
+				$result1 = $conn->query($sql1);
+				if($result1->num_rows > 0){
+					while($row1 = $result1->fetch_assoc()){
+						$availsick = $row['sickleave'] - $row1['count'];
+						$scount = $row1['count'];						
+						}
+				}		
+				if($scount == null){
+					$scount = " - ";
+				}
+				echo '<td style = "background-color: yellow;">'.$row['sickleave'].'</td>';	
+				echo '<td>'.$scount.'</td>';
+				echo '<td style = "background-color: #993333; color: white;">'.$availsick.'</td>';	
+				
+
+				$sql1 = "SELECT SUM(numdays) as count  FROM nleave where nleave.account_id = $accidd and typeoflea like 'Vacation Leave' and state = 'AAdmin' and YEAR(dateofleavfr) = $datey";
+				$result1 = $conn->query($sql1);
+				if($result1->num_rows > 0){
+					while($row1 = $result1->fetch_assoc()){
+						$availvac = $row['vacleave'] - $row1['count'];
+						$vcount = $row1['count'];
+						}
+				}			
+				if($vcount == null){
+					$vcount = " - ";
+				}
+				$sql1 = "SELECT SUM(numdays) as count  FROM nleave where nleave.account_id = $accidd and typeoflea like 'Others%' and state = 'AAdmin' and YEAR(dateofleavfr) = $datey";
+				$result1 = $conn->query($sql1);
+				if($result1->num_rows > 0){
+					while($row1 = $result1->fetch_assoc()){
+						$totavailvac = $availvac - $row1['count'];
+						$totalcount = $vcount + $row1['count'];
+						}
+				}
+				echo '<td style = "background-color: yellow;">'.$row['vacleave'].'</td>';
+				echo '<td>'.$totalcount.'</td>';
+				echo '<td style = "background-color: #993333; color: white;">'.$totavailvac.'</td>';
+				
+
+				$sql1 = "SELECT SUM(numdays) as count  FROM nleave where nleave.account_id = $accidd and typeoflea = 'Paternity Leave' and state = 'AAdmin' and YEAR(dateofleavfr) = $datey";
+				$result1 = $conn->query($sql1);
+				if($result1->num_rows > 0){
+					while($row1 = $result1->fetch_assoc()){
+						$patternity = $row1['count'];
+						$count = $row1['count'];
+						}
+				}
+
+				$sql1 = "SELECT SUM(numdays) as count  FROM nleave where nleave.account_id = $accidd and typeoflea like 'Wedding Leave' and state = 'AAdmin'";
+				$result1 = $conn->query($sql1);
+				if($result1->num_rows > 0){
+					while($row1 = $result1->fetch_assoc()){
+						$wedding = $row1['count'];
+						$count = $row1['count'];
+						}
+				}
+				$patwed = (7-$patternity-$wedding);
+				if($patwed < 1){
+					$patwed = '<b>Used</b>';
+				}
+				echo '<td> '.$patwed.'</td>';
+				echo '</tr>';
+			}
+		}
+	echo '</tbody></table>';
+	echo '<div align = "center" style = "margin-top: 30px;"><a href = "?rep=lea" class = "btn btn-danger"><span id = "backs"class="glyphicon glyphicon-chevron-left"></span> Back to Leave Report </a></div></div>';
+	}
+	?>
+	</div>
+</div>
 	<?php 
 	if(isset($_GET['norec'])){
 		echo'<div align = "center" class="alert alert-warning">No O.T Record';
@@ -141,11 +250,13 @@
 	}else if($_GET['rep'] == 'undr'){
 		$title = "Undertime";
 		echo '<div align = "center"><h3> Undertime Reports </h3></div>';
-	}else if($_GET['rep'] == 'lea'){
-		$title = "Leave";
+	}else if($_GET['rep'] == 'lea' && (!isset($_GET['acc_id']))){
+		$title = "Leave";		
+		echo '<div align = "right" style = "margin-right: 20px;"><a href = "?sumar=leasum&rep=leasum&acc_id=1" class = "btn btn-success">Employee Leave Summary</a></div>';
 		echo '<div align = "center"><h3> Leave Reports </h3></div>';
 	}
 	?>
+<div id = "userlist" <?php if(isset($_GET['acc_id'])){ echo 'style = "display: none;"';}?>>
 <form action = "acc-report.php" method = "">
 		<table class = "table table-hover" id = "myTable">
 			<thead>
@@ -221,6 +332,7 @@
 					}
 				}if($countss == 0){
 							echo '<tr><td></td><td>No Record Found</td><td></td></tr>';
+							echo '<script type = "text/javascript">$(".dataTables_paginate").hide();</script>';
 						}
 				$conn->close();
 			?>
@@ -555,6 +667,7 @@
 		$name123 = $res123['fname'] . ' ' . $res123['lname'];	
 		$position = $res123['position'];	
 		$department = $res123['department'];
+		$datehired = $res123['edatehired'];
 		$cutoffdate = date("Y-m-d");
 		$sql = "SELECT * FROM nleave where nleave.account_id = $accid and state = 'AAdmin' and YEAR(dateofleavfr) = $datey ORDER BY datefile ASC";
 		$result = $conn->query($sql);
@@ -562,20 +675,21 @@
 	?>
 	<h5 style="margin-left: 10px;" id = "datepr">Date: <?php echo date("M j, Y");?></h5>
 	<h2 align = "center"> Leave Report </h2>	
-	<h4 style="margin-left: 10px;">Period: <i><strong><?php echo $cutoffdate11;?></strong></i></h4>
+
+	<h4 style="margin-left: 10px;">Period: <i><strong>January <?php echo date('Y');?> - December <?php echo date('Y');?></strong></i></h4>
 	<h4 style = "margin-left: 10px;">Name: <b><i><?php echo $name123;?></i></b></h4>
 	<h4 style = "margin-left: 10px;">Position: <b><i><?php echo $position;?></i></b></h4>
-	<h4 style = "margin-left: 10px;">Department: <b><i><?php echo $department;?></i></b></h4>	
+	<h4 style = "margin-left: 10px;">Department: <b><i><?php echo $department;?></i></b></h4>
+	<h4 style = "margin-left: 10px;">Date Hired: <b><i><?php echo date('F j, Y', strtotime($datehired));?></i></b></h4>	
 	<div style="margin-bottom: 15px;"></div>
 	<form role = "form" action = "approval.php"    method = "get">
 		<table width = "100%" class = "table table-hover" align = "center">
 			<thead>					
 					<tr>
-						<th width="103">Date File</th>
-						<th width="103">Date Hired</th>						
-						<th width="150">Date of Leave <br>(Fr - To)</th>
-						<th width="60"># of Day/s</th>
-						<th width="120">Type</th>
+						<th>Date File</th>				
+						<th>Date of Leave (Fr - To)</th>
+						<th># of Day/s</th>
+						<th>Type</th>
 						<th>Reason</th>
 						<th>State</th>
 					</tr>
@@ -600,7 +714,7 @@
 				}
 				echo 
 					'<td>'.$newDate.'</td>
-					<td>'.date("M j, Y", strtotime($row["datehired"])).'</td>										
+															
 					<td>Fr: '.date("M j, Y", strtotime($row["dateofleavfr"])) .'<br>To: '.date("M j, Y", strtotime($row["dateofleavto"])).'</td>
 					<td>'.$row["numdays"].'</td>					
 					<td >'.$row["typeoflea"].$otherslea . '</td>	
@@ -612,6 +726,7 @@
 					echo '<td></tr>';
 		}
 		?>
+		
 		</tbody>
 	</table>
 </form>
@@ -619,18 +734,7 @@
 		echo '<div align = "center"><button id = "backs" style = "margin-right: 10px;"class = "btn btn-primary" onclick = "window.print();"><span id = "backs"class="glyphicon glyphicon-print"></span> Print Report</button>';
 		echo '<a id = "backs" class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'"><span id = "backs"class="glyphicon glyphicon-chevron-left"></span> Back</a></div>';
 		}else{
-			if($date17 >= 16){
-				$cutoff = date('F 16 - 30/31, Y');
-			}else{
-				$cutoff = date('F 1 - 15, Y');
-			}
-			$date17 = date('d');
-			if($date17 == 1){
-				$date17 = 16;
-				$dateda = date("Y-m-d");
-				$cutoff = date('F 16 - 30/31, Y', strtotime("previous month"));
-			}
-			echo '<div align = "center">No Records for this Cutoff: <strong>'.$cutoff.'</strong><br>';
+			echo '<div align = "center">No Records for this Cutoff: <strong>January '.date('Y') . ' - ' . date('Y') .'</strong><br>';
 			echo '<a class = "btn btn-danger" href = "acc-report.php?&rep='.$_GET['rep'].'">Back</a></div>';
 	}
 }
