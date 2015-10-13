@@ -40,6 +40,7 @@
 		$nameofemployee = $_POST['nameofemployee'];
 		$startofot = $_POST['startofot'];
 		$endofot = $_POST['endofot'];
+		$dateam = $_POST['otam'];
 		if($_POST['restday'] == 'restday'){
 			$officialworksched = "Restday";
 		}else{
@@ -56,8 +57,8 @@
 		}else{
 			$state = 'UA';	
 		}		
-		$stmt = $conn->prepare("INSERT into `overtime` (account_id, datefile, 2daysred, dateofot, nameofemp, startofot, endofot, officialworksched, reason, state, approvedothrs) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		$stmt->bind_param("issssssssss",$accid, $datefile, $twodaysred, $dateofot, $nameofemployee, $startofot, $endofot, $officialworksched, $reason, $state, $approvedothrs);
+		$stmt = $conn->prepare("INSERT into `overtime` (account_id, datefile, 2daysred, dateofot, nameofemp, startofot, endofot, officialworksched, reason, state, approvedothrs, dateam) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("isssssssssss",$accid, $datefile, $twodaysred, $dateofot, $nameofemployee, $startofot, $endofot, $officialworksched, $reason, $state, $approvedothrs, $dateam);
 		$stmt->execute();		
 		header("location: employee.php?ac=penot");
 		$conn->close();

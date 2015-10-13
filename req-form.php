@@ -116,32 +116,36 @@
 				<tr>
 					<td>Date File: </td>
 					<td><input type = "text" class = "form-control" readonly name = "datefile" value = "<?php echo date('F j, Y');?>"/></td>
-				</tr>
-				<tr>
-					<td>Date Of Overtime : </td>
-					<td><input required class = "form-control" type = "date" required="" data-date='{"startView": 2, "openOnMouseFocus": true}' placeholder = "YYYY-MM-DD" required="" data-date='{"startView": 2, "openOnMouseFocus": true}' name = "dateofot"/></td>
 				</tr>				
 				<tr>
 					<td>Name of Employee: </td>
 					<td><input required class = "form-control" type = "text" value = "<?php echo $_SESSION['name'];?>" readonly name = "nameofemployee"/></td>
 				</tr>
+
 				<tr>
-					<td>Reason (Work to be done): </td>
-					<td><textarea required name = "reason"class = "form-control"></textarea></td>
-					
+				<div class = "ui-widget-content" style = "border: none;" >
+				<tr>
+					<td>Date Of Overtime : <font color = "red">*</font></td>
+					<td><input required class = "form-control" type = "date" required="" data-date='{"startView": 2, "openOnMouseFocus": true}' placeholder = "YYYY-MM-DD" required="" data-date='{"startView": 2, "openOnMouseFocus": true}' name = "dateofot"/></td>
 				</tr>
-				<tr><div class = "ui-widget-content" style = "border: none;" >
-					<td>Start (Time of OT): </td>
+					<td>Start (Time of OT):  <font color = "red">*</font></td>
 					<td>
-						<input required class = "form-control" readonly name = "startofot" autocomplete ="off" placeholder = "Click to Set time"/>
+						<input required class = "form-control" name = "startofot" autocomplete ="off" placeholder = "Click to Set time"/>
 					</td>
 					
-				</tr>				
+				</tr>		
 				<tr>
-					<td>End (Time of OT): </td>
-					<td><input required class = "form-control" readonly name = "endofot" placeholder = "Click to Set time" autocomplete ="off" /></td>
-					
-				</tr>	
+					<td>End (Time of OT):  <font color = "red">*</font></td>
+					<td><input required class = "form-control" name = "endofot" placeholder = "Click to Set time" autocomplete ="off" /></td>					
+				</tr>						
+				<tr>
+					<td>If you reach Midnight: </td>
+					<td><input class = "form-control" type = "date" name = "otam" placeholder = "Click to Set time" autocomplete ="off" /></td>
+				</tr>
+				<tr>
+					<td>Reason (Work to be done):  <font color = "red">*</font></td>
+					<td><textarea required name = "reason"class = "form-control"></textarea></td>
+				</tr>				
 				<tr>
 					<td></td>
 					<td style="float:left;">
