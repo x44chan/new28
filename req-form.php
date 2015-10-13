@@ -40,21 +40,43 @@
 				<tr>
 					<td>Time In: </td>
 					<td>
-						<input required class = "form-control" readonly name = "obtimein" autocomplete ="off" placeholder = "Click to Set time"/>
+						<input class = "form-control" name = "obtimein" id = "obtimein" autocomplete ="off" placeholder = "Click to Set time"/>
 					</td>
 				</tr>				
 				<tr>
 					<td>Time Out: </td>
-					<td><input required class = "form-control" readonly name = "obtimeout" placeholder = "Click to Set time" autocomplete ="off" /></td>
+					<td><input class = "form-control" name = "obtimeout" id = "obtimeout" placeholder = "Click to Set time" autocomplete ="off" /></td>
 				</tr>				
 				<tr class = "form-inline">
 					<td>Official Work Sched: </td>
 					<td>
-						<label for = "fr">From:</label><input readonly placeholder = "Click to Set time" required style = "width: 130px;" autocomplete ="off" id = "to"class = "form-control"  name = "obofficialworkschedfr"/>
-						<label for = "to">To:</label><input readonly placeholder = "Click to Set time" required style = "width: 130px;" autocomplete ="off" class = "form-control" id = "fr"  name = "obofficialworkschedto"/>
-					</td>
-					
+						<label for = "fr">From:</label><input placeholder = "Click to Set time" required style = "width: 130px;" autocomplete ="off" id = "to"class = "form-control"  name = "obofficialworkschedfr"/>
+						<label for = "to">To:</label><input placeholder = "Click to Set time" required style = "width: 130px;" autocomplete ="off" class = "form-control" id = "fr"  name = "obofficialworkschedto"/>
+					</td>					
 				</tr>
+				<tr id = "warning" style="display: none;">
+					<td></td>
+					<td>
+						<div class="alert alert-danger fade in">
+						  <strong>Warning!</strong> Fill out <b>Time In</b> or <b>Time Out</b>
+						</div>
+					</td>
+				</tr>
+				<script type="text/javascript">
+					$(document).ready(function(){	
+						$('#obtimein').click(function() {
+							$("#warning").hide();
+						});
+						$("#submits").click(function(){						
+							if($("#obtimein").val() == "" && $("#obtimeout").val() == "" ){
+								$("#warning").show();
+								return false;
+							}else{
+								$("#warning").hide();
+							}
+						});
+					});
+				</script>
 				<script type="text/javascript">
 					$(document).ready(function(){
 						$('input[name="obtimein"]').ptTimeSelect();
@@ -66,7 +88,7 @@
 				</div>
 				<tr>
 					<td style = "padding: 3px;"colspan = "2" align = center>
-						<input type = "submit" name = "submit" onclick = "return confirm('Are you sure? You can still review your application.');" class = "btn btn-default"/>					
+						<input type = "submit" name = "submit" id = "submits"onclick = "return confirm('Are you sure? You can still review your application.');" class = "btn btn-default"/>					
 						<input type = "button" id = "hideob" name = "submit" class = "btn btn-default" value = "Cancel">
 					</td>
 				</tr>
@@ -127,10 +149,10 @@
 					</td>
 				</tr>	
 				<tr id = "rday" class = "form-inline" >
-					<td>Official Work Sched: </td>
+					<td>Official Work Sched:  <font color = "red">*</font></td>
 					<td style="float:left;">
-						<label for = "fr">From:</label><input readonly placeholder = "Click to Set time" required style = "width: 130px;" autocomplete ="off" id = "toasd"class = "form-control"  name = "officialworkschedfr"/>
-						<label for = "to" style="margin-left: 5px;">To:</label><input readonly placeholder = "Click to Set time" required style = "width: 130px;" autocomplete ="off" class = "form-control" id = "frasd"  name = "officialworkschedto"/>
+						<label for = "fr">From:</label><input placeholder = "Click to Set time" required style = "width: 130px;" autocomplete ="off" id = "toasd"class = "form-control"  name = "officialworkschedfr"/>
+						<label for = "to" style="margin-left: 5px;">To:</label><input placeholder = "Click to Set time" required style = "width: 130px;" autocomplete ="off" class = "form-control" id = "frasd"  name = "officialworkschedto"/>
 					</td>					
 				</tr>		
 						
@@ -244,6 +266,7 @@
               <select required name = "particularpet" class = "form-control">
               	<option value = "">----------</option>
               	<option value = "Cash">Cash</option>
+              	<option value = "Check">Check</option>
               	<option value = "Transfer">Transfer</option>
               </select>
             </div>
@@ -271,10 +294,9 @@
 		$stmt = $conn->prepare("INSERT INTO petty (`account_id`,`date`, `particular`, `amount`, `state`) VALUES (?, ?, ?, ?, ?)");
 		$stmt->bind_param("issss",$accid, $datefile, $particularpet, $amountpet, $state);
 		$stmt->execute();		
-		echo '	<script type="text/javascript"> 
-		window.location.replace("index.php");
-		
-	</script>';
+		echo '<script type="text/javascript"> 
+				window.location.replace("index.php");
+			</script>';
 		$conn->close();
 
 
@@ -283,12 +305,16 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $('#restday').change(function(){
-	    if($('#restday').is(":checked"))   	        
-	    	 $("#rday").hide();
-	    else
+	    if($('#restday').is(":checked")){ 	        
+	    	$("#rday").hide();
+	    	$("#toasd").attr('required',false);
+	    	$("#frasd").attr('required',false);
+	    }else{
+	    	$("#toasd").attr('required',true);
+	    	$("#frasd").attr('required',true);
 	        $("#rday").show();
-
-	    });
+	    }
+	});
 });
 </script>
 <script src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
