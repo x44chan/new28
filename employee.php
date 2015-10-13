@@ -51,7 +51,7 @@
 <?php 
 	if(isset($_GET['ac']) && $_GET['ac'] == 'penpty'){
 		include("conf.php");
-		$sql = "SELECT * FROM petty,login where login.account_id = $accid and petty.account_id = $accid order by state ASC";
+		$sql = "SELECT * FROM petty,login where login.account_id = $accid and petty.account_id = $accid order by state ASC, source asc";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>	
@@ -709,13 +709,18 @@
 				}else{
 					echo '<tr>';
 				}		
+				if($row["obtimein"] != null && $row['obtimeout'] != null){
+					$split = " - ";
+				}else{
+					$split = "";
+				}
 				echo 
 					'	<td>'.$newDate.'</td>
 						<td>'.$row["obename"].'</td>
 						<td>'.$row["obpost"].'</td>
 						<td >'.$row["obdept"].'</td>
 						<td>'.date("F j, Y", strtotime($row['obdatereq'])).'</td>					
-						<td>'.$row["obtimein"] . ' - ' . $row['obtimeout'].'</td>
+						<td>'.$row["obtimein"] . $split . $row['obtimeout'].'</td>
 						<td>'.$row["officialworksched"].'</td>				
 						<td >'.$row["obreason"].'</td>	
 					<td><b>';
