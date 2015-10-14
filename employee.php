@@ -200,6 +200,29 @@
 						<label for = "to">To:</label><input onkeydown="return false;"name = "upoffto"value = "<?php echo $ex2;?>"readonly placeholder = "Click to Set time" required style = "width: 130px;" autocomplete ="off" class = "form-control" id = "fr"  />
 					</td>					
 				</tr>
+				<tr id = "warning" style="display: none;">
+					<td></td>
+					<td>
+						<div class="alert alert-danger fade in">
+						  <strong>Warning!</strong> Fill out <b>Time In</b> or <b>Time Out</b>
+						</div>
+					</td>
+				</tr>
+				<script type="text/javascript">
+					$(document).ready(function(){	
+						$('#obtimein').click(function() {
+							$("#warning").hide();
+						});
+						$("#submits").click(function(){						
+							if($("#obtimein").val() == "" && $("#obtimeout").val() == "" ){
+								$("#warning").show();
+								return false;
+							}else{
+								$("#warning").hide();
+							}
+						});
+					});
+				</script>
 				<tr>
 					<td style = "padding: 3px;"colspan = "2" align = center>
 						<input type = "submit" name = "upotsubmit" onclick = "return confirm('Are you sure? You can still review your application.');" class = "btn btn-primary"/>					
