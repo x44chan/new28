@@ -36,18 +36,18 @@
 <div id = "needaproval" style = "margin-top: -30px;">		
 	<?php 
 		if(isset($_GET['ac']) && $_GET['ac'] == 'penot'){
+			if(date("D") == 'Mon'){
+				$forque = date("d") -3;
+				$endque = date("d");
+			}else{
+				$forque = date("d") - 1;
+				$endque = date("d");
+			}
 		$date17 = date("d");
 		$dated = date("m");
 		$datey = date("Y");
-		if($date17 > 16){
-			$forque = 16;
-			$endque = 31;
-		}else{
-			$forque = 1;
-			$endque = 16;
-		}
 		include("conf.php");
-		$sql = "SELECT * FROM overtime,login where login.account_id = overtime.account_id and state like 'UA' and DAY(datefile) >= $forque and DAY(datefile) < $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
+		$sql = "SELECT * FROM overtime,login where login.account_id = overtime.account_id and state like 'UA' and DAY(datefile) >= $forque and DAY(datefile) <= $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>
@@ -89,9 +89,10 @@
 				if($row['state'] == 'UAACCAdmin'){
 						echo '<td><strong>Pending to Admin<strong></td>';
 				}else{
-					echo '<td width = "200">
-							<a onclick = "return confirm(\'Are you sure?\');" href = "approval.php?approve=A'.$_SESSION['level'].'&overtime='.$row['overtime_id'].'&ac='.$_GET['ac'].'"';?><?php echo'" class="btn btn-info" role="button">Approve</a>
-							<a href = "?approve=DA'.$_SESSION['level'].'&dovertime='.$row['overtime_id'].'&acc='.$_GET['ac'].'"';?><?php echo'" class="btn btn-info" role="button">Disapprove</a>
+					echo '<td width = "250">
+							<a onclick = "return confirm(\'Are you sure?\');" href = "approval.php?approve=A'.$_SESSION['level'].'&overtime='.$row['overtime_id'].'&ac='.$_GET['ac'].'"';?><?php echo'" class="btn btn-info" role="button"><span class="glyphicon glyphicon-check"></span> Ok</a>
+							<a href = "?approve=DA'.$_SESSION['level'].'&upovertime='.$row['overtime_id'].'&acc='.$_GET['ac'].'"';?><?php echo'" class="btn btn-warning" role="button"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+							<a href = "?approve=DA'.$_SESSION['level'].'&dovertime='.$row['overtime_id'].'&acc='.$_GET['ac'].'"';?><?php echo'" class="btn btn-danger" style = "margin-top: 2px; role="button"><span class="glyphicon glyphicon-remove-sign"></span> Disapprove</a>
 						</td>
 					</tr>';
 				}
@@ -166,8 +167,8 @@
 				}else{
 				echo'	
 					 <td width = "200">
-						<a onclick = "return confirm(\'Are you sure?\');" href = "approval.php?approve=A'.$_SESSION['level'].'&leave='.$row['leave_id'].'&ac='.$_GET['ac'].'"';?><?php echo'" class="btn btn-info" role="button">Approve</a>
-						<a href = "?approve=DA'.$_SESSION['level'].'&dleave='.$row['leave_id'].'&acc='.$_GET['ac'].'"';?><?php echo'" class="btn btn-info" role="button">Disapprove</a>
+						<a onclick = "return confirm(\'Are you sure?\');" href = "approval.php?approve=A'.$_SESSION['level'].'&leave='.$row['leave_id'].'&ac='.$_GET['ac'].'"';?><?php echo'" class="btn btn-info" role="button">Checked</a>
+						<a href = "?approve=DA'.$_SESSION['level'].'&dleave='.$row['leave_id'].'&acc='.$_GET['ac'].'"';?><?php echo'" class="btn btn-danger" role="button">Disapprove</a>
 					</td>
 					</tr>';
 			}
@@ -235,8 +236,8 @@
 				}else{
 				echo'				
 					<td width = "200">
-						<a onclick = "return confirm(\'Are you sure?\');" href = "approval.php?approve=A'.$_SESSION['level'].'&undertime='.$row['undertime_id'].'&ac='.$_GET['ac'].'"';?><?php echo'" class="btn btn-info" role="button">Approve</a>
-						<a href = "?approve=DA'.$_SESSION['level'].'&dundertime='.$row['undertime_id'].'&acc='.$_GET['ac'].'"';?><?php echo'" class="btn btn-info" role="button">Disapprove</a>
+						<a onclick = "return confirm(\'Are you sure?\');" href = "approval.php?approve=A'.$_SESSION['level'].'&undertime='.$row['undertime_id'].'&ac='.$_GET['ac'].'"';?><?php echo'" class="btn btn-info" role="button">Checked</a>
+						<a href = "?approve=DA'.$_SESSION['level'].'&dundertime='.$row['undertime_id'].'&acc='.$_GET['ac'].'"';?><?php echo'" class="btn btn-danger" role="button">Disapprove</a>
 					</td>
 				</tr>';
 			}}
@@ -308,8 +309,8 @@
 					}else{
 					echo'
 						<td width = "200">
-							<a onclick = "return confirm(\'Are you sure?\');" href = "approval.php?approve=A'.$_SESSION['level'].'&officialbusiness_id='.$row['officialbusiness_id'].'&ac='.$_GET['ac'].'"';?><?php echo'" class="btn btn-info" role="button">Approve</a>
-							<a href = "?approve=DA'.$_SESSION['level'].'&dofficialbusiness_id='.$row['officialbusiness_id'].'&acc='.$_GET['ac'].'"';?><?php echo'" class="btn btn-info" role="button" id = "DAHR">Disapprove</a>
+							<a onclick = "return confirm(\'Are you sure?\');" href = "approval.php?approve=A'.$_SESSION['level'].'&officialbusiness_id='.$row['officialbusiness_id'].'&ac='.$_GET['ac'].'"';?><?php echo'" class="btn btn-info" role="button">Checked</a>
+							<a href = "?approve=DA'.$_SESSION['level'].'&dofficialbusiness_id='.$row['officialbusiness_id'].'&acc='.$_GET['ac'].'"';?><?php echo'" class="btn btn-danger" role="button" id = "DAHR">Disapprove</a>
 						</td>
 					</tr>';
 					}
@@ -324,30 +325,158 @@
 <?php
 	
 	include('conf.php');
-	if(isset($_GET['dovertime'])){	
-		$id = mysqli_real_escape_string($conn, $_GET['dovertime']);
+	if(isset($_GET['upovertime'])){	
+		$id = mysqli_real_escape_string($conn, $_GET['upovertime']);
 		$state = mysqli_real_escape_string($conn, $_GET['approve']);
-		echo '<form action = "approval.php" method = "get" class = "form-group">
-				<table class = "table table-hover" align = "center">
-					<thead>
-						<tr>
-							<th colspan  = 3><h3> Disapproval Reason </h3></th>
-						</tr>
-					</thead>
-					<tr>
-						<td align = "right"><labe for = "dareason">Input Disapproval reason</labe></td>
-						<td><textarea id = "dareason" class = "form-control" type = "text" name = "dareason" required ></textarea></td>
-					</tr>
-					<tr>
-						<td colspan = 2><input type = "submit" class = "btn btn-primary" name = "subda"/>   <a href = "?ac=penot" class = "btn btn-danger">Back</a></td>
-					</tr>
-					<tr>
-						<td><input type = "hidden" name = "overtime" value = "'.$id.'"/></td>
-						<td><input type = "hidden" name = "approve" value = "'.$state.'"/></td>
-						<td><input type = "hidden" name = "ac" value = "'.$_GET['acc'].'"/></td>
-					</tr>
-				</table>
-			</form>';
+		$sql = "SELECT * FROM overtime,login where login.account_id = overtime.account_id and overtime_id = '$id' and state = 'UA'";
+		$result = $conn->query($sql);		
+		if($result->num_rows > 0){
+			echo '<form action = "update-exec.php" method = "post" class = "form-group">
+					<table class = "table table-hover" style = "width: 720px; border: none;" align = "center">
+						<thead>
+							<tr>
+								<th colspan  = 3><h3> Update Time  </h3></th>
+							</tr>
+						</thead>';
+			while($row = $result->fetch_assoc()){
+				?>	
+				<tr>
+					<td><b>Date File: </b></td>
+					<td><?php echo date("F j, Y", strtotime($row['datefile']));?></td>
+				</tr>
+				<tr>
+					<td><b>Name of Employee: </b></td>
+					<td><?php echo $row['nameofemp']?></td>
+				</tr>
+				<tr>
+					<td><b>Position: </b></td>
+					<td><?php echo $row['position'];?></td>
+				</tr>
+				<tr>
+					<td><b>Department: </b></td>
+					<td><?php echo $row['department'];?></td>
+				</tr>
+				<tr>
+					<?php
+						if($row['dateam'] != '0000-00-00'){
+							$fr = "<b>Fr: </b>";
+							$dateam = ' <b>To: </b>' . date('F j, Y', strtotime($row['dateam']));
+						}else{
+							$dateam = "";
+							$fr = "";
+						}
+					?>
+					<td><b>Date Of Overtime: </b></td>
+					<td><?php echo $fr.date("F j, Y", strtotime($row['dateofot'])) . $dateam;?></td>
+				</tr>				
+				<tr>
+					<td><b>Reason (Work to be done): </b></td>
+					<td><?php echo $row['reason'];?></td>	
+				</tr>
+			<div class = "ui-widget-content" style = "border: none;">
+				<tr>
+					<td><b>Start of OT: </b></td>
+					<td><?php echo $row['startofot'];?></td>
+				</tr>				
+				<tr>
+					<td><b>End of OT: </b></td>
+					<td><?php echo $row['endofot'];?></td>
+				</tr>
+				<?php 
+					$count = strlen($row['officialworksched']);
+					if($count < 8){
+						$ex1 = "";
+						$ex2 = "";
+					}else{
+						$explode = explode(" - ", $row['officialworksched']);
+						$ex1 = $explode[0];
+						$ex2 = $explode[1];
+					}					
+				?>	
+				<tr id = "rday" class = "form-inline" >
+					<td><b>Official Work Sched: </b></td>
+					<td>
+					<?php if($row['officialworksched'] != "Restday"){ echo'
+					
+						<label for = "fr">From:</label><input onkeydown="return false;"name = "upoffr" value = "'.$ex1.'"readonly placeholder = "Click to Set time" required style = "width: 130px;" autocomplete ="off" id = "to"class = "form-control"  />
+						<label for = "to">To:</label><input onkeydown="return false;"name = "upoffto"value = "'. $ex2.'"readonly placeholder = "Click to Set time" required style = "width: 130px;" autocomplete ="off" class = "form-control" id = "fr"  />
+					';
+					}else{
+						echo 'RESTDAY';
+					}
+					?>	
+					</td>			
+				</tr>
+				<tr>
+					<td><b>New Start of OT: </b></td>
+					<td>
+						<input id = "timein" onkeydown="return false;" value = "<?php echo $row['startofot'];?>" required class = "form-control" name = "hruptimein" autocomplete ="off" placeholder = "Click to Set time"/>
+					</td>
+				</tr>				
+				<tr>
+					<td><b>New End of OT: </b></td>
+					<td><input  value = "<?php echo $row['endofot'];?>" onkeydown="return false;"required class = "form-control" name = "hruptimeout" placeholder = "Click to Set time" autocomplete ="off" /></td>
+				</tr>
+				<tr id = "warning" style="display: none;">
+					<td></td>
+					<td>
+						<div class="alert alert-danger fade in">
+						  <strong>Warning!</strong> Fill out <b>Time In</b> or <b>Time Out</b>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td align = "right"><label for = "dareason"> Reason </label></td>
+					<td><textarea id = "dareason" class = "form-control" type = "text" name = "dareason" required ></textarea></td>
+				</tr>
+				<tr style="display:none;">
+					<td>
+						<input value = "<?php echo $row['startofot'];?>" type = "hidden" name = "oldotstrt"/>
+						<input value = "<?php echo $row['endofot'];?>" type = "hidden" name = "oldotend"/>
+						<input value = "<?php echo $row['account_id'];?>" type = "hidden" name = "accid"/>
+					</td>
+				</tr>		
+				<script type="text/javascript">
+					$(document).ready(function(){	
+						$('#obtimein').click(function() {
+							$("#warning").hide();
+						});
+						$("#submits").click(function(){						
+							if($("#obtimein").val() == "" && $("#obtimeout").val() == "" ){
+								$("#warning").show();
+								return false;
+							}else{
+								$("#warning").hide();
+							}
+						});
+					});
+				</script>
+				<script type="text/javascript">
+					$(document).ready(function(){
+						$('input[name="hruptimein"]').ptTimeSelect();
+						$('input[name="hruptimeout"]').ptTimeSelect();
+						
+					});
+				</script>
+		</div>
+	<?php
+			}
+			echo '<tr>
+					<td colspan = 2>
+						<button onclick = "return confirm(\'Are you sure? (Edit Time)\');" type = "submit" class = "btn btn-primary" name = "hrupdatetime" value = "Submit Edit"><span class="glyphicon glyphicon-ok-sign"></span> Submit</button>
+						<a href = "?ac=penot" class = "btn btn-danger"><span class="glyphicon glyphicon-menu-left"></span> Back</a>
+					</td>
+				</tr>
+			  	</tr>
+			  	<tr>
+					<td><input type = "hidden" name = "overtime" value = "'.$id.'"/></td>
+					<td><input type = "hidden" name = "approve" value = "'.$state.'"/></td>
+					<td><input type = "hidden" name = "ac" value = "'.$_GET['acc'].'"/></td>
+			  	</tr>
+			</table>
+		</form>';
+		}
+		
 			
 	}
 ?>
@@ -369,7 +498,7 @@
 						<td><textarea id = "dareason" class = "form-control" type = "text" name = "dareason" required ></textarea></td>
 					</tr>
 					<tr>
-						<td colspan = 2><input type = "submit" class = "btn btn-primary" name = "subda"/>   <a href = "?ac=penob" class = "btn btn-danger">Back</a></td>
+						<td colspan = 2><input type = "submit" class = "btn btn-primary" name = "subda"/>   <a href = "?ac=penob" class = "btn btn-danger"><span class="glyphicon glyphicon-menu-left"></span> Back</a></td>
 					</tr>
 					<tr>
 						<td><input type = "hidden" name = "officialbusiness_id" value = "'.$id.'"/></td>
@@ -399,7 +528,7 @@
 						<td><textarea id = "dareason" class = "form-control" type = "text" name = "dareason" required ></textarea></td>
 					</tr>
 					<tr>
-						<td colspan = 2><input type = "submit" class = "btn btn-primary" name = "subda"/>   <a href = "?ac=penundr" class = "btn btn-danger">Back</a></td>
+						<td colspan = 2><input type = "submit" class = "btn btn-primary" name = "subda"/>   <a href = "?ac=penundr" class = "btn btn-danger"><span class="glyphicon glyphicon-menu-left"></span> Back</a></td>
 					</tr>
 					<tr>
 						<td><input type = "hidden" name = "undertime" value = "'.$id.'"/></td>
@@ -429,7 +558,7 @@
 						<td><textarea id = "dareason" class = "form-control" type = "text" name = "dareason" required ></textarea></td>
 					</tr>
 					<tr>
-						<td colspan = 2><input type = "submit" class = "btn btn-primary" name = "subda"/>   <a href = "?ac=penlea" class = "btn btn-danger">Back</a></td>
+						<td colspan = 2><input type = "submit" class = "btn btn-primary" name = "subda"/>   <a href = "?ac=penlea" class = "btn btn-danger"><span class="glyphicon glyphicon-menu-left"></span> Back</a></td>
 					</tr>
 					<tr>
 						<td><input type = "hidden" name = "leave" value = "'.$id.'"/></td>
@@ -439,6 +568,32 @@
 				</table>
 			</form>';			
 	}
+
+		if(isset($_GET['dovertime'])){	
+			$id = mysqli_real_escape_string($conn, $_GET['dovertime']);
+			$state = mysqli_real_escape_string($conn, $_GET['approve']);
+			echo '<form action = "approval.php" method = "get" class = "form-group">
+					<table class = "table table-hover" align = "center">
+						<thead>
+							<tr>
+								<th colspan  = 3><h3> Disapproval Reason </h3></th>
+							</tr>
+						</thead>
+						<tr>
+							<td align = "right"><labe for = "dareason">Input Disapproval reason</labe></td>
+							<td><textarea id = "dareason" class = "form-control" type = "text" name = "dareason" required ></textarea></td>
+						</tr>
+						<tr>
+							<td colspan = 2><input type = "submit" class = "btn btn-primary" name = "subda"/>   <a href = "?ac=penot" class = "btn btn-danger"><span class="glyphicon glyphicon-menu-left"></span> Back</a></td>
+						</tr>
+						<tr>
+							<td><input type = "hidden" name = "overtime" value = "'.$id.'"/></td>
+							<td><input type = "hidden" name = "approve" value = "'.$state.'"/></td>
+							<td><input type = "hidden" name = "ac" value = "'.$_GET['acc'].'"/></td>
+						</tr>
+					</table>
+				</form>';
+			}
 ?>
 </div>
 <?php include("req-form.php");?>

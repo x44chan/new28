@@ -124,19 +124,26 @@
 		while($row = $result->fetch_assoc()){
 			$originalDate = date($row['datefile']);
 			$newDate = date("M j, Y", strtotime($originalDate));
+			if($row['oldot'] != null && $row['state'] == 'AHR'){
+					$oldot = '</b><br>Submitted OT: <b>'.$row['oldot'];
+					$hrot = '<b>HR OT: </b>';
+				}else{
+					$oldot = "";
+					$hrot = '';
+				}
 			echo
 				'<tr>
 					<td>'.$newDate.'</td>
 					<td>'.date("M j, Y", strtotime($row["dateofot"])).'</td>
 					<td>'.$row["nameofemp"].'</td>
 					<td width = 300 height = 70>'.$row["reason"].'</td>
-					<td>'.$row["startofot"] . ' - ' . $row['endofot'].'</td>
+					<td>'.$hrot.$row["startofot"] . ' - ' . $row['endofot'] . ' <b>( '. $row['approvedothrs'] .' )'.$oldot.'</td>	
 					<td>'.$row["officialworksched"].'</td>					
 					<td><b>';
 						if($row['state'] == 'UA'){
 							echo 'Pending';
 						}else if($row['state'] == 'AHR'){
-							echo '<p><font color = "green">Approved by HR</font></p> '.$row['dareason'];
+							echo '<p><font color = "green">Approved by HR</font></p> ';
 						}else if($row['state'] == 'AACC'){
 							echo '<p><font color = "green">Approved by Accounting</font></p> '.$row['dareason'];
 						}else if($row['state'] == 'AAdmin'){

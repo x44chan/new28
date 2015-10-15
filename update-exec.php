@@ -160,4 +160,73 @@
 		$conn->close();
 
 	}
+
+		if(isset($_POST['hrupdatetime'])){	
+			$oldotstrt = $_POST['oldotstrt'];
+			$oldotend = $_POST['oldotend'];
+			$hruptimein = $_POST['hruptimein'];
+			$hruptimeout = $_POST['hruptimeout'];
+			$dareason = $_POST['dareason'];
+			$overtime = $_POST['overtime'];
+			$approve = $_POST['approve'];
+			$ac = $_POST['ac'];
+			$accid = $_POST['accid'];
+			//hrs:minutes computation
+			function gettimediff($dtime,$atime){ 
+			 $nextday = $dtime > $atime?1:0;
+			 $dep = explode(':',$dtime);
+			 $arr = explode(':',$atime);
+			 $diff = abs(mktime($dep[0], $dep[1], 0, date('n'), date('j'), date('y')) - mktime($arr[0], $arr[1], 0, date('n'), date('j') + $nextday, date('y')));
+			 $hours = floor($diff / (60*60));
+			 $mins = floor(($diff - ($hours*60*60))/(60));
+			 $secs = floor(($diff - (($hours*60*60)+($mins*60))));
+			 if(strlen($hours) < 2){
+			 	$hours = $hours;
+			 }
+			 if(strlen($mins) < 2){
+			 	$mins =  $mins;
+			 }
+			 if(strlen($secs) < 2){
+			 	$secs = "0" . $secs;
+			 }
+			 return $hours . ':' . $mins;
+			}
+			$time1 = date('H:i', strtotime($hruptimein));
+			$time2 = date('H:i', strtotime($hruptimeout));
+			$newappot = gettimediff($time1,$time2);
+			$oldot = $oldotstrt . ' - ' . $oldotend;
+			$date = date('Y-m-d h:i A');
+
+		$stmt = "UPDATE `overtime` set 
+			startofot = '$hruptimein', endofot = '$hruptimeout', dareason = '$dareason', datehr = '$date', oldot = '$oldot', state = 'AHR', approvedothrs = '$newappot'
+			where account_id = '$accid' and state = 'UA' and overtime_id = '$overtime'";
+		if ($conn->query($stmt) === TRUE) {
+	    	echo '<script type="text/javascript">window.location.replace("hr.php?ac='.$ac.'"); </script>';
+			
+	  	}else {
+	    	echo "Error updating record: " . $conn->error;
+	  	}
+		$conn->close();
+
+	}
+
+	if(isset($_POST['disapprovetime'])){	
+			$dareason = $_POST['dareason'];
+			$overtime = $_POST['overtime'];
+			$approve = $_POST['approve'];
+			$ac = $_POST['ac'];
+			$accid = $_POST['accid'];
+
+		$stmt = "UPDATE `overtime` set 
+			 state = '$approve', dareason = '$dareason'
+			where account_id = '$accid' and state = 'UA' and overtime_id = '$overtime'";
+		if ($conn->query($stmt) === TRUE) {
+	    	echo '<script type="text/javascript">window.location.replace("hr.php?ac='.$ac.'"); </script>';
+			
+	  	}else {
+	    	echo "Error updating record: " . $conn->error;
+	  	}
+		$conn->close();
+
+	}
 ?>

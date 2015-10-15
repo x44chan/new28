@@ -124,7 +124,7 @@
 		$sql = "SELECT * FROM overtime,login where overtime.account_id = $accid and login.account_id = $accid and overtime_id = '$oid' and state = '$state'";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
-			echo '<form role = "form"  align = "center"action = "update-exec.php" method = "post">
+			echo '<form role = "form"  align = "center" action = "update-exec.php" method = "post">
 			<table class = "table table-hover" style = "width: 50%;"align = "center">';
 			while($row = $result->fetch_assoc()){
 				?>	
@@ -528,11 +528,11 @@
 	$dated = date("m");
 	$datey = date("Y");
 	if($date17 >= 17){
-		$forque = 17;
+		$forque = 16;
 		$endque = 31;
 	}else{
 		$forque = 1;
-		$endque = 16;
+		$endque = 15;
 	}
 	if(date("d") < 2){
 		$date17 = 16;
@@ -569,8 +569,8 @@
 			while($row = $result->fetch_assoc()){
 				$datetoday = date("Y-m-d");
 				$originalDate = date($row['datefile']);
-				$newDate = date("F j, Y", strtotime($originalDate));
-				$newDate2 = date("F j, Y", strtotime($row['dateofot']));
+				$newDate = date("M j, Y", strtotime($originalDate));
+				$newDate2 = date("M j, Y", strtotime($row['dateofot']));
 				if($row['dateam'] != '0000-00-00'){
 					$fr = "Fr: ";
 					$dateam = 'To: ' . date('F j, Y', strtotime($row['dateam']));
@@ -583,12 +583,22 @@
 				}else{
 					echo '<tr>';
 				}
+				if($row['oldot'] != null && $row['state'] == 'AHR'){
+					$oldot = '<br><b>Filed OT: </b>'.$row['oldot']. '<br>';//<b>Edit Reason: </b>'.$row['dareason'];
+					$hrot = '<b>Approved OT: </b>';
+				}else if($row['oldot'] != null && $row['state'] == 'AAdmin'){
+					$oldot = '<br><b>Filed OT: </b>'.$row['oldot'] .'<br>';//<b>Edit Reason: </b>'.$row['dareason'];
+					$hrot = '<b>Approved OT: </b>';//( '.$row['approvedothrs'] . ' ) ';
+				}else{
+					$oldot = "";
+					$hrot = '';
+				}
 				echo 
 					'
 						<td>'.$newDate .'</td>						
 						<td>'.$row["nameofemp"].'</td>
 						<td>'.$fr.$newDate2 . '<br>' . $dateam.'</td>
-						<td>'.$row["startofot"] . ' - ' . $row['endofot'] . ' <b>( '. $row['approvedothrs'] .' )</td>						
+						<td>'.$hrot.$row["startofot"] . ' - ' . $row['endofot'] .$oldot.'</td>						
 						<td width = 300 height = 70>'.$row["reason"].'</td>
 						<td>'.$row["officialworksched"].'</td>				
 						<td><b>';
@@ -602,14 +612,10 @@
 								echo '<a class = "btn btn-danger"href = "?acc='.$_GET['ac'].'&update=1&o='.$row['overtime_id'].'">Edit Application</a>';
 							}else if($row['state'] == 'AHR'){
 								echo '<p><font color = "green">Approved by HR</font></p> ';
-							}else if($row['state'] == 'AACC'){
-								echo '<p><font color = "green">Approved by Accounting</font></p> ';
 							}else if($row['state'] == 'AAdmin'){
 								echo '<p><font color = "green">Approved by Dep. Head</font></p> ';
 							}else if($row['state'] == 'DAHR'){
 								echo '<p><font color = "red">Dispproved by HR</font></p> '.$row['dareason'];
-							}else if($row['state'] == 'DAACC'){
-								echo '<p><font color = "red">Dispproved by Accounting</font></p> '.$row['dareason'];
 							}else if($row['state'] == 'DAAdmin'){
 								echo '<p><font color = "red">Dispproved by Dep. Head</font></p> '.$row['dareason'];
 							}else if($row['state'] == 'DATECH'){
@@ -676,14 +682,10 @@
 								echo '<a class = "btn btn-danger"href = "?acc='.$_GET['ac'].'&update=1&o='.$row['undertime_id'].'">Edit Application</a>';
 							}else if($row['state'] == 'AHR'){
 								echo '<p><font color = "green">Approved by HR</font></p> ';
-							}else if($row['state'] == 'AACC'){
-								echo '<p><font color = "green">Approved by Accounting</font></p> ';
 							}else if($row['state'] == 'AAdmin'){
 								echo '<p><font color = "green">Approved by Dep. Head</font></p> ';
 							}else if($row['state'] == 'DAHR'){
 								echo '<p><font color = "red">Dispproved by HR</font></p> '.$row['dareason'];
-							}else if($row['state'] == 'DAACC'){
-								echo '<p><font color = "red">Dispproved by Accounting</font></p> '.$row['dareason'];
 							}else if($row['state'] == 'DAAdmin'){
 								echo '<p><font color = "red">Dispproved by Dep. Head</font></p> '.$row['dareason'];
 							}else if($row['state'] == 'DATECH'){
@@ -757,14 +759,10 @@
 								echo '<a class = "btn btn-danger"href = "?acc='.$_GET['ac'].'&update=1&o='.$row['officialbusiness_id'].'">Edit Application</a>';
 							}else if($row['state'] == 'AHR'){
 								echo '<p><font color = "green">Approved by HR</font></p> ';
-							}else if($row['state'] == 'AACC'){
-								echo '<p><font color = "green">Approved by Accounting</font></p> ';
 							}else if($row['state'] == 'AAdmin'){
 								echo '<p><font color = "green">Approved by Dep. Head</font></p> ';
 							}else if($row['state'] == 'DAHR'){
 								echo '<p><font color = "red">Dispproved by HR</font></p> '.$row['dareason'];
-							}else if($row['state'] == 'DAACC'){
-								echo '<p><font color = "red">Dispproved by Accounting</font></p> '.$row['dareason'];
 							}else if($row['state'] == 'DAAdmin'){
 								echo '<p><font color = "red">Dispproved by Dep. Head</font></p> '.$row['dareason'];
 							}else if($row['state'] == 'DATECH'){
@@ -837,14 +835,10 @@
 								echo '<a class = "btn btn-danger"href = "?acc='.$_GET['ac'].'&update=1&o='.$row['leave_id'].'">Edit Application</a>';
 							}else if($row['state'] == 'AHR'){
 								echo '<p><font color = "green">Approved by HR</font></p> ';
-							}else if($row['state'] == 'AACC'){
-								echo '<p><font color = "green">Approved by Accounting</font></p> ';
 							}else if($row['state'] == 'AAdmin'){
 								echo '<p><font color = "green">Approved by Dep. Head</font></p> ';
 							}else if($row['state'] == 'DAHR'){
 								echo '<p><font color = "red">Dispproved by HR</font></p> '.$row['dareason'];
-							}else if($row['state'] == 'DAACC'){
-								echo '<p><font color = "red">Dispproved by Accounting</font></p> '.$row['dareason'];
 							}else if($row['state'] == 'DAAdmin'){
 								echo '<p><font color = "red">Dispproved by Dep. Head</font></p> '.$row['dareason'];
 							}else if($row['state'] == 'DATECH'){
