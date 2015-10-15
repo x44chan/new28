@@ -51,7 +51,6 @@
 		else{
 			$sql = "UPDATE overtime set state = '$state' where overtime_id = $id and state like 'AHR'";
 			if($conn->query($sql) == TRUE){
-				echo 'added';
 				echo '<script type="text/javascript">window.location.replace("admin.php"); </script>';
 			}else{
 			die("Connection error:". $conn->connect_error);
@@ -97,7 +96,6 @@
 		}else{
 			$sql = "UPDATE officialbusiness set state = '$state' where officialbusiness_id = $id and state like 'AHR'";
 			if($conn->query($sql) == TRUE){
-				echo 'added';
 				echo '<script type="text/javascript">window.location.replace("admin.php"); </script>';
 			}else{
 			die("Connection error:". $conn->connect_error);
@@ -145,7 +143,6 @@
 		}else{
 			$sql = "UPDATE undertime set state = '$state' where undertime_id = $id and state like 'AHR'";
 			if($conn->query($sql) == TRUE){
-				echo 'added';
 				echo '<script type="text/javascript">window.location.replace("admin.php"); </script>';
 			}else{
 			die("Connection error:". $conn->connect_error);
@@ -192,7 +189,6 @@
 		}else{
 			$sql = "UPDATE nleave set state = '$state' where leave_id = $id and state like 'AHR'";
 			if($conn->query($sql) == TRUE){
-				echo 'added';
 				echo '<script type="text/javascript">window.location.replace("admin.php"); </script>';
 			}else{
 			die("Connection error:". $conn->connect_error);
