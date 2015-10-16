@@ -97,7 +97,7 @@
      */
     jQuery.ptTimeSelect.options = {
         containerClass: undefined,
-        containerWidth: '22em',
+        containerWidth: '26em',
         hoursLabel:     'Hour',
         minutesLabel:   'Minutes',
         setButtonLabel: 'Set',
@@ -130,7 +130,7 @@
                         +    '                        onmouseover="jQuery(this).removeClass(\'ui-state-default\').addClass(\'ui-state-hover\');" '
                         +    '                        onmouseout="jQuery(this).removeClass(\'ui-state-hover\').addClass(\'ui-state-default\');"'
                         +    '                        class="ui-corner-all ui-state-default">'
-                        +    '                    <span class="ui-icon ui-icon-circle-close">X</span>'
+                        +    '                    <span class="glyphicon glyphicon-remove-sign"></span>'
                         +    '                </a>'
                         +    '            </div>'
                         +    '            <div id="ptTimeSelectUserTime" style="float: left;">'

@@ -91,7 +91,7 @@
 				$endque = 32;
 				$dated = date("m", strtotime("previous month"));
 			}
-			$sql = "SELECT * from overtime,login where login.account_id = overtime.account_id and state = 'AHR' and DAY(dateofot) >= $forque and DAY(dateofot) < $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey ORDER BY datefile ASC";
+			$sql = "SELECT * from overtime,login where login.account_id = overtime.account_id and state = 'AHR' and DAY(dateofot) >= $forque and DAY(dateofot) <= $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey ORDER BY datefile ASC";
 			$result = $conn->query($sql);
 			if($result->num_rows > 0){
 				

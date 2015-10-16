@@ -118,7 +118,23 @@
 	<?php 
 		include("conf.php");
 		$cutoffdate = date("Y-m-d");
-		$sql = "SELECT * FROM overtime,login where login.account_id = $accid and overtime.account_id = $accid and state =  'AAdmin'";
+		$date17 = date("d");
+		$dated = date("m");
+		$datey = date("Y");
+		if($date17 >= 17){
+			$forque = 16;
+			$endque = 31;
+		}else{
+			$forque = 1;
+			$endque = 15;
+		}
+		if(date("d") < 2){
+			$date17 = 16;
+			$forque = 16;
+			$endque = 32;
+			$dated = date("m", strtotime("previous month"));
+		}
+		$sql = "SELECT * FROM overtime,login where overtime.account_id = $accid and login.account_id = $accid and DAY(dateofot) >= $forque and state = 'AAdmin' and DAY(dateofot) <= $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>
@@ -180,14 +196,20 @@
 	$date17 = date("d");
 	$dated = date("m");
 	$datey = date("Y");
-	if($date17 >= 16){
+	if($date17 > 16){
 		$forque = 16;
 		$endque = 31;
 	}else{
 		$forque = 1;
-		$endque = 15;
+		$endque = 16;
 	}
-	$sql = "SELECT * FROM overtime,login where overtime.account_id = $accid and login.account_id = $accid and DAY(dateofot) >= $forque and DAY(dateofot) <= $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey";
+	if($date17 == 1){
+		$date17 = 16;
+		$forque = 16;
+		$endque = 32;
+		$dated = date("m", strtotime("previous month"));
+	}
+	$sql = "SELECT * FROM overtime where overtime.account_id = $accid and DAY(dateofot) >= $forque and DAY(dateofot) < $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey ";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0){
 		$cutofftime2 = 0;	
@@ -206,10 +228,10 @@
 		$minutes = ($seconds / 60) % 60;
 		$hours = floor($seconds / (60 * 60));
 		$dated = date("F");
-		$cutoffs = date("Y-m-17");
-	
-		if($row['state'] ==  'AAdmin' && $row['dateofot'] >= $cutoffs){	
-			$cutoffdate = '16 - 31';	
+		$cutoffs = date("Y-m-16");
+		
+		if($row['state'] == 'AAdmin' && $row['dateofot'] >= $cutoffs){	
+			$cutoffdate = '16 - 30/31';				
 			$hrs1 = substr($row['approvedothrs'],0,4);
 			$min1 = substr($row['approvedothrs'],0,4);
 			list($hours1, $minutes1) = explode(':', $hrs1);
@@ -221,7 +243,7 @@
 			$hours1 = $hours1 +floor($seconds1 / (60 * 60));
 			$hours12 += $hours1;
 			$minutes12 += $minutes1;
-		}else if($row['state'] ==  'AAdmin' && $row['dateofot'] < $cutoffs){
+		}else if($row['state'] == 'AAdmin' && $row['dateofot'] < $cutoffs){
 			$cutoffdate = '1 - 15';
 			$hrs1 = substr($row['approvedothrs'],0,4);
 			$min1 = substr($row['approvedothrs'],0,4);
@@ -237,15 +259,25 @@
 			$minutes12 += $minutes1;
 			}
 		}
-		if(date('Y-m-d') >= $cutoffs){
-			$cutoffdate = '16 - 31';
+		$date17 = date("d");
+		if($date17 == 1){
+			$date17 = 16;
+			$dateda = date("Y-m-d");
+			$datade = date("F", strtotime("previous month"));
 		}else{
-			$cutoffdate = '1 - 15';
+			$datade = date("F") ;
 		}
+
 		$hours12 = $hours12;
+		$minutetosec = $minutes12;
 		$totalmin = $hours12 + $minutes12;
-		$totalothrs = date('H : i', mktime($hours12,$minutes12));
-		echo '<div align = "center">Total OT: <strong>'. substr($totalothrs,0,2) . 'Hour/s' . substr($totalothrs,4,5). ' Min/s</strong> for '.$dated.' '.$cutoffdate.', '.$datey.'</div>';
+		$totalothrs = date('H:i', mktime(0,$minutes12));
+		if(substr($totalothrs,3,5) == 30){
+			$point5 = '.5';
+		}else{
+			$point5 = '';
+		}
+		echo '<div align = "center">Total OT:<strong>'. ($hours12 + substr($totalothrs,0,2)) .$point5. ' Hour/s </strong>for '.$datade. ' ' . $cutoffdate . ', ' . date("Y").'</strong></div>';
 	}
 ?>
 </div>

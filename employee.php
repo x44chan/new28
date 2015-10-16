@@ -554,10 +554,10 @@
 						<td colspan = 7 align = center><h2> Overtime Application Status </h2></td>
 					</tr>
 					<tr>
-						<th>Date File</th>						
+						<th width="100">Date File</th>						
 						<th>Name of Employee</th>
 						<th>Date of Overtime</th>
-						<th>From - To (Overtime)</th>
+						<th width="240">From - To (Overtime)</th>
 						<th>Reason</th>
 						<th>Offical Work Schedule</th>
 						<th>Status</th>
