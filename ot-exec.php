@@ -13,10 +13,10 @@
 		 $mins = floor(($diff - ($hours*60*60))/(60));
 		 $secs = floor(($diff - (($hours*60*60)+($mins*60))));
 		 if(strlen($hours) < 2){
-		 	$hours = "0" . $hours;
+		 	$hours = $hours;
 		 }
 		 if(strlen($mins) < 2){
-		 	$mins = "0" . $mins;
+		 	$mins = $mins;
 		 }
 		 if(strlen($secs) < 2){
 		 	$secs = "0" . $secs;
@@ -45,17 +45,15 @@
 		}		
 		$twodaysred = date('Y-m-d', mktime(0, 0, 0, date('m'), date('d') + 2, date('Y')));;
 		$reason = $_POST['reason'];
-		if($_SESSION['level'] == 'ACC'){
-			$state = "AACCAdmin";
-		}else if($_SESSION['level'] == "HR"){
-			$state = 'AACCAdmin';	
+		if($_SESSION['level'] == "HR"){
+			$state = 'AHR';	
 		}else if($post == "service technician"){
 			$state = 'UATech';	
 		}else{
 			$state = 'UA';	
 		}		
-		$stmt = $conn->prepare("INSERT into `overtime` (account_id, datefile, 2daysred, dateofot, nameofemp, startofot, endofot, officialworksched, reason, state, approvedothrs, dateam) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		$stmt->bind_param("isssssssssss",$accid, $datefile, $twodaysred, $dateofot, $nameofemployee, $startofot, $endofot, $officialworksched, $reason, $state, $approvedothrs, $dateam);
+		$stmt = $conn->prepare("INSERT into `overtime` (account_id, datefile, 2daysred, dateofot, nameofemp, startofot, endofot, officialworksched, reason, state, approvedothrs) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("issssssssss",$accid, $datefile, $twodaysred, $dateofot, $nameofemployee, $startofot, $endofot, $officialworksched, $reason, $state, $approvedothrs);
 		$stmt->execute();		
 		header("location: employee.php?ac=penot");
 		$conn->close();

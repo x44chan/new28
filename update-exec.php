@@ -2,6 +2,7 @@
 	session_start();
 	include('conf.php');
 	
+	date_default_timezone_set('Asia/Manila');
 	if(isset($_POST['upotsubmit'])){		
 		//hrs:minutes computation
 		function gettimediff($dtime,$atime){ 
@@ -13,16 +14,13 @@
 		 $mins = floor(($diff - ($hours*60*60))/(60));
 		 $secs = floor(($diff - (($hours*60*60)+($mins*60))));
 		 if(strlen($hours) < 2){
-		 	$hours = "0" . $hours;
+		 	$hours =  $hours;
 		 }
 		 if(strlen($mins) < 2){
-		 	$mins = "0" . $mins;
+		 	$mins = $mins;
 		 }
 		 if(strlen($secs) < 2){
 		 	$secs = "0" . $secs;
-		 }
-		 if($hours == 00 && $minutes != 00){
-		 	$hours += 24;	
 		 }
 		 return $hours . ':' . $mins;
 		}		

@@ -67,7 +67,7 @@
 					<th width = "15%" ><i>Name of Employee</i></th>
 					<th width = "10%" ><i>Type</i></th>
 					<th width = "23%" ><i>Reason</i></th>
-					<th width = "20%" ><i>Approved By.</i></th>
+					<th width = "20%" ><i>Checked By.</i></th>
 					<th width = "20%" ><i>Action</i></th>
 				</tr>
 			</thead>
@@ -83,7 +83,7 @@
 				$endque = 31;
 			}else{
 				$forque = 1;
-				$endque = 16;
+				$endque = 15;
 			}
 			if(date("d") < 2){
 				$date17 = 16;
@@ -91,7 +91,7 @@
 				$endque = 32;
 				$dated = date("m", strtotime("previous month"));
 			}
-			$sql = "SELECT * from overtime,login where login.account_id = overtime.account_id and state like 'AACC%' and DAY(dateofot) >= $forque and DAY(dateofot) < $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey ORDER BY datefile ASC";
+			$sql = "SELECT * from overtime,login where login.account_id = overtime.account_id and state = 'AHR' and DAY(dateofot) >= $forque and DAY(dateofot) < $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey ORDER BY datefile ASC";
 			$result = $conn->query($sql);
 			if($result->num_rows > 0){
 				
@@ -104,59 +104,49 @@
 					}
 
 					$originalDate = date($row['datefile']);
-					$newDate = date("F d, Y", strtotime($originalDate));					
+					$newDate = date("M d, Y", strtotime($originalDate));					
 						
 					echo '<td>'.$newDate.'</td>';
 					echo '<td>'.$row['fname'] .' ' .$row['lname'] .'</td>';
 					echo '<td>OT</td>';
 					echo '<td>'.$row['reason'].'</td>';	
-					if($row['datehr'] == "" || $row['datehr'] == NULL){
-						$datehr = 'HR/ACC REQUEST';
-						$dateacc = '';
+					if($row['datehr'] == ""){
+						$datehr = 'HR REQUEST';
+						echo '<td>HR: '.$datehr. '</td>';
 					}else{
-						$datehr = date("F d, Y h:i A", strtotime($row['datehr']));
-						$dateacc = date("F d, Y h:i A", strtotime($row['dateacc']));
+						$datehr = date("M d, Y h:i A", strtotime($row['datehr']));
+						echo '<td>HR: '.$datehr. '</td>';
 					}				
-					if($dateacc != ""){
-						echo '<td>HR: '.$datehr .'<br>Accounting:' . $dateacc.'</td>';
-					}else{
-						echo '<td>'.$datehr. '</td>';
-					}
 					echo '<td >
 							<a href = "approval.php?approve=A'.$_SESSION['level'].'&overtime='.$row['overtime_id'].'"';?><?php echo'" class="btn btn-info" role="button">Approve</a>
 							<a href = "approval.php?approve=DA'.$_SESSION['level'].'&overtime='.$row['overtime_id'].'"';?><?php echo'" class="btn btn-info" role="button">Disapprove</a>
 						</td></tr>';
 				}
 			}
-			$sql = "SELECT * from undertime,login where login.account_id = undertime.account_id and state like 'AACC%' and DAY(dateofundrtime) >= $forque and DAY(dateofundrtime) < $endque and MONTH(dateofundrtime) = $dated and YEAR(dateofundrtime) = $datey ORDER BY datefile ASC";
+			$sql = "SELECT * from undertime,login where login.account_id = undertime.account_id and state = 'AHR' and DAY(dateofundrtime) >= $forque and DAY(dateofundrtime) < $endque and MONTH(dateofundrtime) = $dated and YEAR(dateofundrtime) = $datey ORDER BY datefile ASC";
 			$result = $conn->query($sql);
 			if($result->num_rows > 0){
 				while($row = $result->fetch_assoc()){
 					$originalDate = date($row['datefile']);
-					$newDate = date("F d, Y", strtotime($originalDate));
+					$newDate = date("M d, Y", strtotime($originalDate));
 					$datetoday = date("Y-m-d");
 					if($datetoday >= $row['twodaysred'] ){
 						echo '<tr style = "color: red">';
 					}else{
 						echo '<tr>';
 					}
-					$datehr = date("F d, Y h:i A", strtotime($row['datehr']));
-					$dateacc = date("F d, Y h:i A", strtotime($row['dateacc']));
+					$datehr = date("M d, Y h:i A", strtotime($row['datehr']));
+					$dateacc = date("M d, Y h:i A", strtotime($row['dateacc']));
 					echo '<td>'.$newDate .'</td>';
 					echo '<td>'.$row['fname'] .' ' .$row['lname'] .'</td>';
 					echo '<td>Undertime</td>';
 					echo '<td>'.$row['reason'].'</td>';
-					if($row['datehr'] == "" || $row['datehr'] == NULL){
-						$datehr = 'HR/ACC REQUEST';
-						$dateacc = '';
+					if($row['datehr'] == ""){
+						$datehr = 'HR REQUEST';
+						echo '<td>HR: '.$datehr. '</td>';
 					}else{
-						$datehr = date("F d, Y h:i A", strtotime($row['datehr']));
-						$dateacc = date("F d, Y h:i A", strtotime($row['dateacc']));
-					}				
-					if($dateacc != ""){
-						echo '<td>HR: '.$datehr .'<br>Accounting:' . $dateacc.'</td>';
-					}else{
-						echo '<td>'.$datehr. '</td>';
+						$datehr = date("M d, Y h:i A", strtotime($row['datehr']));
+						echo '<td>HR: '.$datehr. '</td>';
 					}
 					echo '<td width = "200">
 							<a href = "approval.php?approve=A'.$_SESSION['level'].'&undertime='.$row['undertime_id'].'"';?><?php echo'" class="btn btn-info" role="button">Approve</a>
@@ -164,35 +154,30 @@
 						</td></tr>';
 				}
 			}
-			$sql = "SELECT * from officialbusiness,login where login.account_id = officialbusiness.account_id and state like 'AACC%' and DAY(obdatereq) >= $forque and DAY(obdatereq) < $endque and MONTH(obdatereq) = $dated and YEAR(obdatereq) = $datey ORDER BY obdate ASC";
+			$sql = "SELECT * from officialbusiness,login where login.account_id = officialbusiness.account_id and state = 'AHR' and DAY(obdatereq) >= $forque and DAY(obdatereq) < $endque and MONTH(obdatereq) = $dated and YEAR(obdatereq) = $datey ORDER BY obdate ASC";
 			$result = $conn->query($sql);
 			if($result->num_rows > 0){
 				while($row = $result->fetch_assoc()){
 					$originalDate = date($row['obdate']);
-					$newDate = date("F d, Y", strtotime($originalDate));
+					$newDate = date("M d, Y", strtotime($originalDate));
 					$datetoday = date("Y-m-d");
 					if($datetoday >= $row['twodaysred'] ){
 						echo '<tr style = "color: red">';
 					}else{
 						echo '<tr>';
 					}
-					$datehr = date("F d, Y h:i A", strtotime($row['datehr']));
-					$dateacc = date("F d, Y h:i A", strtotime($row['dateacc']));
+					$datehr = date("M d, Y h:i A", strtotime($row['datehr']));
+					$dateacc = date("M d, Y h:i A", strtotime($row['dateacc']));
 					echo '<td>'.$newDate .'</td>';;
 					echo '<td>'.$row['fname'] .' ' .$row['lname'] .'</td>';
 					echo '<td>Official Business</td>';
 					echo '<td>'.$row['obreason'].'</td>';
-					if($row['datehr'] == "" || $row['datehr'] == NULL){
-						$datehr = 'HR/ACC REQUEST';
-						$dateacc = '';
+					if($row['datehr'] == ""){
+						$datehr = 'HR REQUEST';
+						echo '<td>HR: '.$datehr. '</td>';
 					}else{
-						$datehr = date("F d, Y h:i A", strtotime($row['datehr']));
-						$dateacc = date("F d, Y h:i A", strtotime($row['dateacc']));
-					}				
-					if($dateacc != ""){
-						echo '<td>HR: '.$datehr .'<br>Accounting:' . $dateacc.'</td>';
-					}else{
-						echo '<td>'.$datehr. '</td>';
+						$datehr = date("M d, Y h:i A", strtotime($row['datehr']));
+						echo '<td>HR: '.$datehr. '</td>';
 					}
 					echo '<td width = "200">
 							<a href = "approval.php?approve=A'.$_SESSION['level'].'&officialbusiness_id='.$row['officialbusiness_id'].'"';?><?php echo'" class="btn btn-info" role="button">Approve</a>
@@ -200,15 +185,15 @@
 						</td></tr>';
 				}
 			}
-			$sql = "SELECT * from nleave,login where login.account_id = nleave.account_id and state like 'AACC%' and YEAR(dateofleavfr) = $datey ORDER BY datefile ASC";
+			$sql = "SELECT * from nleave,login where login.account_id = nleave.account_id and state = 'AHR' and YEAR(dateofleavfr) = $datey ORDER BY datefile ASC";
 			$result = $conn->query($sql);
 			if($result->num_rows > 0){
 				while($row = $result->fetch_assoc()){
 					$originalDate = date($row['datefile']);
-					$newDate = date("F d, Y", strtotime($originalDate));
+					$newDate = date("M d, Y", strtotime($originalDate));
 					$datetoday = date("Y-m-d");
-					$datehr = date("F d, Y h:i A", strtotime($row['datehr']));
-					$dateacc = date("F d, Y h:i A", strtotime($row['dateacc']));
+					$datehr = date("M d, Y h:i A", strtotime($row['datehr']));
+					$dateacc = date("M d, Y h:i A", strtotime($row['dateacc']));
 					if($datetoday >= $row['twodaysred'] ){
 						echo '<tr style = "color: red">';
 					}else{
@@ -218,17 +203,12 @@
 					echo '<td>'.$row['fname'] .' ' .$row['lname'] .'</td>';	
 					echo '<td>'.$row['typeoflea']. ' ' .$row['othersl']. '</td>';
 					echo '<td>'.$row['reason'].'</td>';
-					if($row['datehr'] == "" || $row['datehr'] == NULL){
-						$datehr = 'HR/ACC REQUEST';
-						$dateacc = '';
+					if($row['datehr'] == ""){
+						$datehr = 'HR REQUEST';
+						echo '<td>HR: '.$datehr. '</td>';
 					}else{
-						$datehr = date("F d, Y h:i A", strtotime($row['datehr']));
-						$dateacc = date("F d, Y h:i A", strtotime($row['dateacc']));
-					}				
-					if($dateacc != ""){
-						echo '<td>HR: '.$datehr .'<br>Accounting:' . $dateacc.'</td>';
-					}else{
-						echo '<td>'.$datehr. '</td>';
+						$datehr = date("M d, Y h:i A", strtotime($row['datehr']));
+						echo '<td>HR: '.$datehr. '</td>';
 					}
 					echo '<td width = "200">
 							<a href = "approval.php?approve=A'.$_SESSION['level'].'&leave='.$row['leave_id'].'"';?><?php echo'" class="btn btn-info" role="button">Approve</a>

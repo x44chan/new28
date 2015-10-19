@@ -237,17 +237,17 @@
 		echo'<div align = "center" class="alert alert-warning">No O.T Record';
 		echo '</div>';
 	}	
-	if(!isset($_GET['rep'])){
+	if(!isset($_GET['rep']) && !isset($_GET['acc_id'])){
 		$_GET['rep'] = 'ot';
 		$title = "Overtime";
 		echo '<div align = "center"><h3> Overtime Reports </h3></div>';
-	}else if($_GET['rep'] == 'ot'){
+	}else if($_GET['rep'] == 'ot' && !isset($_GET['acc_id'])){
 		$title = "Overtime";
 		echo '<div align = "center"><h3> Overtime Reports </h3></div>';
-	}else if($_GET['rep'] == 'ob'){
+	}else if($_GET['rep'] == 'ob' && !isset($_GET['acc_id'])){
 		$title = "Official Business";
 		echo '<div align = "center"><h3> Official Business Reports </h3></div>';
-	}else if($_GET['rep'] == 'undr'){
+	}else if($_GET['rep'] == 'undr' && !isset($_GET['acc_id'])){
 		$title = "Undertime";
 		echo '<div align = "center"><h3> Undertime Reports </h3></div>';
 	}else if($_GET['rep'] == 'lea' && (!isset($_GET['acc_id']))){
@@ -273,7 +273,7 @@
 					$countss = 0;
 					if($date17 <= 16){
 						$forque = 1;
-						$endque = 16;
+						$endque = 15;
 						$cutoffdates1 = '1 - 15';
 						$dated = date("m");
 					}else{
@@ -533,7 +533,7 @@
 	$date17 = date("d");
 	$dated = date("m");
 	$datey = date("Y");
-	if($date17 >= 16){
+	if($date17 > 16){
 		$forque = 16;
 		$endque = 31;
 	}else{
@@ -639,7 +639,7 @@
 	$date17 = date("d");
 	$dated = date("m");
 	$datey = date("Y");
-	if($date17 >= 16){
+	if($date17 > 16){
 		$forque = 16;
 		$endque = 31;
 	}else{
@@ -746,7 +746,7 @@ $conn->close();
 	$date17 = date("d");
 	$dated = date("m");
 	$datey = date("Y");
-	if($date17 >= 16){
+	if($date17 > 16){
 		$forque = 16;
 		$endque = 31;
 	}else{

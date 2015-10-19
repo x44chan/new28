@@ -15,9 +15,7 @@
 		$unreason = $_POST['unreason'];
 		
 		$unumofhrs = $_POST['unumofhrs'];
-		if($_SESSION['level'] == 'ACC'){
-			$state = "AACCAdmin";
-		}else if($_SESSION['level'] == "HR"){
+		if($_SESSION['level'] == "HR"){
 			$state = 'AACCAdmin';	
 		}else if($post == "service technician"){
 			$state = 'UATech';	
