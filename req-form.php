@@ -137,10 +137,6 @@
 				<tr>
 					<td>End (Time of OT):  <font color = "red">*</font></td>
 					<td><input required class = "form-control" name = "endofot" placeholder = "Click to Set time" autocomplete ="off" /></td>					
-				</tr>						
-				<tr>
-					<td>If you reach Midnight: </td>
-					<td><input class = "form-control" type = "date" name = "otam" placeholder = "Click to Set time" autocomplete ="off" /></td>
 				</tr>
 				<tr>
 					<td>Reason (Work to be done):  <font color = "red">*</font></td>
