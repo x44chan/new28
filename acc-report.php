@@ -232,6 +232,7 @@
 	?>
 	</div>
 </div>
+<div id = "userlist" <?php if(isset($_GET['acc_id'])){ echo 'style = "display: none;"';}?>>
 	<?php 
 	if(isset($_GET['norec'])){
 		echo'<div align = "center" class="alert alert-warning">No O.T Record';
@@ -256,7 +257,7 @@
 		echo '<div align = "center"><h3> Leave Reports </h3></div>';
 	}
 	?>
-<div id = "userlist" <?php if(isset($_GET['acc_id'])){ echo 'style = "display: none;"';}?>>
+
 <form action = "acc-report.php" method = "">
 		<table class = "table table-hover" id = "myTable">
 			<thead>
@@ -273,7 +274,7 @@
 					$countss = 0;
 					if($date17 <= 16){
 						$forque = 1;
-						$endque = 15;
+						$endque = 16;
 						$cutoffdates1 = '1 - 15';
 						$dated = date("m");
 					}else{
@@ -309,13 +310,13 @@
 							$sql1 = "SELECT count(account_id) as count FROM overtime where overtime.account_id = $accidd and state = 'AAdmin' and DAY(dateofot) >= $forque and DAY(dateofot) < $endque and MONTH(dateofot) = $dated and YEAR(dateofot) = $datey ORDER BY datefile ASC";
 						}
 						else if($_GET['rep'] == 'ob'){	
-							$sql1 = "SELECT count(account_id) as count  FROM officialbusiness where officialbusiness.account_id = $accidd and state = 'AAdmin' and DAY(obdatereq) >= $forque and DAY(obdatereq) <= $endque and MONTH(obdatereq) = $dated and YEAR(obdatereq) = $datey ORDER BY obdate ASC";
+							$sql1 = "SELECT count(account_id) as count  FROM officialbusiness where officialbusiness.account_id = $accidd and state = 'AAdmin' and DAY(obdatereq) >= $forque and DAY(obdatereq) < $endque and MONTH(obdatereq) = $dated and YEAR(obdatereq) = $datey ORDER BY obdate ASC";
 						}
 						else if($_GET['rep'] == 'lea'){	
 							$sql1 = "SELECT count(account_id) as count  FROM nleave where nleave.account_id = $accidd and state = 'AAdmin' and YEAR(dateofleavfr) = $datey ORDER BY datefile ASC";
 						}
 						else if($_GET['rep'] == 'undr'){	
-							$sql1 = "SELECT count(account_id) as count  FROM undertime where undertime.account_id = $accidd and state = 'AAdmin' and DAY(dateofundrtime) >= $forque and DAY(dateofundrtime) <= $endque and MONTH(dateofundrtime) = $dated and YEAR(dateofundrtime) = $datey ORDER BY datefile ASC";
+							$sql1 = "SELECT count(account_id) as count  FROM undertime where undertime.account_id = $accidd and state = 'AAdmin' and DAY(dateofundrtime) >= $forque and DAY(dateofundrtime) < $endque and MONTH(dateofundrtime) = $dated and YEAR(dateofundrtime) = $datey ORDER BY datefile ASC";
 						}
 						$result1 = $conn->query($sql1);
 						if($result1->num_rows > 0){
@@ -332,7 +333,7 @@
 					}
 				}if($countss == 0){
 							echo '<tr><td></td><td>No Record Found</td><td></td></tr>';
-							echo '<script type = "text/javascript">$(".dataTables_paginate").hide();</script>';
+							echo '<script type = "text/javascript">$(document).ready( function () {$(".dataTables_paginate ").hide()});</script>';
 						}
 				$conn->close();
 			?>
@@ -394,7 +395,14 @@
 			$dated = date("m");
 			$datey = date("Y");		
 			$explo = (explode(":",$row['approvedothrs']));
-			
+			if($row['oldot'] != null && $row['state'] == 'AAdmin'){
+					$oldot = '<br><b>Based On: <i><font color = "green">'.$row['dareason'].'</font></b></i><br><b>Filed OT: <i><font color = "red">'. $row['oldot'] . '</font></i>';
+					$hrot = '<b>App. OT: <i><font color = "green">';//( '.$row['approvedothrs'] . ' ) ';
+					$hrclose = "</font></i>";
+			}else{
+				$oldot = "";
+				$hrot = '';
+			}
 			if($explo[1] > 0){
 				$explo2 = '.5';
 			}else{
@@ -406,7 +414,7 @@
 				'<tr>
 					<td>'.$newDate.'</td>
 					<td>'.date("M j, Y", strtotime($row["dateofot"])).'</td>
-					<td >'.$row["startofot"] . ' - ' . $row['endofot']. '</td>		
+					<td style = "text-align:left;">'. $hrot . $row["startofot"] . ' - ' . $row['endofot'] . $hrclose . ' </b>'.$oldot.'</td>	
 					<td><strong>'.$explo[0].$explo2.'</strong></td>			
 					<td >'.$row["reason"].'</td>
 					<td >'.$row["officialworksched"].'</td>					

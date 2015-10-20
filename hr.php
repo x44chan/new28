@@ -260,7 +260,7 @@
 		$endque = 16;
 	}
 	include("conf.php");
-	$sql = "SELECT * FROM officialbusiness,login where login.account_id = officialbusiness.account_id and state like 'UA' and DAY(obdate) >= $forque and DAY(obdate) < $endque and MONTH(obdate) = $dated and YEAR(obdate) = $datey ORDER BY obdate ASC";
+	$sql = "SELECT * FROM officialbusiness,login where login.account_id = officialbusiness.account_id and state like 'UA' and DAY(obdatereq) >= $forque and DAY(obdatereq) < $endque and MONTH(obdatereq) = $dated and YEAR(obdatereq) = $datey ORDER BY obdate ASC";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0){
 ?>
@@ -357,17 +357,8 @@
 					<td><?php echo $row['department'];?></td>
 				</tr>
 				<tr>
-					<?php
-						if($row['dateam'] != '0000-00-00'){
-							$fr = "<b>Fr: </b>";
-							$dateam = ' <b>To: </b>' . date('F j, Y', strtotime($row['dateam']));
-						}else{
-							$dateam = "";
-							$fr = "";
-						}
-					?>
 					<td><b>Date Of Overtime: </b></td>
-					<td><?php echo $fr.date("F j, Y", strtotime($row['dateofot'])) . $dateam;?></td>
+					<td><?php echo date("F j, Y", strtotime($row['dateofot']));?></td>
 				</tr>				
 				<tr>
 					<td><b>Reason (Work to be done): </b></td>
@@ -426,8 +417,14 @@
 					</td>
 				</tr>
 				<tr>
-					<td align = "right"><label for = "dareason"> Reason </label></td>
-					<td><textarea id = "dareason" class = "form-control" type = "text" name = "dareason" required ></textarea></td>
+					<td align = "right"><label for = "dareason"> Based On </label></td>
+					<td>
+						<select class = "form-control" required name = "dareason" id = "dareason">
+							<option value = "">-------</option>
+							<option value = "Biometrics">Biometrics</option>
+							<option value="C.S.R">C.S.R.</option>	
+						</select>
+					</td>
 				</tr>
 				<tr style="display:none;">
 					<td>

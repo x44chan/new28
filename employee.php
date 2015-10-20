@@ -150,17 +150,9 @@
 					<td><?php echo $row['department'];?></td>
 				</tr>
 				<tr>
-					<?php
-						if($row['dateam'] != '0000-00-00'){
-							$fr = "<b>Fr: </b>";
-							$dateam = ' <b>To: </b>' . date('F j, Y', strtotime($row['dateam']));
-						}else{
-							$dateam = "";
-							$fr = "";
-						}
-					?>
+					
 					<td>Date Of Overtime: </td>
-					<td><?php echo $fr.date("F j, Y", strtotime($row['dateofot'])) . $dateam;?></td>
+					<td><?php echo date("F j, Y", strtotime($row['dateofot']));?></td>
 				</tr>				
 				<tr>
 					<td>Reason (Work to be done): </td>
@@ -391,7 +383,7 @@
 					<td style="float:left;">
 						From: <input required class = "form-control" type = "date" placeholder = "Click to set date" data-date='{"startView": 2, "openOnMouseFocus": true}' value = "<?php echo $row['dateofleavfr']; ?>" name = "dateofleavfr"/>
 						To: <input required class = "form-control" type = "date" placeholder = "Click to set date" data-date='{"startView": 2, "openOnMouseFocus": true}' value = "<?php echo $row['dateofleavto']; ?>" n name = "dateofleavto"/>
-						Number of Days: <input value = "<?php echo $row['numdays'];?>" maxlength = "3" style = "width: 90px;"type = "text" pattern = '[0-9]+' required name = "numdays"class = "form-control"/>
+						Number of Days: <input value = "<?php echo $row['numdays'];?>" maxlength = "3" style = "width: 90px;"type = "text" pattern = '[0-9.]+' required name = "numdays"class = "form-control"/>
 					</td>
 				</tr>					
 
@@ -546,13 +538,10 @@
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>
-	
+	<div align="center" style="margin-top:50px; margin-bottom: 30px;"><h2> Overtime Application Status </h2></div>
 		<form role = "form" action = "approval.php"    method = "get">
 			<table class = "table table-hover" align = "center">
-				<thead>				
-					<tr>
-						<td colspan = 7 align = center><h2> Overtime Application Status </h2></td>
-					</tr>
+				<thead>	
 					<tr>
 						<th width="100">Date File</th>						
 						<th>Name of Employee</th>
@@ -571,34 +560,30 @@
 				$originalDate = date($row['datefile']);
 				$newDate = date("M j, Y", strtotime($originalDate));
 				$newDate2 = date("M j, Y", strtotime($row['dateofot']));
-				if($row['dateam'] != '0000-00-00'){
-					$fr = "Fr: ";
-					$dateam = 'To: ' . date('F j, Y', strtotime($row['dateam']));
-				}elseif($row['dateam'] == '0000-00-00'){
-					$dateam = "";
-					$fr = "";
-				}
 				if($datetoday >= $row['2daysred'] && $row['state'] == 'UA'){
 					echo '<tr style = "color: red">';
 				}else{
 					echo '<tr>';
 				}
 				if($row['oldot'] != null && $row['state'] == 'AHR'){
-					$oldot = '<br><b>Filed OT: </b>'.$row['oldot']. '<br>';//<b>Edit Reason: </b>'.$row['dareason'];
-					$hrot = '<b>Approved OT: </b>';
+					$oldot = '</b><br><b>Based On: <i><font color = "green">'.$row['dareason'].'</font></b></i><br><b>Filed OT: <i><font color = "red">'. $row['oldot'] . '</font></i>';
+					$hrot = '<b>App. OT: <i><font color = "green">';
+					$hrclose = "</font></i>";
 				}else if($row['oldot'] != null && $row['state'] == 'AAdmin'){
-					$oldot = '<br><b>Filed OT: </b>'.$row['oldot'] .'<br>';//<b>Edit Reason: </b>'.$row['dareason'];
-					$hrot = '<b>Approved OT: </b>';//( '.$row['approvedothrs'] . ' ) ';
+					$oldot = '<br><b>Based On: <i><font color = "green">'.$row['dareason'].'</font></b></i><br><b>Filed OT: <i><font color = "red">'. $row['oldot'] . '</font></i>';
+					$hrot = '<b>App. OT: <i><font color = "green">';//( '.$row['approvedothrs'] . ' ) ';
+					$hrclose = "</font></i>";
 				}else{
 					$oldot = "";
 					$hrot = '';
+					$hrclose ='';
 				}
 				echo 
 					'
 						<td>'.$newDate .'</td>						
 						<td>'.$row["nameofemp"].'</td>
-						<td>'.$fr.$newDate2 . '<br>' . $dateam.'</td>
-						<td>'.$hrot.$row["startofot"] . ' - ' . $row['endofot'] .$oldot.'</td>						
+						<td>'.$newDate2 . '</td>
+						<td style = "text-align:left;">'. $hrot . $row["startofot"] . ' - ' . $row['endofot'] . $hrclose . ' </b>'.$oldot.'</td>						
 						<td width = 300 height = 70>'.$row["reason"].'</td>
 						<td>'.$row["officialworksched"].'</td>				
 						<td><b>';
@@ -700,7 +685,7 @@
 <?php 
 	if(isset($_GET['ac']) && $_GET['ac'] == 'penob'){
 		include("conf.php");
-		$sql = "SELECT * FROM officialbusiness,login where login.account_id = $accid and officialbusiness.account_id = $accid and DAY(obdate) >= $forque and DAY(obdate) <= $endque and MONTH(obdate) = $dated and YEAR(obdate) = $datey ORDER BY state ASC,obdate ASC";
+		$sql = "SELECT * FROM officialbusiness,login where login.account_id = $accid and officialbusiness.account_id = $accid and DAY(obdatereq) >= $forque and DAY(obdatereq) <= $endque and MONTH(obdatereq) = $dated and YEAR(obdatereq) = $datey ORDER BY state ASC,obdate ASC";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>	

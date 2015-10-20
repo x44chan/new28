@@ -130,13 +130,13 @@
 				</tr>
 					<td>Start (Time of OT):  <font color = "red">*</font></td>
 					<td>
-						<input required class = "form-control" name = "startofot" autocomplete ="off" placeholder = "Click to Set time"/>
+						<input required onkeydown="return false;" class = "form-control" name = "startofot" autocomplete ="off" placeholder = "Click to Set time"/>
 					</td>
 					
 				</tr>		
 				<tr>
 					<td>End (Time of OT):  <font color = "red">*</font></td>
-					<td><input required class = "form-control" name = "endofot" placeholder = "Click to Set time" autocomplete ="off" /></td>					
+					<td><input required onkeydown="return false;" class = "form-control" name = "endofot" placeholder = "Click to Set time" autocomplete ="off" /></td>					
 				</tr>
 				<tr>
 					<td>Reason (Work to be done):  <font color = "red">*</font></td>
@@ -162,11 +162,29 @@
 							$('input[name="officialworkschedto"]').ptTimeSelect();
 							$('input[name="officialworkschedfr"]').ptTimeSelect();							
 							$('input[name="endofot"]').ptTimeSelect();
+							// jQuery plugin to prevent double submission of forms
+							jQuery.fn.preventDoubleSubmission = function() {
+							  $(this).on('submit',function(e){
+							    var $form = $(this);
+
+							    if ($form.data('submitted') === true) {
+							      // Previously submitted - don't submit again
+							      e.preventDefault();
+							    } else {
+							      // Mark it so that the next submit can be ignored
+							      $form.data('submitted', true);
+							    }
+							  });
+
+							  // Keep chainability
+							  return this;
+							};
+							$('form').preventDoubleSubmission();
 						});
 					</script>
 				
 				<tr>
-					<td colspan = 2 align = center><input type = "submit" name = "unsubmit" class = "btn btn-default"/><input type = "button" id = "hideot" name = "submit" class = "btn btn-default" value = "Cancel"></td>
+					<td colspan = 2 align = center><input type = "submit" id ="submit"name = "unsubmit" class = "btn btn-default"/><input type = "button" id = "hideot" name = "submit" class = "btn btn-default" value = "Cancel"></td>
 					
 				</tr>
 			</table>
@@ -340,7 +358,7 @@
 					<td style="float:left;">
 						<b>FROM: </b><input required class = "form-control" type = "date" placeholder = "Click to set date"required="" data-date='{"startView": 2, "openOnMouseFocus": true}' min = "<?php echo date('m/d/Y'); ?>" name = "dateofleavfr"/>
 						<b>TO: </b><input required class = "form-control" type = "date" placeholder = "Click to set date"required="" data-date='{"startView": 2, "openOnMouseFocus": true}' min = "<?php echo date('m/d/Y'); ?>" name = "dateofleavto"/>
-						<b>Number of Days: </b><input maxlength = "3" id = "numdays" style = "width: 90px;"type = "text" pattern = '[0-9]+' required name = "numdays"class = "form-control"/>
+						<b>Number of Days: </b><input maxlength = "3" id = "numdays" style = "width: 90px;"type = "text" pattern = '[0-9.]+' required name = "numdays"class = "form-control"/>
 					</td>
 				</tr>					
 				<script type="text/javascript">
