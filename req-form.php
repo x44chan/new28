@@ -462,6 +462,69 @@
       </div>      
     </div>
   </div> 
+<?php if($_SESSION['level'] == 'HR'){
+	?>
+  <!-- Modal -->
+  <div class="modal fade" id = "newAcc" role="dialog">
+    <div class="modal-dialog">    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header" style="padding:35px 50px;">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4>New Account</h4>
+
+        </div>
+        <div class="modal-body" style="padding:40px 50px;">
+          <form role="form" action = "newuser-exec.php" method = "post">
+          	<div class="form-group">
+	           <?php
+	          	if(isset($_SESSION['err']) && $_SESSION['err'] == 'ex'){
+	          		echo '<div class="alert alert-danger" align="center"><strong>Warning!</strong> Username already exist.</div>';
+	          		$_SESSION['err'] = "";
+	          	}
+	          ?>
+	         </div>
+            <div class="form-group">
+              <label for="usrname"> Username <font color = "red">*</font></label>
+              <input pattern=".{4,}" placeholder = "Enter you desired username" title="Four or more characters"required class ="form-control"type = "text" name = "reguname"/>
+            </div>
+            <div class="form-group">
+            	<label for="usrname"> Password <font color = "red">*</font></label><br>
+            	<input required pattern=".{6,}" placeholder = "Enter your desired password" title="Six or more characters" class ="form-control"type = "password" id = "psw" name = "regpword"/>
+            </div>
+             <div class="form-group">
+            	<label for="usrname"> Confirm Password <font color = "red">*</font></label><br>
+            	<input required pattern=".{6,}" placeholder = "Enter again your password" title="Six or more characters" class ="form-control"type = "password" id = "psw1" name = "regcppword"/>
+            </div>
+            <div class="form-group">
+            	<label for="usrname"> Account Level <font color = "red">*</font></label><br>
+            	<select name = "level" class ="form-control">
+						<option value = "EMP">Employee
+						<option value = "HR">HR
+						<option value = "ACC">Accounting
+						<?php if($_SESSION['level'] == 'Admin'){ ?>
+							<option value = "Admin">Admin
+						<?php } ?>
+				</select>
+            </div>
+              <button type="submit" id = "submita" name = "hreg" class="btn btn-success btn-block" onclick = "">Submit</button>
+          </form>
+        </div>
+        <div class="modal-footer">          
+        </div>
+      </div>      
+    </div>
+  </div> 
+  <script type="text/javascript">
+$("#submita").click(function(){
+    if($("#psw").val() != $("#psw1").val()){
+        alert("Password does not match");
+	    return false;
+        //more processing here
+    }
+});
+</script>
+ <?php } ?>
 <?php
 	if(isset($_POST['submitpet'])){
 		$acc_id = mysql_escape_string($_SESSION['acc_id']);

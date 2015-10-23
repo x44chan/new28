@@ -2,6 +2,28 @@
 <?php  $title="H.R. Page";
 	include('header.php');	
 	date_default_timezone_set('Asia/Manila');
+	//start
+	//best date comparison for 1day & weekend filter
+	if(date("D") == 'Mon'){
+		$forque = date('Y-m-d', strtotime("-3 days"));
+		$endque = date('Y-m-d');
+	}else{
+		$forque = date('Y-m-d', strtotime("-1 days"));
+		$endque = date('Y-m-d');
+	}
+	//end
+?>
+<?php
+	if(isset($_SESSION['err']) && $_SESSION['err'] == 'ex'){
+		echo "<script type=\"text/javascript\">
+				$(document).ready(function(){	      
+					$('#newAcc').modal({
+					backdrop: 'static',
+					keyboard: false
+					});
+				});
+				</script>";
+	}
 ?>
 <?php if($_SESSION['level'] != 'HR'){ ?>		
 	<script type="text/javascript">	window.location.replace("index.php");</script>		
@@ -21,6 +43,7 @@
 				  <li><a href="#" id = "newundertime">Undertime Request Form</a></li>
 				</ul>
 			</div>
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newAcc">Add User</button>
 			<a type = "button" class = "btn btn-primary"  href = "hr-req-app.php" id = "showapproveda">Approved Request</a>
 			<a type = "button" class = "btn btn-primary" href = "hr-req-dapp.php"  id = "showdispproveda">Dispproved Request</a>
 			<a type = "button" class= "btn btn-danger" href = "logout.php"  role="button">Logout</a>
@@ -35,21 +58,12 @@
 </div>
 <div id = "needaproval" style = "margin-top: -30px;">		
 	<?php 
-		if(isset($_GET['ac']) && $_GET['ac'] == 'penot'){
-			if(date("D") == 'Mon'){
-				$forque = date("d") -3;
-				$endque = date("d");
-			}else{
-				$forque = date("d") - 1;
-				$endque = date("d");
-			}
-		$date17 = date("d");
-		$dated = date("m");
-		$datey = date("Y");
-		include("conf.php");
-		$sql = "SELECT * FROM overtime,login where login.account_id = overtime.account_id and state like 'UA' and DAY(datefile) >= $forque and DAY(datefile) <= $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
-		$result = $conn->query($sql);
-		if($result->num_rows > 0){
+		if(isset($_GET['ac']) && $_GET['ac'] == 'penot'){			
+			echo $forque . ' ' . $endque;
+			include("conf.php");
+			$sql = "SELECT * FROM overtime,login where login.account_id = overtime.account_id and state = 'UA' and datefile BETWEEN '$forque' and '$endque' ORDER BY datefile ASC";
+			$result = $conn->query($sql);
+			if($result->num_rows > 0){
 	?>
 	<form role = "form" action = "approval.php"    method = "get">
 			<table class = "table table-hover" align = "center">
@@ -106,16 +120,7 @@
 
 <?php 
 		if(isset($_GET['ac']) && $_GET['ac'] == 'penlea'){
-		$date17 = date("d");
-		$dated = date("m");
 		$datey = date("Y");
-		if($date17 > 16){
-			$forque = 16;
-			$endque = 31;
-		}else{
-			$forque = 1;
-			$endque = 16;
-		}
 		include("conf.php");
 		$sql = "SELECT * FROM nleave,login where login.account_id = nleave.account_id and state like 'UA' and YEAR(dateofleavfr) = $datey ORDER BY datefile ASC";
 		$result = $conn->query($sql);
@@ -181,18 +186,8 @@
 ?>
 <?php 
 		if(isset($_GET['ac']) && $_GET['ac'] == 'penundr'){
-		$date17 = date("d");
-		$dated = date("m");
-		$datey = date("Y");
-		if($date17 > 16){
-			$forque = 16;
-			$endque = 31;
-		}else{
-			$forque = 1;
-			$endque = 16;
-		}
 		include("conf.php");
-		$sql = "SELECT * FROM undertime,login where login.account_id = undertime.account_id and state like 'UA' and DAY(datefile) >= $forque and DAY(datefile) < $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
+		$sql = "SELECT * FROM undertime,login where login.account_id = undertime.account_id and state like 'UA' and datefile BETWEEN '$forque' and '$endque' ORDER BY datefile ASC";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>
@@ -249,18 +244,8 @@
 ?>
 <?php
 	if(isset($_GET['ac']) && $_GET['ac'] == 'penob'){
-	$date17 = date("d");
-	$dated = date("m");
-	$datey = date("Y");
-	if($date17 > 16){
-		$forque = 16;
-		$endque = 31;
-	}else{
-		$forque = 1;
-		$endque = 16;
-	}
 	include("conf.php");
-	$sql = "SELECT * FROM officialbusiness,login where login.account_id = officialbusiness.account_id and state like 'UA' and DAY(obdatereq) >= $forque and DAY(obdatereq) < $endque and MONTH(obdatereq) = $dated and YEAR(obdatereq) = $datey ORDER BY obdate ASC";
+	$sql = "SELECT * FROM officialbusiness,login where login.account_id = officialbusiness.account_id and state like 'UA' and obdate BETWEEN '$forque' and '$endque' ORDER BY obdate ASC";
 	$result = $conn->query($sql);
 	if($result->num_rows > 0){
 ?>

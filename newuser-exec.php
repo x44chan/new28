@@ -37,3 +37,29 @@ if(isset($_POST['regsubmit'])){
 
 }
 ?>
+<?php
+if(isset($_POST['hreg'])){
+		include('conf.php');
+		session_start();
+		$uname = mysqli_real_escape_string($conn,$_POST['reguname']);
+		$pw = $_POST['regpword'];
+		$cpw = $_POST['regcppword'];
+		$level = $_POST['level'];
+		$sql = "SELECT * FROM `login` where `uname` = '$uname'";
+		$result = $conn->query($sql);
+		if($result->num_rows > 0){
+        	echo '<script type="text/javascript">window.location.replace("hr.php"); </script>';
+			$_SESSION['err'] = 'ex';
+			$conn->close();
+		}else{			
+			$stmt = $conn->prepare("INSERT into `login` (uname, pword, level) VALUES (?, ?, ?)");
+			$stmt->bind_param("sss", $uname, $pw, $level);
+			$stmt->execute();	
+			echo '<script type = "text/javascript">alert("Registration succesful")</script>';
+       		echo '<script type="text/javascript">window.location.replace("hr.php?ac=penot"); </script>';
+			$conn->close();
+	 
+	 }
+
+}
+?>

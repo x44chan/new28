@@ -112,10 +112,19 @@
 					echo '<td>'.$row['reason'].'</td>';	
 					if($row['datehr'] == ""){
 						$datehr = 'HR REQUEST';
-						echo '<td>HR: '.$datehr. '</td>';
+						echo '<td >HR: '.$datehr. '</td>';
 					}else{
+						if($row['oldot'] != null && $row['state'] == 'AHR'){
+							$oldot = '</b><br><b>Based On: <i><font color = "green">'.$row['dareason'].'</font></b></i><br><b>Filed OT: <i><font color = "red">'. $row['oldot'] . '</font></i>';
+							$hrot = '<b>App. OT: <i><font color = "green">';
+							$hrclose = "</font></i>";
+						}else{
+							$oldot = "";
+							$hrot = '<b>Filed OT: ';
+							$hrclose ='</b>';
+						}
 						$datehr = date("M d, Y h:i A", strtotime($row['datehr']));
-						echo '<td>HR: '.$datehr. '</td>';
+						echo '<td style = "text-align:left;"><b>HR: '.$datehr. '</b><br>'. $hrot . $row["startofot"] . ' - ' . $row['endofot'] . $hrclose . ' </b>'.$oldot.'</td>';
 					}				
 					echo '<td >
 							<a href = "approval.php?approve=A'.$_SESSION['level'].'&overtime='.$row['overtime_id'].'"';?><?php echo'" class="btn btn-info" role="button">Approve</a>

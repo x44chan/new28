@@ -86,7 +86,7 @@
     $(document).ready( function () {
     	$('#myTable').DataTable();
     	$('#myTablelea').DataTable( {
-        "order": [[ 3, "desc" ]]
+        "order": [[ 4, "desc" ]]
     } );
 	});
 </script>
@@ -402,6 +402,7 @@
 			}else{
 				$oldot = "";
 				$hrot = '';
+				$hrclose = '';
 			}
 			if($explo[1] > 0){
 				$explo2 = '.5';
