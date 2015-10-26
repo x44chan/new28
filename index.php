@@ -19,7 +19,7 @@ if($_SESSION['level'] == 'Admin'){
 <?php
 }else if($_SESSION['level'] == 'TECH'){
 echo '<script type="text/javascript"> window.location.replace("techsupervisor.php?ac=penot"); </script>';
-}else if($_SESSION['level'] != 'ACC'){
+}else if($_SESSION['level'] == 'ACC'){
 ?>
 <script type="text/javascript"> window.location.replace("accounting.php?ac=penot"); </script>
 <?php

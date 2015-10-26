@@ -31,7 +31,7 @@
 	}
 ?>
 <?php
-	if(isset($_SESSION['err']) && $_SESSION['err'] == 1){
+	if(isset($_SESSION['err']) && $_SESSION['err'] == 'ex'){
 		echo "<script type=\"text/javascript\">
 				$(document).ready(function(){	      
 					$('#newAcc').modal({
@@ -538,7 +538,6 @@
 ?>	
 	<?php 
 		if(isset($_GET['ac']) && $_GET['ac'] == 'penot'){			
-			echo $forque1 . ' ' . $endque1;
 			include("conf.php");
 			$sql = "SELECT * FROM overtime,login where login.account_id = overtime.account_id and state = 'UA' and datefile BETWEEN '$forque1' and '$endque1' ORDER BY datefile ASC";
 			$result = $conn->query($sql);

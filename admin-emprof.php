@@ -73,7 +73,7 @@
 			  <tbody>
 <?php 
 		include("conf.php");
-		$sql = "SELECT * from `login` where level != 'Admin'";
+		$sql = "SELECT * from `login` where level != 'Admin' and fname <> ''";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 			while($row = $result->fetch_assoc()){

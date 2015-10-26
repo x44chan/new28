@@ -115,7 +115,6 @@
 		}else{
 			$dareason = "";
 		}
-		echo $id.''.$state;
 		if($_SESSION['level'] == 'ACC'){
 			$date = date('Y-m-d h:i A');
 			$sql = "UPDATE undertime set state = '$state',dateacc = '$date',dareason = '$dareason'  where undertime_id = $id and state = 'AHR'";			

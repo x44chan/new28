@@ -46,27 +46,27 @@
 	 	#report h2{
 	  		margin-bottom: 10px;
 	  		margin-top: 10px;
-	  		font-size: 20px;
+	  		font-size: 18px;
 	  		font-weight: bold;
 	    }
 	 	#report h4{
-			font-size: 15px;
+			font-size: 14px;
 		}
 		#report h3{
 	  		margin-bottom: 10px;
 		}
 		#report th{
-	  		font-size: 12px;
+	  		font-size: 11px;
 	  		width: 0;
 		} 
 		#report td{
-	  		font-size: 11px;
+	  		font-size: 10px;
 	  		bottom: 0px;
 	  		padding: 3px;
 	  		max-width: 210px;
 		}
 		#totss{
-			font-size: 14px;
+			font-size: 13px;
 		}
 		#report {
 	   		position: absolute;
@@ -401,13 +401,18 @@
 					$hrclose = "</font></i>";
 			}else{
 				$oldot = "";
-				$hrot = '';
-				$hrclose = '';
+				$hrot = '<b>Filed OT: <i><font color = "green">';
+				$hrclose ='</font></i></b>';
 			}
 			if($explo[1] > 0){
 				$explo2 = '.5';
 			}else{
 				$explo2 = '.0';
+			}
+			if($row['otbreak'] != null){
+				$otbreak = '<br><b><i>Break: <font color = "red">'. substr($row['otbreak'], 1) . '</font>	<i><b>';
+			}else{
+				$otbreak = "";
 			}
 			$originalDate = date($row['datefile']);
 			$newDate = date("M j, Y", strtotime($originalDate));			
@@ -415,7 +420,7 @@
 				'<tr>
 					<td>'.$newDate.'</td>
 					<td>'.date("M j, Y", strtotime($row["dateofot"])).'</td>
-					<td style = "text-align:left;">'. $hrot . $row["startofot"] . ' - ' . $row['endofot'] . $hrclose . ' </b>'.$oldot.'</td>	
+					<td style = "text-align:left;">'. $hrot . $row["startofot"] . ' - ' . $row['endofot'] . $hrclose . ' </b>'.$oldot. $otbreak.'</td>	
 					<td><strong>'.$explo[0].$explo2.'</strong></td>			
 					<td >'.$row["reason"].'</td>
 					<td >'.$row["officialworksched"].'</td>					

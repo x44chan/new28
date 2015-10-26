@@ -21,9 +21,9 @@
 		 if(strlen($secs) < 2){
 		 	$secs = "0" . $secs;
 		 }
-		 if($hours == 00  && $minutes != 00){
-		 	$hours += 24;	
-		 }
+//		 if($hours == 00  && $mins == 00){
+//		 	$hours += 24;	
+//		 }
 		 return $hours . ':' . $mins;
 		}
 		$time1 = date('H:i', strtotime($_POST['startofot']));
@@ -38,10 +38,10 @@
 				$approvedothrs = date("G:i", strtotime("-1 Hour", strtotime($approvedothrs)));
 				$otbreak = '-1 Hour';
 			}else{
-				$otbreak = null;
+				$otbreak = "";
 			}					
 		}else{
-			$otbreak = null;
+			$otbreak = "";
 		}		
 		$post = strtolower($_SESSION['post']);
 		$accid = $_SESSION['acc_id'];		

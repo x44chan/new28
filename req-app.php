@@ -163,7 +163,12 @@
 			$dated = date("F");
 			$datey = date("Y");
 			
-	
+			$explo = (explode(":",$row['approvedothrs']));
+			if($explo[1] > 0){
+				$explo2 = '.5';
+			}else{
+				$explo2 = '.0';
+			}
 			$originalDate = date($row['datefile']);
 			$newDate = date("M j, Y", strtotime($originalDate));
 			echo
@@ -172,7 +177,7 @@
 					<td>'.date("M j, Y", strtotime($row["dateofot"])).'</td>
 					<td>'.$row["nameofemp"].'</td>
 					<td width = 300 height = 70>'.$row["reason"].'</td>
-					<td>'.$row["startofot"] . ' - ' . $row['endofot']. ' /<strong> OT: '. $row['approvedothrs'].'</strong></td>
+					<td>'.$row["startofot"] . ' - ' . $row['endofot']. ' /<strong> OT: '. $explo[0].$explo2 .'</strong></td>
 					<td>'.$row["officialworksched"].'</td>					
 					<td><b>';
 						if($row['state'] == 'AHR'){
@@ -277,7 +282,7 @@
 		}else{
 			$point5 = '';
 		}
-		echo '<div align = "center">Total OT:<strong>'. ($hours12 + substr($totalothrs,0,2)) .$point5. ' Hour/s </strong>for '.$datade. ' ' . $cutoffdate . ', ' . date("Y").'</strong></div>';
+		echo '<div align = "center">Total OT: <strong>'. ($hours12 + substr($totalothrs,0,2)) .$point5. ' Hour/s </strong>for '.$datade. ' ' . $cutoffdate . ', ' . date("Y").'</strong></div>';
 	}
 ?>
 </div>

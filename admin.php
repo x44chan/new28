@@ -111,8 +111,8 @@
 					echo '<td>OT</td>';
 					echo '<td>'.$row['reason'].'</td>';	
 					if($row['datehr'] == ""){
-						$datehr = 'HR REQUEST';
-						echo '<td >HR: '.$datehr. '</td>';
+						$datehr = '<b><i>HR REQUEST</i></b>';
+						echo '<td > '.$datehr. '</td>';
 					}else{
 						if($row['oldot'] != null && $row['state'] == 'AHR'){
 							$oldot = '</b><br><b>Based On: <i><font color = "green">'.$row['dareason'].'</font></b></i><br><b>Filed OT: <i><font color = "red">'. $row['oldot'] . '</font></i>';
@@ -151,8 +151,8 @@
 					echo '<td>Undertime</td>';
 					echo '<td>'.$row['reason'].'</td>';
 					if($row['datehr'] == ""){
-						$datehr = 'HR REQUEST';
-						echo '<td>HR: '.$datehr. '</td>';
+						$datehr = '<b><i>HR REQUEST</i></b>';
+						echo '<td>'.$datehr. '</td>';
 					}else{
 						$datehr = date("M d, Y h:i A", strtotime($row['datehr']));
 						echo '<td>HR: '.$datehr. '</td>';
@@ -182,8 +182,8 @@
 					echo '<td>Official Business</td>';
 					echo '<td>'.$row['obreason'].'</td>';
 					if($row['datehr'] == ""){
-						$datehr = 'HR REQUEST';
-						echo '<td>HR: '.$datehr. '</td>';
+						$datehr = '<b><i>HR REQUEST</i></b>';
+						echo '<td> '.$datehr. '</td>';
 					}else{
 						$datehr = date("M d, Y h:i A", strtotime($row['datehr']));
 						echo '<td>HR: '.$datehr. '</td>';
@@ -213,8 +213,8 @@
 					echo '<td>'.$row['typeoflea']. ' ' .$row['othersl']. '</td>';
 					echo '<td>'.$row['reason'].'</td>';
 					if($row['datehr'] == ""){
-						$datehr = 'HR REQUEST';
-						echo '<td>HR: '.$datehr. '</td>';
+						$datehr = '<b><i>HR REQUEST</i></b>';
+						echo '<td>'.$datehr. '</td>';
 					}else{
 						$datehr = date("M d, Y h:i A", strtotime($row['datehr']));
 						echo '<td>HR: '.$datehr. '</td>';
