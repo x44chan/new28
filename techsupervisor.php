@@ -608,7 +608,7 @@
 			
 		}
 		include("conf.php");
-		$sql = "SELECT * FROM nleave,login where login.account_id = nleave.account_id and nleave.account_id = '$accid' and DAY(datefile) >= $forque and DAY(datefile) < $endque and MONTH(datefile) = $dated and YEAR(datefile) = $datey ORDER BY datefile ASC";
+		$sql = "SELECT * FROM nleave,login where login.account_id = nleave.account_id and nleave.account_id = '$accid' and YEAR(dateofleavfr) = $datey ORDER BY datefile ASC";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 			while($row = $result->fetch_assoc()){				
