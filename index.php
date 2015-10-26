@@ -41,9 +41,9 @@ echo '<script type="text/javascript"> window.location.replace("techsupervisor.ph
 					</tr>
 				</thead>
 				<tr >
-					<td><label for = "uname"><span class="glyphicon glyphicon-user"></span>  Username: </label><input autofocus <?php if(isset($_POST['uname'])){ echo 'value ="' . $_POST['uname'] . '"'; }?>placeholder = "Enter Username" id = "uname" title = "Input your username." type = "text" class = "form-control" required name = "uname"/></td>
+					<td><label for = "uname"><span class="glyphicon glyphicon-user"></span>  Username: </label><input <?php if(isset($_POST['uname'])){ echo 'value ="' . $_POST['uname'] . '"'; }else{ echo 'autofocus ';}?>placeholder = "Enter Username" id = "uname" title = "Input your username." type = "text" class = "form-control" required name = "uname"/></td>
 				
-					<td><label for = "pword"><span class="glyphicon glyphicon-eye-open"></span>  Password: </label><input placeholder = "Enter Password" id = "pword" title = "Input your password." type = "password" class = "form-control" required name = "password"/></td>
+					<td><label for = "pword"><span class="glyphicon glyphicon-eye-open"></span>  Password: </label><input <?php if(isset($_POST['uname'])){ echo 'autofocus '; }?> placeholder = "Enter Password" id = "pword" title = "Input your password." type = "password" class = "form-control" required name = "password"/></td>
 				</tr>
 				<tr >
 					<td colspan = 4 align = "center" ><button style = "width: 150px; margin: auto;" type="submit" name = "submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Login</button></td>
@@ -70,7 +70,7 @@ echo '<script type="text/javascript"> window.location.replace("techsupervisor.ph
 				$_SESSION['post'] = $row['position'];
 				$_SESSION['dept'] = $row['department'];
 				$_SESSION['datehired'] = $row['edatehired'];
-				?>
+?>
 			<?php
 				if($_SESSION['level'] == 'Admin'){
 			?>

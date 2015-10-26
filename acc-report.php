@@ -472,8 +472,8 @@
 		
 		if($row['state'] == 'AAdmin' && $row['dateofot'] >= $cutoffs){	
 			$cutoffdate = '16 - 30/31';				
-			$hrs1 = substr($row['approvedothrs'],0,4);
-			$min1 = substr($row['approvedothrs'],0,4);
+			$hrs1 = $row['approvedothrs'];
+			$min1 = $row['approvedothrs'];
 			list($hours1, $minutes1) = explode(':', $hrs1);
 			$startTimestamp1 = mktime($hours1, $minutes1);
 			list($hours1, $minutes1) = explode(':', $min1);
@@ -485,8 +485,8 @@
 			$minutes12 += $minutes1;
 		}else if($row['state'] == 'AAdmin' && $row['dateofot'] < $cutoffs){
 			$cutoffdate = '1 - 15';
-			$hrs1 = substr($row['approvedothrs'],0,4);
-			$min1 = substr($row['approvedothrs'],0,4);
+			$hrs1 = $row['approvedothrs'];
+			$min1 = $row['approvedothrs'];
 			list($hours1, $minutes1) = explode(':', $hrs1);
 			$startTimestamp1 = mktime($hours1, $minutes1);
 			list($hours1, $minutes1) = explode(':', $min1);
