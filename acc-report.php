@@ -151,7 +151,7 @@
 			  <tbody>
 <?php 
 		include("conf.php");
-		$sql = "SELECT * from `login` where level != 'Admin'";
+		$sql = "SELECT * from `login` where level != 'Admin' and fname <> ''";
 		$result = $conn->query($sql);
 		$datey = date("Y");
 		if($result->num_rows > 0){

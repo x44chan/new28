@@ -432,6 +432,7 @@ if(isset($_POST['submitprof'])){
     where account_id = '$acc_id'"; 
   if ($conn->query($sql) === TRUE) {
     $_SESSION['pass'] = null;
+    $_SESSION['201date'] = date("Y-m-d");
     echo '<script type = "text/javascript">alert("Update success")</script>';
     echo '<script type="text/javascript">window.location.replace("index.php"); </script>';
   }else {

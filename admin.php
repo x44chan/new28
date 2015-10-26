@@ -123,8 +123,13 @@
 							$hrot = '<b>Filed OT: ';
 							$hrclose ='</b>';
 						}
+						if($row['otbreak'] != null){
+							$otbreak = '<br><b><i>Break: <font color = "red">'. substr($row['otbreak'], 1) . '</font>	<i><b>';
+						}else{
+							$otbreak = "";
+						}
 						$datehr = date("M d, Y h:i A", strtotime($row['datehr']));
-						echo '<td style = "text-align:left;"><b>HR: '.$datehr. '</b><br>'. $hrot . $row["startofot"] . ' - ' . $row['endofot'] . $hrclose . ' </b>'.$oldot.'</td>';
+						echo '<td style = "text-align:left;"><b>HR: '.$datehr. '</b><br>'. $hrot . $row["startofot"] . ' - ' . $row['endofot'] . $hrclose . ' </b>'.$oldot. $otbreak.'</td>';
 					}				
 					echo '<td >
 							<a href = "approval.php?approve=A'.$_SESSION['level'].'&overtime='.$row['overtime_id'].'"';?><?php echo'" class="btn btn-info" role="button">Approve</a>
