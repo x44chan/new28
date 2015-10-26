@@ -29,6 +29,21 @@
 		$time1 = date('H:i', strtotime($_POST['startofot']));
 		$time2 = date('H:i', strtotime($_POST['endofot']));
 		$approvedothrs = gettimediff($time1,$time2);
+		//ot break on ot exec
+		if(isset($_POST['otbreak']) && $_POST['otbreak'] != null){
+			if($_POST['otbreak'] == '30 Mins'){
+				$approvedothrs = date("G:i", strtotime("-30 min", strtotime($approvedothrs)));
+				$otbreak = '-30 Minutes';
+			}elseif ($_POST['otbreak'] == '1 Hour') {
+				$approvedothrs = date("G:i", strtotime("-1 Hour", strtotime($approvedothrs)));
+				$otbreak = '-1 Hour';
+			}else{
+				$otbreak = null;
+			}					
+		}else{
+			$otbreak = null;
+		}
+		
 		//end of computation				
 		$post = strtolower($_SESSION['post']);
 		$accid = $_SESSION['acc_id'];		
@@ -37,8 +52,8 @@
 		$nameofemployee = $_POST['nameofemployee'];
 		$startofot = $_POST['startofot'];
 		$endofot = $_POST['endofot'];
-		$dateam = $_POST['otam'];
-		if($_POST['restday'] == 'restday'){
+		//$dateam = $_POST['otam'];
+		if(isset($_POST['restday']) && $_POST['restday'] == 'restday'){
 			$officialworksched = "Restday";
 		}else{
 			$officialworksched = $_POST['officialworkschedfr']. ' - ' . $_POST['officialworkschedto'];
@@ -52,8 +67,8 @@
 		}else{
 			$state = 'UA';	
 		}		
-		$stmt = $conn->prepare("INSERT into `overtime` (account_id, datefile, 2daysred, dateofot, nameofemp, startofot, endofot, officialworksched, reason, state, approvedothrs) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		$stmt->bind_param("issssssssss",$accid, $datefile, $twodaysred, $dateofot, $nameofemployee, $startofot, $endofot, $officialworksched, $reason, $state, $approvedothrs);
+		$stmt = $conn->prepare("INSERT into `overtime` (account_id, datefile, 2daysred, dateofot, nameofemp, startofot, endofot, officialworksched, reason, state, approvedothrs, otbreak) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("isssssssssss",$accid, $datefile, $twodaysred, $dateofot, $nameofemployee, $startofot, $endofot, $officialworksched, $reason, $state, $approvedothrs, $otbreak);
 		$stmt->execute();		
 		header("location: employee.php?ac=penot");
 		$conn->close();

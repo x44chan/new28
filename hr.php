@@ -14,7 +14,7 @@
 	//end
 ?>
 <?php
-	if(isset($_SESSION['err']) && $_SESSION['err'] == 'ex'){
+	if(isset($_SESSION['err']) && $_SESSION['err'] == 1){
 		echo "<script type=\"text/javascript\">
 				$(document).ready(function(){	      
 					$('#newAcc').modal({
@@ -93,12 +93,18 @@
 				}else{
 					echo '<tr>';
 				}
+
+				if($row['otbreak'] != null){
+					$otbreak = '<br><b><i>Break: <font color = "red">'. substr($row['otbreak'], 1) . '</font>	<i><b>';
+				}else{
+					$otbreak = "";
+				}
 				echo 
 					'	<td width = 180>'.$newDate.'</td>
 						<td>'.date("F j, Y", strtotime($row["dateofot"])).'</td>
 						<td>'.$row["nameofemp"].'</td>
-						<td width = 250 height = 70>'.$row["reason"].'</td>
-						<td>'.$row["startofot"] . ' - ' . $row['endofot'].'</td>
+						<td width = 250 height = 70>'.$row["reason"]. '</td>
+						<td>'.$row["startofot"] . ' - ' . $row['endofot']. $otbreak .'</td>
 						<td>'.$row["officialworksched"].'</td>';
 				if($row['state'] == 'UAACCAdmin'){
 						echo '<td><strong>Pending to Admin<strong></td>';
@@ -358,6 +364,15 @@
 					<td><b>End of OT: </b></td>
 					<td><?php echo $row['endofot'];?></td>
 				</tr>
+				<?php
+					if($row['otbreak'] != null){
+				?>
+				<tr>
+					<td><b>OT Break: </b></td>
+					<td><input type = "text" class="form-control" readonly name = "otbreak" value = "<?php echo substr($row['otbreak'], 1);?>">
+					</td>					
+				</tr>
+				<?php } ?>
 				<?php 
 					$count = strlen($row['officialworksched']);
 					if($count < 8){

@@ -131,12 +131,21 @@
 					<td>Start (Time of OT):  <font color = "red">*</font></td>
 					<td>
 						<input required onkeydown="return false;" class = "form-control" name = "startofot" autocomplete ="off" placeholder = "Click to Set time"/>
-					</td>
-					
+					</td>					
 				</tr>		
 				<tr>
 					<td>End (Time of OT):  <font color = "red">*</font></td>
 					<td><input required onkeydown="return false;" class = "form-control" name = "endofot" placeholder = "Click to Set time" autocomplete ="off" /></td>					
+				</tr>
+				<tr>
+					<td>OT Break ( if applicable ):  </td>
+					<td>
+						<select class = "form-control" name = "otbreak">
+							<option value ="">--------</option>
+							<option value = "30 Mins">30 Mins</option>
+							<option value = "1 Hour">1 Hour</option>
+						</select>
+					</td>					
 				</tr>
 				<tr>
 					<td>Reason (Work to be done):  <font color = "red">*</font></td>

@@ -27,12 +27,29 @@
 		$time1 = date('H:i', strtotime($_POST['uptimein']));
 		$time2 = date('H:i', strtotime($_POST['uptimeout']));
 		$approvedothrs = gettimediff($time1,$time2);
+		//ot break on update app
+		if(isset($_POST['otbreak']) && $_POST['otbreak'] != null){
+			if($_POST['otbreak'] == '30 Mins'){
+				$approvedothrs = date("G:i", strtotime("-30 min", strtotime($approvedothrs)));
+				$otbreak = '-30 Minutes';
+			}elseif ($_POST['otbreak'] == '1 Hour') {
+				$approvedothrs = date("G:i", strtotime("-1 Hour", strtotime($approvedothrs)));
+				$otbreak = '-1 Hour';
+			}else{
+				$otbreak = null;
+			}					
+		}else{
+			$otbreak = null;
+		}
 		//end of computation		
 		$accid = $_SESSION['acc_id'];		
 		$start = $_POST['uptimein'];
 		$end = $_POST['uptimeout'];
 		$post = strtolower($_SESSION['post']);
 		$reason = $_POST['reason'];
+		if(isset($_POST['updateofot'])){
+			$date = $_POST['updateofot'];
+		}
 		if(isset($_POST['uprestday']) && $_POST['uprestday'] == 'restday'){
 			$officialworksched = "Restday";
 		}else{
@@ -48,7 +65,8 @@
 			$state = 'UA';	
 		}		
 		$stmt = "UPDATE `overtime` set 
-			approvedothrs = '$approvedothrs', officialworksched = '$officialworksched', startofot = '$start', endofot = '$end', reason = '$reason'
+			approvedothrs = '$approvedothrs', officialworksched = '$officialworksched', startofot = '$start', endofot = '$end', reason = '$reason', 
+			otbreak = '$otbreak', dateofot = '$date'
 			where account_id = '$accid' and state like '$state' and overtime_id = '$_SESSION[otid]'";
 		if ($conn->query($stmt) === TRUE) {
 			if($_SESSION['level'] == 'EMP'){
@@ -69,6 +87,10 @@
 		$obtimein = $_POST['obtimein'];
 		$obtimeout = $_POST['obtimeout'];
 		$obreason = $_POST['obreason'];
+		if(isset($_POST['updateofob'])){
+			$date = $_POST['updateofob'];
+		}
+		echo $date;
 		$officialworksched = $_POST['obofficialworkschedfr'] . ' - ' . $_POST['obofficialworkschedto'];
 		if($_SESSION['level'] == 'ACC'){
 			$state = "AACCAdmin";
@@ -80,7 +102,7 @@
 			$state = 'UA';	
 		}	
 		$stmt = "UPDATE `officialbusiness` set 
-			obreason = '$obreason', obtimein = '$obtimein', obtimeout = '$obtimeout', officialworksched = '$officialworksched'
+			obreason = '$obreason', obtimein = '$obtimein', obtimeout = '$obtimeout', officialworksched = '$officialworksched', obdatereq = '$date'
 			where account_id = '$accid' and state = '$state' and officialbusiness_id = '$_SESSION[otid]'";
 		if ($conn->query($stmt) === TRUE) {
 	    	if($_SESSION['level'] == 'EMP'){
@@ -195,6 +217,20 @@
 			$time2 = date('H:i', strtotime($hruptimeout));
 			$newappot = gettimediff($time1,$time2);
 			$oldot = $oldotstrt . ' - ' . $oldotend;
+			//ot break on update app
+			if(isset($_POST['otbreak']) && $_POST['otbreak'] != null){
+			if($_POST['otbreak'] == '30 Minutes'){
+				$newappot = date("G:i", strtotime("-30 min", strtotime($newappot)));
+				$otbreak = '-30 Minutes';
+			}elseif ($_POST['otbreak'] == '1 Hour') {
+				$newappot = date("G:i", strtotime("-1 Hour", strtotime($newappot)));
+				$otbreak = '-1 Hour';
+			}else{
+				$otbreak = null;
+				}					
+			}else{
+				$otbreak = null;
+			}
 			$date = date('Y-m-d h:i A');
 
 		$stmt = "UPDATE `overtime` set 

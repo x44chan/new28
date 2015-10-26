@@ -5,6 +5,21 @@
 	include("header.php");
 	date_default_timezone_set('Asia/Manila');
 	$accid = $_SESSION['acc_id'];
+	/*
+		soon using between date
+		if($date17 >= 17){
+			$forque = date('Y-m-16');
+			$endque = date('Y-m-31');
+		}else{
+			$forque = date('Y-m-1');
+			$endque = date('Y-m-15');
+		}
+		if(date("d") < 2){
+			$forque = date('Y-m-16', strtotime("previous month"));
+			$endque = date('Y-m-d');
+		}
+
+	*/
 ?>
 <?php if($_SESSION['level'] != 'EMP'){
 	?>
@@ -152,7 +167,7 @@
 				<tr>
 					
 					<td>Date Of Overtime: </td>
-					<td><?php echo date("F j, Y", strtotime($row['dateofot']));?></td>
+					<td><input value = "<?php echo $row['dateofot'];?>" required class = "form-control" type = "date" required="" data-date='{"startView": 2, "openOnMouseFocus": true}' placeholder = "YYYY-MM-DD" required="" data-date='{"startView": 2, "openOnMouseFocus": true}' name = "updateofot"/></td>
 				</tr>				
 				<tr>
 					<td>Reason (Work to be done): </td>
@@ -168,6 +183,16 @@
 				<tr>
 					<td>End of OT: </td>
 					<td><input  value = "<?php echo $row['endofot'];?>" onkeydown="return false;"required class = "form-control" name = "uptimeout" placeholder = "Click to Set time" autocomplete ="off" /></td>
+				</tr>
+				<tr>
+					<td>OT Break: </td>
+					<td>
+						<select class = "form-control" name = "otbreak">
+							<option value ="">--------</option>
+							<option <?php if($row['otbreak'] == '-30 Minutes'){ echo 'selected '; } ?> value = "30 Mins">30 Mins</option> 
+							<option <?php if($row['otbreak'] == '-1 Hour'){ echo 'selected '; } ?>value = "1 Hour">1 Hour</option>
+						</select>
+					</td>					
 				</tr>
 				<?php 
 					$count = strlen($row['officialworksched']);
@@ -451,7 +476,7 @@
 				</tr>
 				<tr>
 					<td>Date Of Official Business: </td>
-					<td><?php echo date("F j, Y", strtotime($row['obdatereq'])); ?></td>
+					<td><input value = "<?php echo $row['obdatereq'];?>" required class = "form-control" type = "date" required="" data-date='{"startView": 2, "openOnMouseFocus": true}' placeholder = "YYYY-MM-DD" required="" data-date='{"startView": 2, "openOnMouseFocus": true}' name = "updateofob"/></td>
 				</tr>				
 				<tr>
 					<td>Description of Work Order: </td>
@@ -462,12 +487,12 @@
 				<tr>
 					<td>Time In: </td>
 					<td>
-						<input required class = "form-control" value = "<?php echo $row['obtimein'];?>" name = "obtimein" autocomplete ="off" placeholder = "Click to Set time"/>
+						<input  class = "form-control" value = "<?php echo $row['obtimein'];?>" name = "obtimein" autocomplete ="off" placeholder = "Click to Set time"/>
 					</td>
 				</tr>				
 				<tr>
 					<td>Time Out: </td>
-					<td><input required class = "form-control" value = "<?php echo $row['obtimeout'];?>" name = "obtimeout" placeholder = "Click to Set time" autocomplete ="off" /></td>
+					<td><input  class = "form-control" value = "<?php echo $row['obtimeout'];?>" name = "obtimeout" placeholder = "Click to Set time" autocomplete ="off" /></td>
 				</tr>				
 				<?php 
 					$count = strlen($row['officialworksched']);
@@ -524,7 +549,7 @@
 		$endque = 31;
 	}else{
 		$forque = 1;
-		$endque = 15;
+		$endque = 16;
 	}
 	if(date("d") < 2){
 		$date17 = 16;
@@ -578,12 +603,17 @@
 					$hrot = '';
 					$hrclose ='';
 				}
+				if($row['otbreak'] != null){
+					$otbreak = '<br><b><i>Break: <font color = "red">'. substr($row['otbreak'], 1) . '</font>	<i><b>';
+				}else{
+					$otbreak = "";
+				}
 				echo 
 					'
 						<td>'.$newDate .'</td>						
 						<td>'.$row["nameofemp"].'</td>
 						<td>'.$newDate2 . '</td>
-						<td style = "text-align:left;">'. $hrot . $row["startofot"] . ' - ' . $row['endofot'] . $hrclose . ' </b>'.$oldot.'</td>						
+						<td style = "text-align:left;">'. $hrot . $row["startofot"] . ' - ' . $row['endofot'] . $hrclose . ' </b>'.$oldot. $otbreak.'</td>						
 						<td width = 300 height = 70>'.$row["reason"].'</td>
 						<td>'.$row["officialworksched"].'</td>				
 						<td><b>';
@@ -689,6 +719,7 @@
 		$result = $conn->query($sql);
 		if($result->num_rows > 0){
 	?>	
+<?php if(isset($_SESSION['notf']) && $_SESSION['notf'] == '1' && isset($_GET['ac'])){ echo '<div align = "center" style = "margin-top: 50px;"><div class="alert alert-success"><b>Request has been sent.</b></div></div>'; $_SESSION['notf'] = '0';}?>
 		<form role = "form" action = "approval.php"    method = "get">
 			<table class = "table table-hover" align = "center">
 				<thead>
