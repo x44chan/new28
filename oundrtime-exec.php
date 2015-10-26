@@ -12,11 +12,11 @@
 		$undatereq = $_POST['undatereq'];
 		$undertimefr = $_POST['untimefr'];
 		$undertimeto = $_POST['untimeto'];
-		$unreason = $_POST['unreason'];
-		
+		$unreason = $_POST['unreason'];		
 		$unumofhrs = $_POST['unumofhrs'];
+		
 		if($_SESSION['level'] == "HR"){
-			$state = 'AACCAdmin';	
+			$state = 'AHR';	
 		}else if($post == "service technician"){
 			$state = 'UATech';	
 		}else{
@@ -27,7 +27,15 @@
 		$stmt = $conn->prepare("INSERT into `undertime` (account_id, twodaysred, datefile, name, position, department, dateofundrtime, undertimefr, undertimeto, reason, state, numofhrs) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		$stmt->bind_param("isssssssssss",$accid, $twodaysred, $undate, $unname, $unpost, $undept, $undatereq, $undertimefr, $undertimeto, $unreason, $state, $unumofhrs);
 		$stmt->execute();
-		header("location: employee.php?ac=penundr");
+		if($_SESSION['level'] == 'EMP'){
+    		echo '<script type="text/javascript">window.location.replace("employee.php?ac=penundr"); </script>';
+    	}elseif ($_SESSION['level'] == 'ACC') {
+    		echo '<script type="text/javascript">window.location.replace("accounting.php?ac=penundr"); </script>';
+    	}elseif ($_SESSION['level'] == 'TECH') {
+    		echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac=penundr"); </script>';
+    	}elseif ($_SESSION['level'] == 'HR') {
+    		echo '<script type="text/javascript">window.location.replace("hr.php?ac=penundr"); </script>';
+    	}
 		$conn->close();
 		
 	}

@@ -16,17 +16,25 @@
 		$obtimeout = $_POST['obtimeout'];
 		$officialworksched = $_POST['obofficialworkschedfr'] . ' - ' . $_POST['obofficialworkschedto'];
 		if($_SESSION['level'] == "HR"){
-			$state = 'AACCAdmin';	
+			$state = 'AHR';	
 		}else if($post == "service technician"){
 			$state = 'UATech';	
 		}else{
 			$state = 'UA';	
 		}
+		
 		$stmt = $conn->prepare("INSERT into `officialbusiness` (account_id, twodaysred, obdate, obename, obpost, obdept, obdatereq, obreason, obtimein, obtimeout, officialworksched, state) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		$stmt->bind_param("isssssssssss",$accid, $twodaysred, $obdate, $obename, $obpost, $obdept, $obdatereq, $obreason, $obtimein, $obtimeout, $officialworksched, $state);
 		$stmt->execute();
-		header("location: employee.php?ac=penob");
-		
+		if($_SESSION['level'] == 'EMP'){
+    		echo '<script type="text/javascript">window.location.replace("employee.php?ac=penob"); </script>';
+    	}elseif ($_SESSION['level'] == 'ACC') {
+    		echo '<script type="text/javascript">window.location.replace("accounting.php?ac=penob"); </script>';
+    	}elseif ($_SESSION['level'] == 'TECH') {
+    		echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac=penob"); </script>';
+    	}elseif ($_SESSION['level'] == 'HR') {
+    		echo '<script type="text/javascript">window.location.replace("hr.php?ac=penob"); </script>';
+    	}
 		$conn->close();
 		
 	}

@@ -21,23 +21,29 @@
 			$typeoflea = $_POST['typeoflea'];
 			$othersl = '';
 		}
+
 		$reason = $_POST['leareason'];
 		if($_SESSION['level'] == "HR"){
-			$state = 'AACCAdmin';	
+			$state = 'AHR';	
 		}else if($post == "service technician"){
 			$state = 'UATech';	
 		}else{
 			$state = 'UA';	
 		}
-		
-		
-		$stmt = $conn->prepare("INSERT into `nleave` 
-								(account_id, datefile, nameofemployee, datehired, deprt, posttile, dateofleavfr, dateofleavto, numdays, typeoflea, othersl, reason, twodaysred, state) 
+				
+		$stmt = $conn->prepare("INSERT into `nleave` (account_id, datefile, nameofemployee, datehired, deprt, posttile, dateofleavfr, dateofleavto, numdays, typeoflea, othersl, reason, twodaysred, state) 
 								VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		$stmt->bind_param("isssssssssssss", 
-								$accid, $datefile, $nameofemployee, $datehired, $deprt, $posttile, $dateofleavfr, $dateofleavto, $numdays, $typeoflea, $othersl, $reason, $twodaysred, $state);
+		$stmt->bind_param("isssssssssssss", $accid, $datefile, $nameofemployee, $datehired, $deprt, $posttile, $dateofleavfr, $dateofleavto, $numdays, $typeoflea, $othersl, $reason, $twodaysred, $state);
 		$stmt->execute();
-		header("location: employee.php?ac=penlea");
+		if($_SESSION['level'] == 'EMP'){
+    		echo '<script type="text/javascript">window.location.replace("employee.php?ac=penlea"); </script>';
+    	}elseif ($_SESSION['level'] == 'ACC') {
+    		echo '<script type="text/javascript">window.location.replace("accounting.php?ac=penlea"); </script>';
+    	}elseif ($_SESSION['level'] == 'TECH') {
+    		echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac=penlea"); </script>';
+    	}elseif ($_SESSION['level'] == 'HR') {
+    		echo '<script type="text/javascript">window.location.replace("hr.php?ac=penlea"); </script>';
+    	}
 		$conn->close();
 		
 	}

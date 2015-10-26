@@ -42,9 +42,7 @@
 			}					
 		}else{
 			$otbreak = null;
-		}
-		
-		//end of computation				
+		}		
 		$post = strtolower($_SESSION['post']);
 		$accid = $_SESSION['acc_id'];		
 		$datefile = date("Y-m-d");
@@ -52,7 +50,6 @@
 		$nameofemployee = $_POST['nameofemployee'];
 		$startofot = $_POST['startofot'];
 		$endofot = $_POST['endofot'];
-		//$dateam = $_POST['otam'];
 		if(isset($_POST['restday']) && $_POST['restday'] == 'restday'){
 			$officialworksched = "Restday";
 		}else{
@@ -70,7 +67,15 @@
 		$stmt = $conn->prepare("INSERT into `overtime` (account_id, datefile, 2daysred, dateofot, nameofemp, startofot, endofot, officialworksched, reason, state, approvedothrs, otbreak) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		$stmt->bind_param("isssssssssss",$accid, $datefile, $twodaysred, $dateofot, $nameofemployee, $startofot, $endofot, $officialworksched, $reason, $state, $approvedothrs, $otbreak);
 		$stmt->execute();		
-		header("location: employee.php?ac=penot");
+		if($_SESSION['level'] == 'EMP'){
+    		echo '<script type="text/javascript">window.location.replace("employee.php?ac=penot"); </script>';
+    	}elseif ($_SESSION['level'] == 'ACC') {
+    		echo '<script type="text/javascript">window.location.replace("accounting.php?ac=penot"); </script>';
+    	}elseif ($_SESSION['level'] == 'TECH') {
+    		echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac=penot"); </script>';
+    	}elseif ($_SESSION['level'] == 'HR') {
+    		echo '<script type="text/javascript">window.location.replace("hr.php?ac=penot"); </script>';
+    	}
 		$conn->close();
 		
 	}

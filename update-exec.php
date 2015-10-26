@@ -63,7 +63,10 @@
 			$state = 'UATech';	
 		}else{
 			$state = 'UA';	
-		}		
+		}	
+		if($_SESSION['level'] == 'HR'){
+			$state = 'AHR';
+		}	
 		$stmt = "UPDATE `overtime` set 
 			approvedothrs = '$approvedothrs', officialworksched = '$officialworksched', startofot = '$start', endofot = '$end', reason = '$reason', 
 			otbreak = '$otbreak', dateofot = '$date'
@@ -73,6 +76,8 @@
 				echo '<script type="text/javascript">window.location.replace("employee.php?ac='.$_SESSION['acc'].'"); </script>';
 			}else if($_SESSION['level'] == 'TECH'){
 				echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac='.$_SESSION['acc'].'"); </script>';
+			}else if($_SESSION['level'] == 'HR'){
+				echo '<script type="text/javascript">window.location.replace("hr.php?ac='.$_SESSION['acc'].'"); </script>';
 			}	    	
 	  	}else {
 	    	echo "Error updating record: " . $conn->error;
@@ -90,7 +95,6 @@
 		if(isset($_POST['updateofob'])){
 			$date = $_POST['updateofob'];
 		}
-		echo $date;
 		$officialworksched = $_POST['obofficialworkschedfr'] . ' - ' . $_POST['obofficialworkschedto'];
 		if($_SESSION['level'] == 'ACC'){
 			$state = "AACCAdmin";
@@ -101,6 +105,9 @@
 		}else{
 			$state = 'UA';	
 		}	
+		if($_SESSION['level'] == 'HR'){
+			$state = 'AHR';
+		}
 		$stmt = "UPDATE `officialbusiness` set 
 			obreason = '$obreason', obtimein = '$obtimein', obtimeout = '$obtimeout', officialworksched = '$officialworksched', obdatereq = '$date'
 			where account_id = '$accid' and state = '$state' and officialbusiness_id = '$_SESSION[otid]'";
@@ -109,6 +116,8 @@
 				echo '<script type="text/javascript">window.location.replace("employee.php?ac='.$_SESSION['acc'].'"); </script>';
 			}else if($_SESSION['level'] == 'TECH'){
 				echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac='.$_SESSION['acc'].'"); </script>';
+			}else if($_SESSION['level'] == 'HR'){
+				echo '<script type="text/javascript">window.location.replace("hr.php?ac='.$_SESSION['acc'].'"); </script>';
 			}
 	  	}else {
 	    	echo "Error updating record: " . $conn->error;
@@ -133,6 +142,9 @@
 		}else{
 			$state = 'UA';	
 		}
+		if($_SESSION['level'] == 'HR'){
+			$state = 'AHR';
+		}
 		$stmt = "UPDATE `nleave` set 
 			dateofleavfr = '$dateofleavfr', dateofleavto = '$dateofleavto', numdays = '$numdays', reason = '$reason'
 			where account_id = '$accid' and state = '$state' and leave_id = '$_SESSION[otid]'";
@@ -141,6 +153,8 @@
 				echo '<script type="text/javascript">window.location.replace("employee.php?ac='.$_SESSION['acc'].'"); </script>';
 			}else if($_SESSION['level'] == 'TECH'){
 				echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac='.$_SESSION['acc'].'"); </script>';
+			}else if($_SESSION['level'] == 'HR'){
+				echo '<script type="text/javascript">window.location.replace("hr.php?ac='.$_SESSION['acc'].'"); </script>';
 			}
 	  	}else {
 	    	echo "Error updating record: " . $conn->error;
@@ -175,6 +189,8 @@
 				echo '<script type="text/javascript">window.location.replace("employee.php?ac='.$_SESSION['acc'].'"); </script>';
 			}else if($_SESSION['level'] == 'TECH'){
 				echo '<script type="text/javascript">window.location.replace("techsupervisor.php?ac='.$_SESSION['acc'].'"); </script>';
+			}else if($_SESSION['level'] == 'HR'){
+				echo '<script type="text/javascript">window.location.replace("hr.php?ac='.$_SESSION['acc'].'"); </script>';
 			}
 	  	}else {
 	    	echo "Error updating record: " . $conn->error;
