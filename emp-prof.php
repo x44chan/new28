@@ -27,7 +27,7 @@
         </div>
         <div class="row">
         <div class = "col-lg-5 col-md-5 col-sm-5 col-xs-5" align="center">
-            <img style = "margin: auto;" src="<?php echo 'images/'. $_SESSION['acc_id'] . '.jpg?'.rand(1,32000);?>" class="img-rounded" alt="Cinque Terre" width="200" height="180"><br><br>
+            <img style = "margin: auto;" src="<?php echo 'images/'. $_SESSION['acc_id'] . '.jpg?'.rand(1,32000);?>" onerror="if (this.src != 'images/default.jpg') this.src = 'images/default.jpg';" class="img-rounded" alt="Cinque Terre" width="200" height="180"><br><br>
             <a href = "takephoto.php" class="btn btn-primary"> Take Photo </a>
          </div>
           <div class="col-md-7">
@@ -431,7 +431,6 @@ if(isset($_POST['submitprof'])){
     empdateto = '$empdateto', empdateto2 = '$empdateto2', empdateto3 = '$empdateto3'
     where account_id = '$acc_id'"; 
   if ($conn->query($sql) === TRUE) {
-    $_SESSION['pass'] = null;
     $_SESSION['201date'] = date("Y-m-d");
     echo '<script type = "text/javascript">alert("Update success")</script>';
     echo '<script type="text/javascript">window.location.replace("index.php"); </script>';

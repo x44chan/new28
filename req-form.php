@@ -189,11 +189,20 @@
 							  return this;
 							};
 							$('form').preventDoubleSubmission();
+							$("#submit").click(function() {
+							    var $btn = $(this);
+							    $btn.button('loading');
+							    // Then whatever you actually want to do i.e. submit form
+							    // After that has finished, reset the button state using
+							    setTimeout(function () {
+							        $btn.button('reset');
+							    }, 1500);
+							});
 						});
 					</script>
 				
 				<tr>
-					<td colspan = 2 align = center><input type = "submit" id ="submit"name = "unsubmit" class = "btn btn-default"/><input type = "button" id = "hideot" name = "submit" class = "btn btn-default" value = "Cancel"></td>
+					<td colspan = 2 align = center><button data-loading-text="Loading..." type = "submit" id ="submit"name = "unsubmit" class = "btn btn-default">Submit</button><input type = "button" id = "hideot" name = "submit" class = "btn btn-default" value = "Cancel"></td>
 					
 				</tr>
 			</table>
@@ -322,8 +331,8 @@
 							<option value = ""> ---- </option>							
 							<option value = "Sick Leave">Sick Leave</option>
 							<option value = "Vacation Leave">Vacation Leave</option>
-							<?php if($patternity > 0){ echo '<option value = "Paternity Leave">Paternity Leave </option>'; }?>
-							<?php if($wedding  > 0){ echo '<option value = "Wedding Leave">Wedding Leave </option>';}?>
+							<?php if($patternity > 0 && $egender == "Male"){ echo '<option value = "Paternity Leave">Paternity Leave </option>'; }?>
+							<?php if($wedding  > 0 && $cstatus != 'Married' && $egender == "Female"){ echo '<option value = "Wedding Leave">Wedding Leave </option>'; echo $cstatus;}?>
 							<option value = "Others:">Others(Pls. Specify)</option>
 						</select>						
 						<input disabled type = "text" name = "othersl" class = "form-control" id = "othersl" style = "width: 40%;"/>

@@ -464,12 +464,17 @@
 				}else{
 					echo '<tr>';
 				}
+				if($row['otbreak'] != null){
+					$otbreak = '<br><b><i>Break: <font color = "red">'. substr($row['otbreak'], 1) . '</font>	<i><b>';
+				}else{
+					$otbreak = "";
+				}
 				echo 
 					'	<td width = 180>'.$newDate.'</td>
 						<td>'.date("F j, Y", strtotime($row["dateofot"])).'</td>
 						<td>'.$row["nameofemp"].'</td>
 						<td width = 250 height = 70>'.$row["reason"].'</td>
-						<td>'.$row["startofot"] . ' - ' . $row['endofot'].'</td>
+						<td>'.$row["startofot"] . ' - ' . $row['endofot']. $otbreak.'</td>
 						<td>'.$row["officialworksched"].'</td>';
 				if($row['state'] == 'UAACCAdmin'){
 						echo '<td><strong>Pending to Admin<strong></td></tr>';
