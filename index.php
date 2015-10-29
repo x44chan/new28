@@ -58,10 +58,9 @@ echo '<script type="text/javascript"> window.location.replace("techsupervisor.ph
 		$password =  mysqli_real_escape_string($conn, $_POST['password']);
 		
 		$sql = "SELECT * FROM `login` where uname = '$uname' and pword = '$password'";
-		$result = $conn->query($sql);
-		
+		$result = $conn->query($sql);		
 		if($result->num_rows > 0){
-			while($row = $result->fetch_assoc()){					
+			while($row = $result->fetch_assoc()){								
 				$_SESSION['name'] = $row['fname'] . ' ' . $row['lname'];				
 				$_SESSION['level'] = $row['level'];
 				$_SESSION['acc_id'] = $row['account_id'];
@@ -70,6 +69,11 @@ echo '<script type="text/javascript"> window.location.replace("techsupervisor.ph
 				$_SESSION['post'] = $row['position'];
 				$_SESSION['dept'] = $row['department'];
 				$_SESSION['datehired'] = $row['edatehired'];
+				$stmt = "UPDATE `login` set login_count = login_count + 1 where account_id = $_SESSION[acc_id]";
+				if ($conn->query($stmt) === TRUE) {					
+			  	}else {
+			    	echo "Error updating record: " . $conn->error;
+			  	}	
 ?>
 			<?php
 				if($_SESSION['level'] == 'Admin'){
